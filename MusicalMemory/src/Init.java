@@ -1,14 +1,18 @@
 import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.*;
+import javax.sound.midi.*;
 
 public class Init {
+	SoundPiece[][] gameBoard;
 	SourceDataLine line;
 	AudioInputStream stream;
 	AudioFormat af;
+	Synthesizer synth;
 	
 	public Init() {}
 	
+	//Reprodutor simples que suporta .wav
 	public void playSoundPiece(SoundPiece sp){
 		//Captura arquivo, transforma-o para formato de áudio manipulável
 		//Captura a linha de saída a ser utilizada para a reprodução
@@ -49,8 +53,28 @@ public class Init {
 		}
 	}
 	
+	//Sintetizador simples de notas midi
+	public void playMidiNote(int note, int vel, int dur){
+		try {
+			synth = MidiSystem.getSynthesizer();
+			synth.open();
+		} catch (MidiUnavailableException e) {}
+		
+		MidiChannel[]	channels = synth.getChannels();
+		MidiChannel	channel = channels[0];
+		channel.noteOn(note, vel);
+		
+		try {
+			Thread.sleep(dur);
+		} catch (InterruptedException e){}
+
+		channel.noteOff(note);
+
+		synth.close();
+	}
+	
 	public static void main(String[] args){
-		new Init();
+		new Init().playMidiNote(60, 100, 2000);
 	}
 	
 }
