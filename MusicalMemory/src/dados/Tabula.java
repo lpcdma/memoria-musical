@@ -36,6 +36,10 @@ public class Tabula {
 		return this.som;
 	}
 
+	public boolean ehParDe(Tabula par){
+		return (this.par.getId() == par.getId());
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		boolean ehIgual = false;
