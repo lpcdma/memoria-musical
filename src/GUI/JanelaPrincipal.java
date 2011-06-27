@@ -17,6 +17,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenu;
 import java.awt.Rectangle;
+import java.util.concurrent.locks.ReentrantLock;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
@@ -25,9 +27,10 @@ public class JanelaPrincipal extends JFrame{
 	/**
 	 * 
 	 */
-	public static int nivel = 1;
-	
+	public static int nivel = 15;
+
 	private static final long serialVersionUID = 6956795457507815787L;
+	
 	private JMenuBar barraMenu;
 	private JPanel panelPrincipal;
 	private JMenu botaoIniciar;
@@ -35,7 +38,9 @@ public class JanelaPrincipal extends JFrame{
 	private PanelDoJogo panelJogo;
 	private JMenuItem itemAjuda;
 	private JMenuItem itemSobre;
-	private Contador contador;
+	private Thread contador;
+	ReentrantLock lock = new ReentrantLock();
+	
 	
 	private String mensagemDeAjuda = "Te vira, malandro.";  //  @jve:decl-index=0:
 	private String mensagemDeSobre = "Biribou";
@@ -43,36 +48,32 @@ public class JanelaPrincipal extends JFrame{
 	private JButton botaoAjuda;
 	private JMenuItem itemSair = null;
 	private JMenuItem itemComecar = null;
-	
-	
+
+	private JLabel labelIntro = null;
 
 	//Construtor da Janela Principal do Sistema
 	public JanelaPrincipal() {
 		super("Jogo da Memória");
 		initialize();
 		this.setVisible(true);
-		this.contador = new Contador(relogio,nivel);
-		contador.start();
-		contador.run();
-
+	
+	
 	}
-
 	//Método responsável por inicializar as variáveis
-	
+
 	private void initialize() {
-        //this.setPreferredSize(new Dimension(469, 328));
+		//this.setPreferredSize(new Dimension(469, 328));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(new Dimension(660, 593));
-        this.setContentPane(getPanelPrincipal());
-        this.setJMenuBar(getBarraMenu());     
-	    this.getPanelJogo().inserirButoes(nivel); // o parâmetro é o nível de dificuldade. Está aqui 2 só para testes
-        this.setListeners();
+		this.setSize(new Dimension(654, 557));
+		this.setContentPane(getPanelPrincipal());
+		this.setJMenuBar(getBarraMenu());     
+		this.setListeners();
 	}
 
-	
+
 	//Método para setar todos os listeners
 	private void setListeners() {
-		
+
 		this.itemAjuda.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt) {
 				itemAjudaActionPerformed(evt);
@@ -98,14 +99,14 @@ public class JanelaPrincipal extends JFrame{
 				itemSobreActionPerformed(evt);
 			}
 		});
-	
+
 	}
-	
+
 	protected void botaoAjudaActionPerformed(ActionEvent evt) {
 		Object[] possibleValues = { "1", "2", "3" };
-		
+
 		int resposta = JOptionPane.showOptionDialog(this,"Escolha um dos Coringas","Coringas",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null,possibleValues,1);
-		
+
 	}
 
 	protected void itemSairActionPerformed(ActionEvent evt) {
@@ -113,10 +114,23 @@ public class JanelaPrincipal extends JFrame{
 	}
 
 	protected void itemComecarActionPerformed(ActionEvent evt) {
-		Object[] possibleValues = { "Fácil", "Médio", "Difícil" };
+
+		int resposta = JOptionPane.showConfirmDialog(this,"Deseja Coringas?","Iniciar o Jogo",JOptionPane.OK_CANCEL_OPTION);
+
+		labelIntro.setVisible(false);
+		panelJogo.setVisible(true);
+		relogio.setVisible(true);
+		this.getPanelJogo().inserirButoes(nivel);
+		this.contador = new Thread(new Contador(relogio,nivel));
+		contador.start();
 		
-		int resposta = JOptionPane.showOptionDialog(this,"Escolha","Iniciar Jogo",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null,possibleValues,1);
-		
+		if(resposta == 0){
+			botaoAjuda.setVisible(true);
+			
+		}
+		else{
+			botaoAjuda.setVisible(false);
+		}
 	}
 
 	protected void itemSobreActionPerformed(ActionEvent evt) {
@@ -139,24 +153,27 @@ public class JanelaPrincipal extends JFrame{
 	private JPanel getPanelPrincipal() {
 		if (panelPrincipal == null) {
 			relogio = new JLabel();
-			relogio.setBounds(new Rectangle(545, 18, 74, 73));
+			relogio.setBounds(new Rectangle(533, 21, 93, 82));
 			relogio.setText("");
+			relogio.setVisible(false);
 			panelPrincipal = new JPanel();
 			panelPrincipal.setLayout(null);
-		    panelPrincipal.add(getPanelJogo());
-		    panelPrincipal.add(relogio);
-		    panelPrincipal.add(getBotaoAjuda());
-		    Font curFont = relogio.getFont();
-		    relogio.setFont(new Font(curFont.getFontName(), curFont.getStyle(), 55));
+			panelPrincipal.add(getPanelJogo());
+			panelPrincipal.add(relogio);
+			panelPrincipal.add(getBotaoAjuda());
+			panelPrincipal.add(getLabelIntro());
+			Font curFont = relogio.getFont();
+			relogio.setFont(new Font(curFont.getFontName(), curFont.getStyle(), 50));
 		}
 		return panelPrincipal;
 	}
-	
+
 	private PanelDoJogo getPanelJogo() {
 		if (panelJogo == null) {
 			panelJogo = new PanelDoJogo();
 			panelJogo.setLayout(null);
-			panelJogo.setBounds(new Rectangle(19, 20, 505, 479));
+			panelJogo.setBounds(new Rectangle(19, 20, 505, 466));
+			panelJogo.setVisible(false);
 		}
 		return panelJogo;
 	}
@@ -204,6 +221,7 @@ public class JanelaPrincipal extends JFrame{
 			botaoAjuda = new JButton();
 			botaoAjuda.setBounds(new Rectangle(528, 137, 88, 24));
 			botaoAjuda.setText("Coringas");
+			botaoAjuda.setVisible(false);
 		}
 		return botaoAjuda;
 	}
@@ -230,6 +248,20 @@ public class JanelaPrincipal extends JFrame{
 			itemComecar = new JMenuItem("Iniciar Jogo");
 		}
 		return itemComecar;
+	}
+
+	/**
+	 * This method initializes labelIntro	
+	 * 	
+	 * @return javax.swing.JLabel	
+	 */
+	private JLabel getLabelIntro() {
+		if (labelIntro == null) {
+			labelIntro = new JLabel();
+			labelIntro.setText("Devemos colocar alguma coisa aqui para inicializar o jogo - FALTA UM BACKGROUND");
+			labelIntro.setBounds(new Rectangle(88, 98, 497, 219));
+		}
+		return labelIntro;
 	}
 
 	public static void main(String[] args) {
