@@ -5,8 +5,9 @@ public class Tabula {
 	private Som som;
 	private Tabula par;
 	private int id;
-	
-	public Tabula(int id, Tabula par) {
+
+	public Tabula(Som som, int id, Tabula par) {
+		this.som = som;
 		this.id = id;
 		this.par = par;
 	}
@@ -33,5 +34,18 @@ public class Tabula {
 
 	public Som getSom() {
 		return this.som;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		boolean ehIgual = false;
+		
+		if(obj != null) {
+			Tabula outra = (Tabula) obj;
+			if(outra instanceof Tabula) {
+				ehIgual = (this.id == outra.getId());
+			}
+		}
+		return ehIgual;
 	}
 }
