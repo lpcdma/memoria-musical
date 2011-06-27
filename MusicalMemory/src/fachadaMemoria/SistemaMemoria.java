@@ -10,8 +10,8 @@ public class SistemaMemoria {
 	private ControladorFases controleFases;
 	
 	private SistemaMemoria() {
-		this.controleSom = new ControladorSom();
-		this.controleFases = new ControladorFases();
+		this.controleSom = ControladorSom.getControladorSom();
+		this.controleFases = ControladorFases.getControladorFases();
 	}
 	
 	public static SistemaMemoria getSistema() {
