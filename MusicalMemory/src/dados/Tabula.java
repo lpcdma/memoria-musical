@@ -1,5 +1,8 @@
 package dados;
 
+/**
+ * Um tabuleiro eh feito de tabulas.
+ */
 public class Tabula {
 
 	private Som som;
@@ -45,9 +48,9 @@ public class Tabula {
 		boolean ehIgual = false;
 		
 		if(obj != null) {
-			Tabula outra = (Tabula) obj;
-			if(outra instanceof Tabula) {
-				ehIgual = (this.id == outra.getId());
+			if(obj instanceof Tabula) {
+				Tabula tab = (Tabula) obj;
+				ehIgual = (this.id == tab.getId());
 			}
 		}
 		return ehIgual;
