@@ -1,18 +1,29 @@
 package GUI;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-public class Contador extends Thread{
+public class Contador implements Runnable{
 
 	long contador;
 	JLabel label;
+	int nivel;
+	boolean funcionando ;
+	private boolean acabou = false;
 
 	public Contador(JLabel label,int nivel) {
-		contador = setarContador(nivel);
+		this.nivel = nivel;
+		contador = setarContador(this.nivel);
 		this.label = label;
+		funcionando = true;
 	}
-
+	
+	public void acabou(){
+		this.acabou = true;
+	}
+	
 	private long setarContador(int nivel) {
 		if((nivel == 1) || (nivel == 6) || (nivel == 11)){
 			return 100*1000;
@@ -35,26 +46,32 @@ public class Contador extends Thread{
 		else {
 			return 150*1000;
 		}
-		
+
 	}
 
 	public void run(){
-		long tempoInicial = System.currentTimeMillis();
-		try {
-			long lol = 0;
-			boolean funcionando = true;
-			while(funcionando){
-				Thread.sleep(1000);
-				lol = (((tempoInicial+contador) - System.currentTimeMillis())/1000);
-				if(lol <= 0){
-					JOptionPane.showMessageDialog(null,"Perdeu!");
-					funcionando = false;
+
+
+			long tempoInicial = System.currentTimeMillis();
+			contador = setarContador(nivel);
+			funcionando = true;
+
+			try {
+				long lol = 0;		
+				while(funcionando && !acabou){
+
+					lol = (((tempoInicial+contador) - System.currentTimeMillis())/1000);
+					label.setText(Long.toString(lol,10));
+					if(lol <= 0){
+						JOptionPane.showMessageDialog(null,"Perdeu!");
+						funcionando = false;
+					}
+					Thread.sleep(800);
 				}
-				label.setText(Long.toString(lol,10));
+
 			}
+			catch (InterruptedException e) {System.out.println("merda");}
+
 		}
 
-		catch (InterruptedException e) {}
-
-	}
 }

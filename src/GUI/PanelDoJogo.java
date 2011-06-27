@@ -27,10 +27,9 @@ public class PanelDoJogo extends JPanel{
 	}
 
 	public void inserirButoes(int nivel){
-		nivel = 15;
 		if(nivel <= 5){
 			int x = 80;
-			int y = 80;
+			int y = 65;
 			for (int i = 1; i <= 16; i++) {
 				PecaDeMemoria novaPeca = new PecaDeMemoria(nivel);
 				this.listaMemoria.add(novaPeca);
@@ -45,7 +44,7 @@ public class PanelDoJogo extends JPanel{
 		}
 		else if(nivel <= 10){
 			int x = 40;
-			int y = 40;
+			int y = 25;
 			for (int i = 1; i <= 25; i++) {
 				PecaDeMemoria novaPeca = new PecaDeMemoria(nivel);
 				this.listaMemoria.add(novaPeca);
@@ -61,7 +60,7 @@ public class PanelDoJogo extends JPanel{
 		}
 		else if(nivel <= 15){
 			int x = 25;
-			int y = 25;
+			int y = 10;
 			for (int i = 1; i <= 36; i++) {
 				PecaDeMemoria novaPeca = new PecaDeMemoria(nivel);
 				this.listaMemoria.add(novaPeca);
