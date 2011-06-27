@@ -35,6 +35,10 @@ public class Som {
 		return this.audioFile;
 	}
 
+	public AudioInputStream getStream() {
+		return stream;
+	}
+
 	/**
 	 * Reprodutor simples que suporta .wav
 	 * 
