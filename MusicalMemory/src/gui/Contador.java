@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import java.util.concurrent.locks.ReentrantLock;
 
