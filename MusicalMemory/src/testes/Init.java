@@ -1,8 +1,16 @@
 package testes;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.sound.sampled.*;
 import javax.sound.midi.*;
+
+import negocio.ControladorFases;
+import repositorio.RepositorioDeSons;
+import dados.Som;
+import dados.Tabula;
+import excecoes.FaseInvalidaException;
 
 public class Init {
 	SoundPiece[][] gameBoard;
@@ -76,6 +84,33 @@ public class Init {
 	
 	public static void main(String[] args){
 		new Init().playMidiNote(60, 100, 2000);
+		
+		/*
+		ArrayList<Som> sommms = new ArrayList<Som>();
+		
+		for (int i = 0; i < 40; i++) {
+			Som s = new Som();
+			sommms.add(s);
+		}
+		RepositorioDeSons.sons = sommms;
+		
+		ControladorFases c = new ControladorFases();
+		try {
+			for (int i = 1; i <= 15; i++) {
+				c.carregarTabuleiro(i);
+				
+				System.out.println("Fase " + i);
+				for (Tabula t : c.getTabuleiro()) {
+					System.out.print(t.getId());
+					System.out.println("  " + t.getSom());
+				}
+				System.out.println();
+			}
+		} catch (FaseInvalidaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 */
 	}
 	
 }
