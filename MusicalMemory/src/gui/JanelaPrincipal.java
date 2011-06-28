@@ -28,6 +28,7 @@ public class JanelaPrincipal extends JFrame{
 
 	private static final long serialVersionUID = 6956795457507815787L;
 
+	public static PecaDeMemoria pecaAtual;
 	private JMenuBar barraMenu;
 	private JPanel panelPrincipal;
 	private JMenu botaoIniciar;
@@ -35,16 +36,16 @@ public class JanelaPrincipal extends JFrame{
 	private PanelDoJogo panelJogo;
 	private JMenuItem itemAjuda;
 	private JMenuItem itemSobre;
-	private Thread contador;
+	private Contador contador;
 	private ArrayList<ImageIcon> backgrounds = new ArrayList<ImageIcon>();  //  @jve:decl-index=0:
-	
+	ImageIcon backImage;
 	ReentrantLock lock = new ReentrantLock();
 
 
 	private String mensagemDeAjuda = "Te vira, malandro.";  //  @jve:decl-index=0:
 	private String mensagemDeSobre = "Biribou";
-	private JLabel relogio = null;
-	private JButton botaoAjuda;
+
+
 	private JMenuItem itemSair = null;
 	private JMenuItem itemComecar = null;
 
@@ -59,19 +60,20 @@ public class JanelaPrincipal extends JFrame{
 		super("Jogo da Memória");
 		initialize();
 		this.setVisible(true);
-		
+
 
 	}
 	//Método responsável por inicializar as variáveis
 
 	private void initialize() {
 		//this.setPreferredSize(new Dimension(469, 328));
+		this.initBGs();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(654, 557));
 		this.setContentPane(getPanelPrincipal());
 		this.setJMenuBar(getBarraMenu());     
 		this.setListeners();
-		initBGs();
+	
 	}
 	private void initBGs() {
 		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b1background.png"));
@@ -89,44 +91,50 @@ public class JanelaPrincipal extends JFrame{
 		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b13background.png"));
 		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b14background.png"));
 		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b15background.png"));
+		this.backImage = new ImageIcon("imagens\\backgrounds\\initbackground.png");
 	}
-	
+
 	public void setarCenario(){
-		this.backgroundInicial.setIcon(backgrounds.get(nivel-1));
+		this.panelJogo.setarBackground(backgrounds.get(nivel-1));
 		if(nivel == 2 || nivel == 7){
-			relogio.setForeground(Color.BLACK);
+			this.panelJogo.getRelogio().setForeground(Color.BLACK);
 		}
 		else if(nivel > 10){
-			relogio.setForeground(Color.RED);
+			this.panelJogo.getRelogio().setForeground(Color.RED);
 		}
 		else{
-			relogio.setForeground(Color.WHITE);
+			this.panelJogo.getRelogio().setForeground(Color.WHITE);
 		}
+	
 	}
 	public void passarLevel(){
-		nivel++;
-		inicializarTabuleiro();
+		if(nivel == 15){
+			this.contador.acabou();
+			JOptionPane.showMessageDialog(this,"Você ganhou!");
+			this.backgroundInicial.setIcon(backImage);
+			this.getPanelJogo().setVisible(false);
+			this.getPanelJogo().getBotaoAjuda().setVisible(false);
+			this.panelJogo.getRelogio().setVisible(false);
+		}
+		else{
+			nivel++;
+			inicializarTabuleiro();
+		}
 	}
 	//Método para setar todos os listeners
 	private void setListeners() {
-
 		this.itemAjuda.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt) {
 				itemAjudaActionPerformed(evt);
 			}
 		});
-		
+
 		this.butaoTeste.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt) {
 				butaoTesteActionPerformed(evt);
 			}
 		});
-		
-		this.botaoAjuda.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent evt) {
-				botaoAjudaActionPerformed(evt);
-			}
-		});
+		;
 		this.itemComecar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt) {
 				itemComecarActionPerformed(evt);
@@ -149,12 +157,6 @@ public class JanelaPrincipal extends JFrame{
 		this.passarLevel();
 		
 	}
-	protected void botaoAjudaActionPerformed(ActionEvent evt) {
-		Object[] possibleValues = { "1", "2", "3" };
-
-		int resposta = JOptionPane.showOptionDialog(this,"Escolha um dos Coringas","Coringas",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null,possibleValues,1);
-
-	}
 
 	protected void itemSairActionPerformed(ActionEvent evt) {
 		System.exit(1);
@@ -162,16 +164,21 @@ public class JanelaPrincipal extends JFrame{
 
 	protected void itemComecarActionPerformed(ActionEvent evt) {
 
-		int resposta = JOptionPane.showConfirmDialog(this,"Deseja Coringas?","Iniciar o Jogo",JOptionPane.OK_CANCEL_OPTION);
+		int resposta = JOptionPane.showConfirmDialog(this,"Deseja Coringas?","Iniciar o Jogo",JOptionPane.YES_NO_CANCEL_OPTION);
 		
-		inicializarTabuleiro();
 
 		if(resposta == 0){
-			botaoAjuda.setVisible(true);
-
+			this.getPanelJogo().getBotaoAjuda().setVisible(true);
+			nivel = 1;
+			inicializarTabuleiro();
+		}
+		else if(resposta == 1){
+			this.getPanelJogo().getBotaoAjuda().setVisible(false);
+			nivel = 1;
+			inicializarTabuleiro();
 		}
 		else{
-			botaoAjuda.setVisible(false);
+			
 		}
 	}
 
@@ -179,13 +186,12 @@ public class JanelaPrincipal extends JFrame{
 		this.setarCenario();
 		labelIntro.setVisible(false);
 		panelJogo.setVisible(true);
-		relogio.setVisible(true);
+		this.panelJogo.getRelogio().setVisible(true);
 		this.getPanelJogo().inserirButoes(nivel);
 		if(contador!= null){
-			this.contador.stop();
-
+			this.contador.acabou();
 		}
-		this.contador = new Thread(new Contador(relogio,nivel));
+		this.contador = new Contador(this.panelJogo.getRelogio(),nivel);
 		contador.start();
 	}
 	protected void itemSobreActionPerformed(ActionEvent evt) {
@@ -209,24 +215,20 @@ public class JanelaPrincipal extends JFrame{
 		if (panelPrincipal == null) {
 			backgroundInicial = new JLabel();
 			backgroundInicial.setBounds(new Rectangle(0, 1, 637, 494));
-			ImageIcon backImage = new ImageIcon("imagens\\backgrounds\\initbackground.png");
 			backgroundInicial.setIcon(backImage);
-			relogio = new JLabel();
-			relogio.setBounds(new Rectangle(533, 21, 93, 82));
-			relogio.setText("");
-			relogio.setForeground(Color.RED);
-			relogio.setVisible(false);
+			
+		
 			panelPrincipal = new JPanel();
 
 			panelPrincipal.setLayout(null);
 			panelPrincipal.add(getPanelJogo());
-			panelPrincipal.add(relogio);
-			panelPrincipal.add(getBotaoAjuda());
+			
+
 			panelPrincipal.add(getLabelIntro());
 			panelPrincipal.add(backgroundInicial, null);
 			panelPrincipal.add(getButaoTeste(), null);
-			Font curFont = relogio.getFont();
-			relogio.setFont(new Font(curFont.getFontName(), curFont.getStyle(), 50));
+
+
 		}
 		return panelPrincipal;
 	}
@@ -235,9 +237,7 @@ public class JanelaPrincipal extends JFrame{
 		if (panelJogo == null) {
 			panelJogo = new PanelDoJogo();
 			panelJogo.setLayout(null);
-			Color transparente = new Color(1,1,1,1); 
-			panelJogo.setBackground(transparente);
-			panelJogo.setBounds(new Rectangle(19, 20, 505, 466));
+			panelJogo.setBounds(new Rectangle(0, 0,637, 494));
 			panelJogo.setVisible(false);
 		}
 		return panelJogo;
@@ -281,15 +281,7 @@ public class JanelaPrincipal extends JFrame{
 	 * 	
 	 * @return javax.swing.JButton	
 	 */
-	private JButton getBotaoAjuda() {
-		if (botaoAjuda == null) {
-			botaoAjuda = new JButton();
-			botaoAjuda.setBounds(new Rectangle(528, 137, 88, 24));
-			botaoAjuda.setText("Coringas");
-			botaoAjuda.setVisible(false);
-		}
-		return botaoAjuda;
-	}
+	
 
 	/**
 	 * This method initializes itemSair	
