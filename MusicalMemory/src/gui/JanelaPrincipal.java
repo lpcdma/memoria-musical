@@ -59,6 +59,7 @@ public class JanelaPrincipal extends JFrame{
 	public JanelaPrincipal() {
 		super("Jogo da Memória");
 		initialize();
+		this.setLocationByPlatform(true);
 		this.setVisible(true);
 
 
@@ -67,6 +68,7 @@ public class JanelaPrincipal extends JFrame{
 
 	private void initialize() {
 		//this.setPreferredSize(new Dimension(469, 328));
+
 		this.initBGs();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(654, 557));
