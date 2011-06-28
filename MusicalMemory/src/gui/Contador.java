@@ -1,11 +1,9 @@
 package gui;
 
-import java.util.concurrent.locks.ReentrantLock;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-public class Contador implements Runnable{
+public class Contador extends Thread{
 
 	long contador;
 	JLabel label;
@@ -51,7 +49,7 @@ public class Contador implements Runnable{
 
 	public void run(){
 
-
+		
 			long tempoInicial = System.currentTimeMillis();
 			contador = setarContador(nivel);
 			funcionando = true;

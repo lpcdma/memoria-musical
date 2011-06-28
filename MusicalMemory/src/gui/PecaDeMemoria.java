@@ -1,13 +1,21 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.plaf.ButtonUI;
+import javax.swing.plaf.synth.SynthLookAndFeel;
 
-public class PecaDeMemoria extends JButton{
+public class PecaDeMemoria extends JLabel{
 
 	/**
 	 * 
@@ -19,45 +27,36 @@ public class PecaDeMemoria extends JButton{
 	public PecaDeMemoria(int nivel) {
 		super();
 		imagemNormal = new ImageIcon("imagens\\botoes\\imageBotao.png");
-		imagemPressed = new ImageIcon("imagens\\botoes\\imageBotaoPressed.png");
+	//	imagemPressed = new ImageIcon("imagens\\botoes\\imageBotaoPressed.png");
 		this.setIcon(imagemNormal);
         this.setListeners();
-        this.setBorder(null);
-     //   Color transparente = new Color(1,1,1,1); 
-    //    this.setBackground(transparente);
-     //   this.setForeground(transparente);
 	}
-
+	
 	private void setListeners() {
-		this.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent evt) {
-				botaoActionPerformed(evt);
+		this.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent evt) {
+				mousePressedFora(evt);
 			}
 		});
 	}
 
-	protected void botaoActionPerformed(ActionEvent evt) {
-		
+	public void mousePressedFora(MouseEvent e) {
+		System.out.println("OPA CARAI!");
 	}
 
-	public void mousePressed(MouseEvent e) {
-		this.setIcon(imagemPressed);
-	}
-
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleasedFora(MouseEvent e) {
 
 	}
 
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEnteredFora(MouseEvent e) {
 
 	}
 
-	public void mouseExited(MouseEvent e) {
+	public void mouseExitedFora(MouseEvent e) {
 
 	}
 
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClickedFora(MouseEvent e) {
 
 	}
-
 }
