@@ -10,7 +10,7 @@ public class RepositorioDeSons {
 
 	private static RepositorioDeSons instancia;
 	private final String diretorioMusicas = "musicas\\";
-	private static ArrayList<Som> sons;
+	public static ArrayList<Som> sons;
 	
 	private RepositorioDeSons() {
 		RepositorioDeSons.sons = new ArrayList<Som>(40);
