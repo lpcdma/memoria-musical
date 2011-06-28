@@ -1,15 +1,11 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 
 public class PecaDeMemoria extends JButton{
 
@@ -22,8 +18,8 @@ public class PecaDeMemoria extends JButton{
 
 	public PecaDeMemoria(int nivel) {
 		super();
-		imagemNormal = new ImageIcon("imageBotao.png");
-		imagemPressed = new ImageIcon("imageBotaoPressed.png");
+		imagemNormal = new ImageIcon("imagens\\botoes\\imageBotao.png");
+		imagemPressed = new ImageIcon("imagens\\botoes\\imageBotaoPressed.png");
 		this.setIcon(imagemNormal);
         this.setListeners();
         this.setBorder(null);

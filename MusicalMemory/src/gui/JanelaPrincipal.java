@@ -5,23 +5,17 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
-
 import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JMenu;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
-
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
@@ -80,21 +74,21 @@ public class JanelaPrincipal extends JFrame{
 		initBGs();
 	}
 	private void initBGs() {
-		this.backgrounds.add(new ImageIcon("b1background.png"));
-		this.backgrounds.add(new ImageIcon("b2background.png"));
-		this.backgrounds.add(new ImageIcon("b3background.png"));
-		this.backgrounds.add(new ImageIcon("b4background.png"));
-		this.backgrounds.add(new ImageIcon("b5background.png"));
-		this.backgrounds.add(new ImageIcon("b6background.png"));
-		this.backgrounds.add(new ImageIcon("b7background.png"));
-		this.backgrounds.add(new ImageIcon("b8background.png"));
-		this.backgrounds.add(new ImageIcon("b9background.png"));
-		this.backgrounds.add(new ImageIcon("b10background.png"));
-		this.backgrounds.add(new ImageIcon("b11background.png"));
-		this.backgrounds.add(new ImageIcon("b12background.png"));
-		this.backgrounds.add(new ImageIcon("b13background.png"));
-		this.backgrounds.add(new ImageIcon("b14background.png"));
-		this.backgrounds.add(new ImageIcon("b15background.png"));
+		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b1background.png"));
+		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b2background.png"));
+		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b3background.png"));
+		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b4background.png"));
+		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b5background.png"));
+		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b6background.png"));
+		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b7background.png"));
+		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b8background.png"));
+		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b9background.png"));
+		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b10background.png"));
+		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b11background.png"));
+		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b12background.png"));
+		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b13background.png"));
+		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b14background.png"));
+		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b15background.png"));
 	}
 	
 	public void setarCenario(){
@@ -215,7 +209,7 @@ public class JanelaPrincipal extends JFrame{
 		if (panelPrincipal == null) {
 			backgroundInicial = new JLabel();
 			backgroundInicial.setBounds(new Rectangle(0, 1, 637, 494));
-			ImageIcon backImage = new ImageIcon("initbackground.png");
+			ImageIcon backImage = new ImageIcon("imagens\\backgrounds\\initbackground.png");
 			backgroundInicial.setIcon(backImage);
 			relogio = new JLabel();
 			relogio.setBounds(new Rectangle(533, 21, 93, 82));
