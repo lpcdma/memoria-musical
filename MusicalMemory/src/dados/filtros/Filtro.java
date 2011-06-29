@@ -1,12 +1,10 @@
 package dados.filtros;
 
-import java.io.IOException;
-
 import dados.Som;
 
 public abstract class Filtro {
 
-	public abstract Som filtrar(Som somOriginal) throws IOException;
+	public abstract Som filtrar(Som somOriginal);
 
 	/**
 	 * Gets the remaining size, in bytes, that this filter plays after the sound
