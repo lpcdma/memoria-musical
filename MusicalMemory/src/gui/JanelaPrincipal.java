@@ -10,6 +10,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JMenu;
@@ -64,7 +67,7 @@ public class JanelaPrincipal extends JFrame{
 		super("Jogo da Memória");
 
 		initialize();
-		this.setLocationByPlatform(true);
+		//this.setLocationByPlatform(true);
 		this.setVisible(true);
 
 
@@ -72,13 +75,31 @@ public class JanelaPrincipal extends JFrame{
 	//Método responsável por inicializar as variáveis
 
 	private void initialize() {
-		this.setPreferredSize(new Dimension(654, 557));
+		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//this.setPreferredSize(new Dimension(654, 557));
 		this.initBGs();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(new Dimension(654, 557));
+		this.setSize(654, 557);
 		this.setContentPane(getPanelPrincipal());
 		this.setJMenuBar(getBarraMenu());     
 		this.setListeners();
+		this.centralizarJanela();
 	
 	}
 	private void initBGs() {
@@ -337,6 +358,15 @@ public class JanelaPrincipal extends JFrame{
 			butaoTeste.setBounds(new Rectangle(603, 173, 19, 17));
 		}
 		return butaoTeste;
+	}
+	
+	public void centralizarJanela(){
+
+		Dimension dim = this.getToolkit().getScreenSize();      
+		int x = (int) (dim.getWidth()  - this.getSize().getWidth() ) / 2;
+		int y = (int) (dim.getHeight() - this.getSize().getHeight()) / 2;
+		this.setLocation(x,y);
+
 	}
 
 	public static void main(String[] args) {
