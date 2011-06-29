@@ -33,7 +33,7 @@ public class PecaDeMemoria extends JLabel{
 		super();
 		this.tabula = tabula;
 		this.jogo = jogo;
-		imagemNormal = new ImageIcon("imagens\\botoes\\imageBotao.png");
+		imagemNormal = new ImageIcon("imagens\\botoes\\bNeutro.png");
 		//	imagemPressed = new ImageIcon("imagens\\botoes\\imageBotaoPressed.png");
 		this.setIcon(imagemNormal);
 		this.setListeners();

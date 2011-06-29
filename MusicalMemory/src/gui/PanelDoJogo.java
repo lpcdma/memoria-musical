@@ -143,7 +143,7 @@ public class PanelDoJogo extends JPanel{
 				PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 				this.listaMemoria.add(novaPeca);
 				this.add(novaPeca);
-				novaPeca.setBounds(new Rectangle(x, y, 60, 60));
+				novaPeca.setBounds(new Rectangle(x, y, 70, 70));
 				x += 85;
 				if(i % 4 == 0){
 					y += 85;
@@ -161,7 +161,7 @@ public class PanelDoJogo extends JPanel{
 					PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 					this.listaMemoria.add(novaPeca);
 					this.add(novaPeca);
-					novaPeca.setBounds(new Rectangle(x, y, 60, 60));
+					novaPeca.setBounds(new Rectangle(x, y, 70, 70));
 					x += 80;
 					if(i % 5 == 0){
 						y += 80;
@@ -174,7 +174,7 @@ public class PanelDoJogo extends JPanel{
 					PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 					this.listaMemoria.add(novaPeca);
 					this.add(novaPeca);
-					novaPeca.setBounds(new Rectangle(x, y, 60, 60));
+					novaPeca.setBounds(new Rectangle(x, y, 70, 70));
 					x += 60;
 					if(i % 5 == 0){
 						y += 80;
@@ -193,7 +193,7 @@ public class PanelDoJogo extends JPanel{
 				PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 				this.listaMemoria.add(novaPeca);
 				this.add(novaPeca);
-				novaPeca.setBounds(new Rectangle(x, y, 60, 60));
+				novaPeca.setBounds(new Rectangle(x, y, 70, 70));
 				x += 75;
 				if(i % 6 == 0){
 					y += 75;
