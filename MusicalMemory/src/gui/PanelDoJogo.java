@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 
 import dados.Tabula;
+import excecoes.FaseInvalidaException;
+import excecoes.SomInvalidoException;
+import fachadaMemoria.SistemaMemoria;
 
 public class PanelDoJogo extends JPanel{
 
@@ -29,6 +32,7 @@ public class PanelDoJogo extends JPanel{
 	private JButton botaoReplay = null;
 	private JanelaPrincipal window;
 	private ArrayList<Tabula> tabulas;
+	private JLabel relogioBackgroud;
 	
 	public PanelDoJogo(JanelaPrincipal window) {
 		super();
@@ -38,12 +42,20 @@ public class PanelDoJogo extends JPanel{
 
 	private void initialize() {
 		background2 = new JLabel();
+		ImageIcon relogioIcon = new ImageIcon("imagens//botoes//relogio2.png");
 		relogio = new JLabel();
+	
+		relogioBackgroud = new JLabel();
+		
 		background2.setBounds(new Rectangle(0,0,637, 494));
 		background2.setText("");
 		
-		relogio.setBounds(new Rectangle(533, 21, 93, 82));
+		relogio.setBounds(new Rectangle(535, 21, 110, 110));
 		relogio.setText("");
+		relogioBackgroud.setBounds(new Rectangle(510, 21, 110, 110));
+		relogioBackgroud.setText("");
+		relogioBackgroud.setIcon(relogioIcon);
+		
 		Font curFont = relogio.getFont();
 		relogio.setForeground(Color.RED);
 		relogio.setVisible(false);
@@ -112,13 +124,22 @@ public class PanelDoJogo extends JPanel{
 
 	public void inserirButoes(int nivel){
 		this.removeAll();
-		
+//		try {
+//			this.tabulas = SistemaMemoria.getSistema().getTabuleiro(nivel);
+//		} catch (FaseInvalidaException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (SomInvalidoException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		if(nivel <= 5){
 			int x = 80;
 			int y = 65;
 			JanelaPrincipal.restantes = 16;
 			for (int i = 1; i <= 16; i++) {
 				
+			//	PecaDeMemoria novaPeca = new PecaDeMemoria(this,tabulas.get(i));
 				PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 				this.listaMemoria.add(novaPeca);
 				this.add(novaPeca);
@@ -136,6 +157,7 @@ public class PanelDoJogo extends JPanel{
 			JanelaPrincipal.restantes = 24;
 			for (int i = 1; i <= 24; i++) {
 				if(i <= 20){
+			//		PecaDeMemoria novaPeca = new PecaDeMemoria(this,tabulas.get(i));
 					PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 					this.listaMemoria.add(novaPeca);
 					this.add(novaPeca);
@@ -148,6 +170,7 @@ public class PanelDoJogo extends JPanel{
 				}
 				else{
 					x += 30;
+			//		PecaDeMemoria novaPeca = new PecaDeMemoria(this,tabulas.get(i));
 					PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 					this.listaMemoria.add(novaPeca);
 					this.add(novaPeca);
@@ -166,6 +189,7 @@ public class PanelDoJogo extends JPanel{
 			int y = 10;
 			JanelaPrincipal.restantes = 36;
 			for (int i = 1; i <= 36; i++) {
+	//			PecaDeMemoria novaPeca = new PecaDeMemoria(this,tabulas.get(i));
 				PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 				this.listaMemoria.add(novaPeca);
 				this.add(novaPeca);
@@ -178,7 +202,9 @@ public class PanelDoJogo extends JPanel{
 			}
 
 		}
+		
 		this.add(relogio);
+		this.add(relogioBackgroud);
 		this.add(botaoReplay);
 		this.add(getBotaoAjuda());
 		this.add(background2);

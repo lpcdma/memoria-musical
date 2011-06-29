@@ -19,6 +19,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
+import fachadaMemoria.SistemaMemoria;
+
 public class JanelaPrincipal extends JFrame{
 
 	/**
@@ -70,7 +72,6 @@ public class JanelaPrincipal extends JFrame{
 	//Método responsável por inicializar as variáveis
 
 	private void initialize() {
-	
 		this.setPreferredSize(new Dimension(654, 557));
 		this.initBGs();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -101,14 +102,11 @@ public class JanelaPrincipal extends JFrame{
 
 	public void setarCenario(){
 		this.panelJogo.setarBackground(backgrounds.get(nivel-1));
-		if(nivel == 2 || nivel == 7){
-			this.panelJogo.getRelogio().setForeground(Color.BLACK);
-		}
-		else if(nivel > 10){
+		if(nivel > 10){
 			this.panelJogo.getRelogio().setForeground(Color.RED);
 		}
 		else{
-			this.panelJogo.getRelogio().setForeground(Color.WHITE);
+			this.panelJogo.getRelogio().setForeground(new Color(60,195,67));
 		}
 	
 	}
