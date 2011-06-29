@@ -39,8 +39,15 @@ public class PecaDeMemoria extends JLabel{
 		imagens.add(new ImageIcon("imagens\\botoes\\bNeutro.png"));
 		imagens.add(new ImageIcon("imagens\\botoes\\bPressed.png"));
 		imagens.add(new ImageIcon("imagens\\botoes\\bAcerto.png"));
-
-		this.setIcon(imagens.get(0));
+		imagens.add(new ImageIcon("imagens\\botoes\\bMNeutro.png"));
+		imagens.add(new ImageIcon("imagens\\botoes\\bMPressed.png"));
+		imagens.add(new ImageIcon("imagens\\botoes\\bMAcerto.png"));
+		
+		if(JanelaPrincipal.nivel == 15){
+			this.setIcon(imagens.get(3));
+		}else{
+			this.setIcon(imagens.get(0));
+		}
 		this.setListeners();
 	}
 
@@ -65,11 +72,22 @@ public class PecaDeMemoria extends JLabel{
 	}
 
 	public void setAcerto(){
-		this.setIcon(imagens.get(2));
+		if(JanelaPrincipal.nivel == 15){
+			this.setIcon(imagens.get(5));
+		}else{
+			this.setIcon(imagens.get(2));
+		}
 	}
 	
 	public void mousePressedFora(MouseEvent e) {
-		this.setIcon(imagens.get(1));
+		
+		
+		if(JanelaPrincipal.nivel == 15){
+			this.setIcon(imagens.get(4));
+		}
+		else{
+			this.setIcon(imagens.get(1));
+		}
 		if(JanelaPrincipal.pecaAtual == null){
 			JanelaPrincipal.pecaAtual = this;
 			this.reproduzirSom();
@@ -99,7 +117,11 @@ public class PecaDeMemoria extends JLabel{
 
 	public void mouseReleasedFora(MouseEvent e) {
 		if(!travou){
-			this.setIcon(imagens.get(0));
+			if(JanelaPrincipal.nivel == 15){
+				this.setIcon(imagens.get(3));
+			}else{
+				this.setIcon(imagens.get(0));
+			}
 		}
 	}
 
