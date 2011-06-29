@@ -50,7 +50,7 @@ public class PanelDoJogo extends JPanel{
 		background2.setBounds(new Rectangle(0,0,637, 494));
 		background2.setText("");
 		
-		relogio.setBounds(new Rectangle(535, 21, 110, 110));
+		relogio.setBounds(new Rectangle(525, 21, 110, 110));
 		relogio.setText("");
 		relogioBackgroud.setBounds(new Rectangle(510, 21, 110, 110));
 		relogioBackgroud.setText("");
@@ -204,7 +204,9 @@ public class PanelDoJogo extends JPanel{
 		}
 		
 		this.add(relogio);
+		
 		this.add(relogioBackgroud);
+
 		this.add(botaoReplay);
 		this.add(getBotaoAjuda());
 		this.add(background2);
@@ -218,7 +220,7 @@ public class PanelDoJogo extends JPanel{
 	private JButton getBotaoReplay() {
 		if (botaoReplay == null) {
 			botaoReplay = new JButton();
-			botaoReplay.setBounds(new Rectangle(560, 194, 41, 38));
+			botaoReplay.setBounds(new Rectangle(537, 209, 41, 38));
 			botaoReplay.setEnabled(false);
 		}
 		return botaoReplay;
