@@ -14,6 +14,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 
+import dados.Tabula;
+
 public class PanelDoJogo extends JPanel{
 
 	/**
@@ -24,9 +26,13 @@ public class PanelDoJogo extends JPanel{
 	private JLabel background2 = null;
 	private JLabel relogio = null;
 	private JButton botaoAjuda;
+	private JButton botaoReplay = null;
+	private JanelaPrincipal window;
+	private ArrayList<Tabula> tabulas;
 	
-	public PanelDoJogo() {
+	public PanelDoJogo(JanelaPrincipal window) {
 		super();
+		this.window = window;
 		initialize();
 	}
 
@@ -35,7 +41,6 @@ public class PanelDoJogo extends JPanel{
 		relogio = new JLabel();
 		background2.setBounds(new Rectangle(0,0,637, 494));
 		background2.setText("");
-
 		
 		relogio.setBounds(new Rectangle(533, 21, 93, 82));
 		relogio.setText("");
@@ -52,6 +57,7 @@ public class PanelDoJogo extends JPanel{
 		this.setLayout(null);
 		this.setSize(new Dimension(637, 494));	
 		this.setPreferredSize(new Dimension(637, 494));	
+		this.add(getBotaoReplay(), null);
 		this.setListeners();
 	}
 	
@@ -61,8 +67,25 @@ public class PanelDoJogo extends JPanel{
 				botaoAjudaActionPerformed(evt);
 			}
 		});
+		this.botaoReplay.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt) {
+				botaoReplayActionPerformed(evt);
+			}
+		});
+	}
+	
+	protected void botaoReplayActionPerformed(ActionEvent evt) {
+		JanelaPrincipal.pecaAtual.reproduzirSom();
 		
 	}
+	
+	public void desabilitarReplay(){
+		this.botaoReplay.setEnabled(false);
+	}
+	public void habilitarReplay(){
+		this.botaoReplay.setEnabled(true);
+	}
+	
 	
 	public JButton getBotaoAjuda() {
 		if (botaoAjuda == null) {
@@ -93,8 +116,10 @@ public class PanelDoJogo extends JPanel{
 		if(nivel <= 5){
 			int x = 80;
 			int y = 65;
+			JanelaPrincipal.restantes = 16;
 			for (int i = 1; i <= 16; i++) {
-				PecaDeMemoria novaPeca = new PecaDeMemoria(nivel);
+				
+				PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 				this.listaMemoria.add(novaPeca);
 				this.add(novaPeca);
 				novaPeca.setBounds(new Rectangle(x, y, 60, 60));
@@ -108,9 +133,10 @@ public class PanelDoJogo extends JPanel{
 		else if(nivel <= 10){
 			int x = 40;
 			int y = 25;
+			JanelaPrincipal.restantes = 24;
 			for (int i = 1; i <= 24; i++) {
 				if(i <= 20){
-					PecaDeMemoria novaPeca = new PecaDeMemoria(nivel);
+					PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 					this.listaMemoria.add(novaPeca);
 					this.add(novaPeca);
 					novaPeca.setBounds(new Rectangle(x, y, 60, 60));
@@ -122,7 +148,7 @@ public class PanelDoJogo extends JPanel{
 				}
 				else{
 					x += 30;
-					PecaDeMemoria novaPeca = new PecaDeMemoria(nivel);
+					PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 					this.listaMemoria.add(novaPeca);
 					this.add(novaPeca);
 					novaPeca.setBounds(new Rectangle(x, y, 60, 60));
@@ -138,8 +164,9 @@ public class PanelDoJogo extends JPanel{
 		else if(nivel <= 15){
 			int x = 25;
 			int y = 10;
+			JanelaPrincipal.restantes = 36;
 			for (int i = 1; i <= 36; i++) {
-				PecaDeMemoria novaPeca = new PecaDeMemoria(nivel);
+				PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 				this.listaMemoria.add(novaPeca);
 				this.add(novaPeca);
 				novaPeca.setBounds(new Rectangle(x, y, 60, 60));
@@ -152,10 +179,26 @@ public class PanelDoJogo extends JPanel{
 
 		}
 		this.add(relogio);
+		this.add(botaoReplay);
 		this.add(getBotaoAjuda());
 		this.add(background2);
-
 	}
 
+	/**
+	 * This method initializes botaoReplay	
+	 * 	
+	 * @return javax.swing.JButton	
+	 */
+	private JButton getBotaoReplay() {
+		if (botaoReplay == null) {
+			botaoReplay = new JButton();
+			botaoReplay.setBounds(new Rectangle(560, 194, 41, 38));
+			botaoReplay.setEnabled(false);
+		}
+		return botaoReplay;
+	}
+	public void passarLevel(){
+		window.passarLevel();
+	}
 
 }  //  @jve:decl-index=0:visual-constraint="296,13"

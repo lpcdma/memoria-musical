@@ -29,6 +29,8 @@ public class JanelaPrincipal extends JFrame{
 	private static final long serialVersionUID = 6956795457507815787L;
 
 	public static PecaDeMemoria pecaAtual;
+
+	public static int restantes;
 	private JMenuBar barraMenu;
 	private JPanel panelPrincipal;
 	private JMenu botaoIniciar;
@@ -58,6 +60,7 @@ public class JanelaPrincipal extends JFrame{
 	//Construtor da Janela Principal do Sistema
 	public JanelaPrincipal() {
 		super("Jogo da Memória");
+
 		initialize();
 		this.setLocationByPlatform(true);
 		this.setVisible(true);
@@ -67,8 +70,8 @@ public class JanelaPrincipal extends JFrame{
 	//Método responsável por inicializar as variáveis
 
 	private void initialize() {
-		//this.setPreferredSize(new Dimension(469, 328));
-
+	
+		this.setPreferredSize(new Dimension(654, 557));
 		this.initBGs();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(new Dimension(654, 557));
@@ -116,9 +119,11 @@ public class JanelaPrincipal extends JFrame{
 			this.backgroundInicial.setIcon(backImage);
 			this.getPanelJogo().setVisible(false);
 			this.getPanelJogo().getBotaoAjuda().setVisible(false);
-			this.panelJogo.getRelogio().setVisible(false);
+			this.getPanelJogo().getRelogio().setVisible(false);
 		}
 		else{
+			this.contador.acabou();
+			JOptionPane.showMessageDialog(this,"Você completou o nível " + nivel + " restando " +this.getPanelJogo().getRelogio().getText() +" segundos!","Parabéns!",JOptionPane.INFORMATION_MESSAGE);
 			nivel++;
 			inicializarTabuleiro();
 		}
@@ -237,7 +242,7 @@ public class JanelaPrincipal extends JFrame{
 
 	private PanelDoJogo getPanelJogo() {
 		if (panelJogo == null) {
-			panelJogo = new PanelDoJogo();
+			panelJogo = new PanelDoJogo(this);
 			panelJogo.setLayout(null);
 			panelJogo.setBounds(new Rectangle(0, 0,637, 494));
 			panelJogo.setVisible(false);
