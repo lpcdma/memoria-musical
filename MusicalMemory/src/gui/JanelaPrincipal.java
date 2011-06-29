@@ -75,7 +75,7 @@ public class JanelaPrincipal extends JFrame{
 	//Método responsável por inicializar as variáveis
 
 	private void initialize() {
-		
+
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException e) {
@@ -91,7 +91,7 @@ public class JanelaPrincipal extends JFrame{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		//this.setPreferredSize(new Dimension(654, 557));
 		this.initBGs();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -100,7 +100,7 @@ public class JanelaPrincipal extends JFrame{
 		this.setJMenuBar(getBarraMenu());     
 		this.setListeners();
 		this.centralizarJanela();
-	
+
 	}
 	private void initBGs() {
 		this.backgrounds.add(new ImageIcon("imagens\\backgrounds\\b1background.png"));
@@ -129,9 +129,14 @@ public class JanelaPrincipal extends JFrame{
 		else{
 			this.panelJogo.getRelogio().setForeground(new Color(60,195,67));
 		}
-	
+
 	}
-	
+
+	public void esconderTudo(boolean sim){
+		this.getPanelJogo().setVisible(!sim);
+		this.labelIntro.setVisible(sim);
+	}
+
 	public void perdeu(){
 		this.contador.acabou();
 		JOptionPane.showMessageDialog(null,"Perdeu!");
@@ -140,8 +145,9 @@ public class JanelaPrincipal extends JFrame{
 		this.getPanelJogo().getBotaoAjuda().setVisible(false);
 		this.getPanelJogo().getRelogio().setVisible(false);
 	}
-	
+
 	public void passarLevel(){
+
 		if(nivel == 15){
 			this.contador.acabou();
 			JOptionPane.showMessageDialog(this,"Você ganhou!");
@@ -152,10 +158,38 @@ public class JanelaPrincipal extends JFrame{
 		}
 		else{
 			this.contador.acabou();
+
 			JOptionPane.showMessageDialog(this,"Você completou o nível " + nivel + " restando " +this.getPanelJogo().getRelogio().getText() +" segundos!","Parabéns!",JOptionPane.INFORMATION_MESSAGE);
+		//	intervalo();
 			nivel++;
 			inicializarTabuleiro();
+
 		}
+	}
+
+	private void intervalo() {
+		long tempoInicial = System.currentTimeMillis();
+
+		long timer = 1l;
+		esconderTudo(true);
+
+		while(timer < 4){
+			timer = ((System.currentTimeMillis() - tempoInicial)/1000);
+			if(timer == 0){
+				
+			}
+			else if(timer == 1){
+
+			}
+			else if(timer == 2){
+
+			}
+			else if(timer == 3){
+				labelIntro.setText(timer+"");
+			}			
+		}
+
+		esconderTudo(false);
 	}
 	//Método para setar todos os listeners
 	private void setListeners() {
@@ -191,7 +225,7 @@ public class JanelaPrincipal extends JFrame{
 
 	protected void butaoTesteActionPerformed(ActionEvent evt) {
 		this.passarLevel();
-		
+
 	}
 
 	protected void itemSairActionPerformed(ActionEvent evt) {
@@ -201,7 +235,7 @@ public class JanelaPrincipal extends JFrame{
 	protected void itemComecarActionPerformed(ActionEvent evt) {
 
 		int resposta = JOptionPane.showConfirmDialog(this,"Deseja Coringas?","Iniciar o Jogo",JOptionPane.YES_NO_CANCEL_OPTION);
-		
+
 
 		if(resposta == 0){
 			this.getPanelJogo().getBotaoAjuda().setVisible(true);
@@ -214,7 +248,7 @@ public class JanelaPrincipal extends JFrame{
 			inicializarTabuleiro();
 		}
 		else{
-			
+
 		}
 	}
 
@@ -252,13 +286,13 @@ public class JanelaPrincipal extends JFrame{
 			backgroundInicial = new JLabel();
 			backgroundInicial.setBounds(new Rectangle(0, 1, 637, 494));
 			backgroundInicial.setIcon(backImage);
-			
-		
+
+
 			panelPrincipal = new JPanel();
 
 			panelPrincipal.setLayout(null);
 			panelPrincipal.add(getPanelJogo());
-			
+
 
 			panelPrincipal.add(getLabelIntro());
 			panelPrincipal.add(backgroundInicial, null);
@@ -317,7 +351,7 @@ public class JanelaPrincipal extends JFrame{
 	 * 	
 	 * @return javax.swing.JButton	
 	 */
-	
+
 
 	/**
 	 * This method initializes itemSair	
@@ -369,7 +403,7 @@ public class JanelaPrincipal extends JFrame{
 		}
 		return butaoTeste;
 	}
-	
+
 	public void centralizarJanela(){
 
 		Dimension dim = this.getToolkit().getScreenSize();      
