@@ -15,8 +15,8 @@ public class Contador extends Thread{
 	boolean funcionando ;
 	private boolean acabou = false;
 	int maiorTempo = 100;
-	int menorTempo = 60;
-	Font fontInicial;
+	int menorTempo = 13;
+	public Font fontInicial;
 	int labelX;
 	JanelaPrincipal window;
 	
@@ -25,7 +25,7 @@ public class Contador extends Thread{
 		contador = setarContador(this.nivel);
 		this.label = label;
 		funcionando = true;
-		fontInicial = label.getFont();
+		fontInicial = JanelaPrincipal.fontPadrao;
 		this.labelX = 547;
 		this.window = window;
 	}
@@ -89,7 +89,6 @@ public class Contador extends Thread{
 				}
 				Thread.sleep(950);
 			}
-
 		}
 		catch (InterruptedException e) {System.out.println("merda");}
 

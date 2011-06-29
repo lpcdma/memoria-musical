@@ -47,7 +47,7 @@ public class PanelDoJogo extends JPanel{
 	
 		relogioBackgroud = new JLabel();
 		
-		background2.setBounds(new Rectangle(0,0,637, 494));
+		background2.setBounds(new Rectangle(0, 1, 651, 510));
 		background2.setText("");
 		
 		relogio.setBounds(new Rectangle(525, 21, 110, 110));
@@ -67,8 +67,8 @@ public class PanelDoJogo extends JPanel{
 		this.setLayout(null);
 		listaMemoria = new ArrayList<PecaDeMemoria>();
 		this.setLayout(null);
-		this.setSize(new Dimension(637, 494));	
-		this.setPreferredSize(new Dimension(637, 494));	
+		this.setSize(new Dimension(651, 510));	
+		this.setPreferredSize(new Dimension(651, 510));	
 		this.add(getBotaoReplay(), null);
 		this.setListeners();
 	}
