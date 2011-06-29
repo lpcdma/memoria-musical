@@ -10,4 +10,10 @@ public class FiltroSawtooth extends Filtro {
 		return null;
 	}
 
+	@Override
+	public void filter(byte[] samples, int offset, int length) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
