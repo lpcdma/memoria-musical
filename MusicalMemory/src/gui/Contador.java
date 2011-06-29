@@ -18,15 +18,16 @@ public class Contador extends Thread{
 	int menorTempo = 60;
 	Font fontInicial;
 	int labelX;
+	JanelaPrincipal window;
 	
-	
-	public Contador(JLabel label,int nivel) {
+	public Contador(JanelaPrincipal window,JLabel label,int nivel) {
 		this.nivel = nivel;
 		contador = setarContador(this.nivel);
 		this.label = label;
 		funcionando = true;
 		fontInicial = label.getFont();
 		this.labelX = 547;
+		this.window = window;
 	}
 
 	public void acabou(){
@@ -84,8 +85,7 @@ public class Contador extends Thread{
 					tamanhoFonte += 9;
 				}
 				if(lol <= 0){
-					JOptionPane.showMessageDialog(null,"Perdeu!");
-					funcionando = false;
+					window.perdeu();
 				}
 				Thread.sleep(950);
 			}

@@ -131,6 +131,16 @@ public class JanelaPrincipal extends JFrame{
 		}
 	
 	}
+	
+	public void perdeu(){
+		this.contador.acabou();
+		JOptionPane.showMessageDialog(null,"Perdeu!");
+		this.backgroundInicial.setIcon(backImage);
+		this.getPanelJogo().setVisible(false);
+		this.getPanelJogo().getBotaoAjuda().setVisible(false);
+		this.getPanelJogo().getRelogio().setVisible(false);
+	}
+	
 	public void passarLevel(){
 		if(nivel == 15){
 			this.contador.acabou();
@@ -217,7 +227,7 @@ public class JanelaPrincipal extends JFrame{
 		if(contador!= null){
 			this.contador.acabou();
 		}
-		this.contador = new Contador(this.panelJogo.getRelogio(),nivel);
+		this.contador = new Contador(this,this.panelJogo.getRelogio(),nivel);
 		contador.start();
 	}
 	protected void itemSobreActionPerformed(ActionEvent evt) {
