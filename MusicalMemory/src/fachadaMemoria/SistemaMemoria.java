@@ -6,6 +6,7 @@ import dados.Som;
 import dados.Tabula;
 
 import excecoes.FaseInvalidaException;
+import excecoes.PoucasMusicasException;
 import excecoes.SomInvalidoException;
 import negocio.ControladorFases;
 import negocio.ControladorSom;
@@ -79,8 +80,10 @@ public class SistemaMemoria {
 	 * 									representando o tabuleiro.
 	 * 
 	 * @throws FaseInvalidaException	Lancada caso a fase passada seja invalida.
+	 * @throws PoucasMusicasException 	Lancada caso nao haja sons suficientes para alimentar o sistema.
+	 * @throws SomInvalidoException 	Lancada caso seja encontrado Som invalido.
 	 */
-	public ArrayList<Tabula> getTabuleiro(int fase) throws FaseInvalidaException{
+	public ArrayList<Tabula> getTabuleiro(int fase) throws FaseInvalidaException, PoucasMusicasException, SomInvalidoException{
 		return this.controleFases.getTabuleiro(fase);
 	}
 	

@@ -9,6 +9,8 @@ import repositorio.RepositorioDeSons;
 import dados.Som;
 import dados.Tabula;
 import excecoes.FaseInvalidaException;
+import excecoes.PoucasMusicasException;
+import excecoes.SomInvalidoException;
 
 public class ControladorFases {
 
@@ -19,46 +21,91 @@ public class ControladorFases {
 		this.tabuleiro = new ArrayList<Tabula>(16);
 	}
 	
-	private void carregarTabuleiro(int fase) throws FaseInvalidaException{
+	private void carregarTabuleiro(int fase) throws FaseInvalidaException, PoucasMusicasException, SomInvalidoException {
 		ArrayList<Som> trilhaSonora = new ArrayList<Som>(RepositorioDeSons.sons);
 		Collections.shuffle(trilhaSonora);
 		
-		/*
-		 	agrupar níveis
-		 	lvl 1 = 1/4
-			lvl 2 = 1/3
-			lvl 3 = 1/2
-			lvl 4 = 2/3
-			lvl 5 = 3/4
-		 */
-		
-		if (fase >= 1 && fase <= 5) {
-			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 8);
-		} else if (fase >= 6 && fase <= 10) {
-			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 12);
-		} else if (fase >= 11 && fase <= 15) {
-			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 18);
-		} else {
-			throw new FaseInvalidaException();
+		switch (fase) {
+		case 1:
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 8, 0, 0);
+			break;
+		case 2:
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 8, 1, 0);
+			break;
+		case 3:
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 8, 2, 0);
+			break;
+		case 4:
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 8, 4, 1);
+			break;
+		case 5:
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 8, 4, 2);
+			break;
+		case 6:
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 12, 4, 0);
+			break;
+		case 7:
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 12, 5, 0);
+			break;
+		case 8:
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 12, 7, 1);
+			break;
+		case 9:
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 12, 7, 2);
+			break;
+		case 10:
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 12, 8, 3);
+			break;
+		case 11:
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 16, 6, 1);
+			break;
+		case 12:
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 16, 7, 1);
+			break;
+		case 13:
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 16, 9, 2);
+			break;
+		case 14:
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 16, 11, 3);
+			break;
+		case 15:
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 16, 14, 4);
+			break;
+		default:
+			throw new FaseInvalidaException(fase);
 		}
 	}
 	
-	private ArrayList<Tabula> construirTabuleiro(ArrayList<Som> sons, int quantidade) {
+	private ArrayList<Tabula> construirTabuleiro(ArrayList<Som> sons, int numPecas, int numFiltros, int numSeq) throws PoucasMusicasException, SomInvalidoException {
 		ArrayList<Tabula> tabulas = new ArrayList<Tabula>();
 		
+		if (tabulas.size() < (numPecas + 2)) {
+			throw new PoucasMusicasException(numPecas);
+		}
+		
 		Iterator<Som> iterador = sons.iterator();
-		while (iterador.hasNext() && quantidade > 0) {
+		while (numPecas > 0) {
 			Som som1 = iterador.next();
-			tabulas.add(new Tabula(som1, quantidade));
+			if (numFiltros > 0) {
+				int qntIteracoes = numSeq;
+				while(qntIteracoes > 0){
+					Collections.shuffle(ControladorSom.filtros);
+					som1 = ControladorSom.getControladorSom().aplicarFiltro(som1, ControladorSom.filtros.get(0));
+					qntIteracoes--;
+				}
+				numSeq--;
+				numFiltros--;
+			}
+			tabulas.add(new Tabula(som1, numPecas));
 			Som som2 = iterador.next();
-			tabulas.add(new Tabula(som2, quantidade));
-			quantidade--;
+			tabulas.add(new Tabula(som2, numPecas));
+			numPecas--;
 		}
 		Collections.shuffle(tabulas);
 		return tabulas;
 	}
 	
-	public ArrayList<Tabula> getTabuleiro(int fase) throws FaseInvalidaException {
+	public ArrayList<Tabula> getTabuleiro(int fase) throws FaseInvalidaException, PoucasMusicasException, SomInvalidoException {
 		this.carregarTabuleiro(fase);
 		return this.tabuleiro;
 	}
