@@ -10,7 +10,9 @@ import negocio.ControladorFases;
 import repositorio.RepositorioDeSons;
 import dados.Som;
 import dados.Tabula;
+import dados.filtros.FiltroEcho;
 import excecoes.FaseInvalidaException;
+import excecoes.SomInvalidoException;
 
 public class Init {
 	SoundPiece[][] gameBoard;
@@ -111,6 +113,19 @@ public class Init {
 			e.printStackTrace();
 		}
 		 */
+		
+		/*
+		try {
+			Som a = new Som("C:\\Users\\Walter\\Desktop\\c.wav");
+			FiltroEcho f = new FiltroEcho();
+			//a.tocarSom();
+			Som b = f.filtrar(a);
+			b = f.filtrar(b);
+			b.tocarSom();
+		} catch (SomInvalidoException e) {
+		} catch (IOException e) {
+		}
+		*/
 	}
 	
 }

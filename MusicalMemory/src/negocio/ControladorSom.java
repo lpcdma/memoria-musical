@@ -1,5 +1,7 @@
 package negocio;
 
+import java.util.ArrayList;
+
 import repositorio.RepositorioDeSons;
 import dados.Som;
 import dados.filtros.Filtro;
@@ -15,11 +17,13 @@ public class ControladorSom {
 	private static ControladorSom instancia;
 	private RepositorioDeSons repositorio;
 	
-	private FiltroPassaBaixa filtroPassaBaixa;
-	private FiltroPassaAlta filtroPassaAlta;
-	private FiltroEcho filtroEcho;
-	private FiltroReverb filtroReverb;
-	private FiltroSawtooth filtroSawtooth;
+	private final FiltroPassaBaixa filtroPassaBaixa;
+	private final FiltroPassaAlta filtroPassaAlta;
+	private final FiltroEcho filtroEcho;
+	private final FiltroReverb filtroReverb;
+	private final FiltroSawtooth filtroSawtooth;
+	
+	public static ArrayList<Filtro> filtros;
 	
 	private ControladorSom() throws SomInvalidoException {
 		this.repositorio = RepositorioDeSons.getRepositorio();
@@ -30,9 +34,16 @@ public class ControladorSom {
 		this.filtroEcho = new FiltroEcho();
 		this.filtroReverb = new FiltroReverb();
 		this.filtroSawtooth = new FiltroSawtooth();
+		
+		ControladorSom.filtros = new ArrayList<Filtro>();
+		ControladorSom.filtros.add(this.filtroPassaBaixa);
+		ControladorSom.filtros.add(this.filtroPassaAlta);
+		ControladorSom.filtros.add(this.filtroEcho);
+		ControladorSom.filtros.add(this.filtroReverb);
+		ControladorSom.filtros.add(this.filtroSawtooth);
 	}
 	
-	private Som aplicarFiltro(Som somOriginal, Filtro filtro){
+	public Som aplicarFiltro(Som somOriginal, Filtro filtro){
 		return filtro.filtrar(somOriginal);
 	}
 	
