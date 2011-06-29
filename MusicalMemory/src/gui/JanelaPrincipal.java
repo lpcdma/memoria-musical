@@ -35,6 +35,7 @@ public class JanelaPrincipal extends JFrame{
 
 	public static PecaDeMemoria pecaAtual;
 
+	public static Font fontPadrao = new Font(Font.SANS_SERIF, Font.BOLD, 50);  //  @jve:decl-index=0:
 	public static int restantes;
 	private JMenuBar barraMenu;
 	private JPanel panelPrincipal;
@@ -94,6 +95,7 @@ public class JanelaPrincipal extends JFrame{
 
 		//this.setPreferredSize(new Dimension(654, 557));
 		this.initBGs();
+		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(654, 557);
 		this.setContentPane(getPanelPrincipal());
@@ -144,6 +146,7 @@ public class JanelaPrincipal extends JFrame{
 		this.getPanelJogo().setVisible(false);
 		this.getPanelJogo().getBotaoAjuda().setVisible(false);
 		this.getPanelJogo().getRelogio().setVisible(false);
+		this.getPanelJogo().getRelogio().setFont(fontPadrao);
 	}
 
 	public void passarLevel(){
@@ -155,6 +158,7 @@ public class JanelaPrincipal extends JFrame{
 			this.getPanelJogo().setVisible(false);
 			this.getPanelJogo().getBotaoAjuda().setVisible(false);
 			this.getPanelJogo().getRelogio().setVisible(false);
+			this.getPanelJogo().getRelogio().setFont(fontPadrao);
 		}
 		else{
 			this.contador.acabou();
@@ -162,6 +166,7 @@ public class JanelaPrincipal extends JFrame{
 			JOptionPane.showMessageDialog(this,"Você completou o nível " + nivel + " restando " +this.getPanelJogo().getRelogio().getText() +" segundos!","Parabéns!",JOptionPane.INFORMATION_MESSAGE);
 		//	intervalo();
 			nivel++;
+			this.getPanelJogo().getRelogio().setFont(fontPadrao);
 			inicializarTabuleiro();
 
 		}
@@ -284,7 +289,7 @@ public class JanelaPrincipal extends JFrame{
 	private JPanel getPanelPrincipal() {
 		if (panelPrincipal == null) {
 			backgroundInicial = new JLabel();
-			backgroundInicial.setBounds(new Rectangle(0, 1, 637, 494));
+			backgroundInicial.setBounds(new Rectangle(0, 1, 651, 510));
 			backgroundInicial.setIcon(backImage);
 
 
@@ -307,7 +312,7 @@ public class JanelaPrincipal extends JFrame{
 		if (panelJogo == null) {
 			panelJogo = new PanelDoJogo(this);
 			panelJogo.setLayout(null);
-			panelJogo.setBounds(new Rectangle(0, 0,637, 494));
+			panelJogo.setBounds(new Rectangle(0, 0,700, 620));
 			panelJogo.setVisible(false);
 		}
 		return panelJogo;
