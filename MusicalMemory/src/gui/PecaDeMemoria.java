@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,18 +26,21 @@ public class PecaDeMemoria extends JLabel{
 	 * 
 	 */
 	private static final long serialVersionUID = 3060323556573736760L;
-	Icon imagemNormal = null;
-	Icon imagemPressed = null;
+
+	ArrayList<ImageIcon> imagens = new ArrayList<ImageIcon>();
 	Tabula tabula;
 	PanelDoJogo jogo;
-	
+	boolean travou = false;
+
 	public PecaDeMemoria(PanelDoJogo jogo,Tabula tabula) {
 		super();
 		this.tabula = tabula;
 		this.jogo = jogo;
-		imagemNormal = new ImageIcon("imagens\\botoes\\bNeutro.png");
-		//	imagemPressed = new ImageIcon("imagens\\botoes\\imageBotaoPressed.png");
-		this.setIcon(imagemNormal);
+		imagens.add(new ImageIcon("imagens\\botoes\\bNeutro.png"));
+		imagens.add(new ImageIcon("imagens\\botoes\\bPressed.png"));
+		imagens.add(new ImageIcon("imagens\\botoes\\bAcerto.png"));
+
+		this.setIcon(imagens.get(0));
 		this.setListeners();
 	}
 
@@ -44,9 +49,13 @@ public class PecaDeMemoria extends JLabel{
 			public void mousePressed(MouseEvent evt) {
 				mousePressedFora(evt);
 			}
+			public void mouseReleased(MouseEvent evt) {
+				mouseReleasedFora(evt);
+			}
 		});
 	}
-
+	
+	
 	public Tabula getTabula() {
 		return tabula;
 	}
@@ -55,11 +64,17 @@ public class PecaDeMemoria extends JLabel{
 		this.tabula = tabula;
 	}
 
+	public void setAcerto(){
+		this.setIcon(imagens.get(2));
+	}
+	
 	public void mousePressedFora(MouseEvent e) {
+		this.setIcon(imagens.get(1));
 		if(JanelaPrincipal.pecaAtual == null){
 			JanelaPrincipal.pecaAtual = this;
 			this.reproduzirSom();
 			this.jogo.habilitarReplay();
+			this.travou = true;
 		}
 		else{
 			boolean igual = this.getTabula().equals(JanelaPrincipal.pecaAtual.getTabula());
@@ -72,27 +87,20 @@ public class PecaDeMemoria extends JLabel{
 				if(JanelaPrincipal.restantes == 0){
 					jogo.passarLevel();
 				}
+				this.setAcerto();
+				JanelaPrincipal.pecaAtual.setAcerto();
 			}
 			else{
+				this.travou = false;
 				JanelaPrincipal.pecaAtual = null;
 			}
 		}
 	}
 
 	public void mouseReleasedFora(MouseEvent e) {
-
-	}
-
-	public void mouseEnteredFora(MouseEvent e) {
-
-	}
-
-	public void mouseExitedFora(MouseEvent e) {
-
-	}
-
-	public void mouseClickedFora(MouseEvent e) {
-
+		if(!travou){
+			this.setIcon(imagens.get(0));
+		}
 	}
 
 	public void reproduzirSom() {
