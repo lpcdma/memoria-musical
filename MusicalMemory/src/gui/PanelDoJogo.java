@@ -11,6 +11,8 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 
@@ -28,10 +30,11 @@ public class PanelDoJogo extends JPanel{
 	ArrayList<PecaDeMemoria> listaMemoria = null;  //  @jve:decl-index=0:
 	private JLabel background2 = null;
 	private JLabel relogio = null;
-	private JButton botaoAjuda;
+	private JLabel botaoAjuda;
 	private JButton botaoReplay = null;
 	private JanelaPrincipal window;
 	private ArrayList<Tabula> tabulas;
+	private ArrayList<ImageIcon> imagesJoker;
 	private JLabel relogioBackgroud;
 	
 	public PanelDoJogo(JanelaPrincipal window) {
@@ -43,8 +46,16 @@ public class PanelDoJogo extends JPanel{
 	private void initialize() {
 		background2 = new JLabel();
 		ImageIcon relogioIcon = new ImageIcon("imagens//botoes//relogio2.png");
+		
+		imagesJoker = new ArrayList<ImageIcon>();
+		
+		imagesJoker.add(new ImageIcon("imagens//botoes//jokerPadrao.png"));
+		imagesJoker.add(new ImageIcon("imagens//botoes//jokerPressed.png"));
+		imagesJoker.add(new ImageIcon("imagens//botoes//jokerMPadrao.png"));
+		imagesJoker.add(new ImageIcon("imagens//botoes//jokerMPressed.png"));
+		
 		relogio = new JLabel();
-	
+		
 		relogioBackgroud = new JLabel();
 		
 		background2.setBounds(new Rectangle(0, 1, 651, 510));
@@ -56,10 +67,9 @@ public class PanelDoJogo extends JPanel{
 		relogioBackgroud.setText("");
 		relogioBackgroud.setIcon(relogioIcon);
 		
-		Font curFont = relogio.getFont();
 		relogio.setForeground(Color.RED);
 		relogio.setVisible(false);
-		relogio.setFont(new Font(curFont.getFontName(), curFont.getStyle(), 50));
+		relogio.setFont(JanelaPrincipal.fontPadrao);
 		this.add(relogio);
 		this.add(getBotaoAjuda());
 		this.add(background2);
@@ -74,9 +84,12 @@ public class PanelDoJogo extends JPanel{
 	}
 	
 	private void setListeners() {
-		this.botaoAjuda.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent evt) {
-				botaoAjudaActionPerformed(evt);
+		this.botaoAjuda.addMouseListener(new MouseAdapter(){
+			public void mousePressed(MouseEvent evt) {
+				botaoAjudaPressed(evt);
+			}
+			public void mouseReleased(MouseEvent evt) {
+				botaoAjudaReleased(evt);
 			}
 		});
 		this.botaoReplay.addActionListener(new ActionListener(){
@@ -86,6 +99,11 @@ public class PanelDoJogo extends JPanel{
 		});
 	}
 	
+	protected void botaoAjudaReleased(MouseEvent evt) {
+		
+		
+	}
+
 	protected void botaoReplayActionPerformed(ActionEvent evt) {
 		JanelaPrincipal.pecaAtual.reproduzirSom();
 		
@@ -99,25 +117,43 @@ public class PanelDoJogo extends JPanel{
 	}
 	
 	
-	public JButton getBotaoAjuda() {
+	public JLabel getBotaoAjuda() {
 		if (botaoAjuda == null) {
-			botaoAjuda = new JButton();
-			botaoAjuda.setBounds(new Rectangle(528, 137, 88, 24));
+			botaoAjuda = new JLabel();
+			botaoAjuda.setBounds(new Rectangle(529, 153, 86, 86));
 			botaoAjuda.setText("Coringas");
 			botaoAjuda.setVisible(false);
+			this.setNeutro();
 		}
 		return botaoAjuda;
 	}
 	
-	protected void botaoAjudaActionPerformed(ActionEvent evt) {
+	protected void botaoAjudaPressed(MouseEvent evt) {
 		Object[] possibleValues = { "1", "2", "3" , "4" , "5"};
-
+		this.setPressed();
 		int resposta = JOptionPane.showOptionDialog(this,"Escolha um dos Coringas","Coringas",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null,possibleValues,1);
-
+		this.setNeutro();
 	}
 	public JLabel getRelogio(){
 		return relogio;
 	}
+	
+	public void setNeutro() {
+		if(JanelaPrincipal.nivel == 15){
+			this.botaoAjuda.setIcon(imagesJoker.get(2));
+		}else{
+			this.botaoAjuda.setIcon(imagesJoker.get(0));
+		}
+	}
+	
+	public void setPressed() {
+		if(JanelaPrincipal.nivel == 15){
+			this.botaoAjuda.setIcon(imagesJoker.get(3));
+		}else{
+			this.botaoAjuda.setIcon(imagesJoker.get(1));
+		}
+	}
+	
 	public void setarBackground(ImageIcon imagem){
 		this.background2.setIcon(imagem);
 	}
@@ -220,7 +256,7 @@ public class PanelDoJogo extends JPanel{
 	private JButton getBotaoReplay() {
 		if (botaoReplay == null) {
 			botaoReplay = new JButton();
-			botaoReplay.setBounds(new Rectangle(537, 209, 41, 38));
+			botaoReplay.setBounds(new Rectangle(538, 298, 41, 38));
 			botaoReplay.setEnabled(false);
 		}
 		return botaoReplay;
