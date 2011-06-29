@@ -159,6 +159,7 @@ public class JanelaPrincipal extends JFrame{
 			this.getPanelJogo().getBotaoAjuda().setVisible(false);
 			this.getPanelJogo().getRelogio().setVisible(false);
 			this.getPanelJogo().getRelogio().setFont(fontPadrao);
+			
 		}
 		else{
 			this.contador.acabou();
@@ -166,8 +167,8 @@ public class JanelaPrincipal extends JFrame{
 			JOptionPane.showMessageDialog(this,"Você completou o nível " + nivel + " restando " +this.getPanelJogo().getRelogio().getText() +" segundos!","Parabéns!",JOptionPane.INFORMATION_MESSAGE);
 		//	intervalo();
 			nivel++;
-			this.getPanelJogo().getRelogio().setFont(fontPadrao);
 			inicializarTabuleiro();
+			
 
 		}
 	}
@@ -259,6 +260,8 @@ public class JanelaPrincipal extends JFrame{
 
 	private void inicializarTabuleiro() {
 		this.setarCenario();
+		this.getPanelJogo().getRelogio().setFont(fontPadrao);
+		this.getPanelJogo().setNeutro();
 		labelIntro.setVisible(false);
 		panelJogo.setVisible(true);
 		this.panelJogo.getRelogio().setVisible(true);
