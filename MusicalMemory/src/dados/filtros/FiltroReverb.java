@@ -1,7 +1,5 @@
 package dados.filtros;
 
-import java.io.IOException;
-
 import dados.Som;
 
 public class FiltroReverb extends Filtro {
