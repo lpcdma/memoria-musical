@@ -165,11 +165,21 @@ public class PanelDoJogo extends JPanel{
 	}
 
 	protected void botaoAjudaPressed(MouseEvent evt) {
-
-		Object[] possibleValues = { "Echo", "Reverse", "Reverberation" , "Passa-Alta" , "Passa-Baixo", "Passa-Tudo", "Pente"};
-		this.setJokerPressed();
-		int resposta = JOptionPane.showOptionDialog(this,"Escolha um dos Coringas","Coringas",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null,possibleValues,1);
-		this.setJokerNeutro();
+		if(JanelaPrincipal.coringasCont != 0 && JanelaPrincipal.coringaAtual == ""){
+			Object[] possibleValues = { "Echo", "Reverse", "Reverberation" ,"Passa-Baixo", "Passa-Tudo", "Pente"};
+			this.setJokerPressed();
+			int resposta = JOptionPane.showOptionDialog(this,"Escolha um dos Coringas","Coringas",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null,possibleValues,1);
+			JOptionPane.showMessageDialog(this,"Você ainda tem " + (JanelaPrincipal.coringasCont-1) + " coringas restantes.");
+			this.setJokerNeutro();
+			JanelaPrincipal.coringaAtual = (String) possibleValues[resposta];		
+			JanelaPrincipal.coringasCont--;
+		}
+		else if(JanelaPrincipal.coringasCont == 0){
+			JOptionPane.showMessageDialog(this,"Você não tem mais coringas.");
+		}
+		else{
+			JOptionPane.showMessageDialog(this,"Use o coringa "+ JanelaPrincipal.coringaAtual + " antes.");
+		}
 	}
 	public JLabel getRelogio(){
 		return relogio;
@@ -212,26 +222,26 @@ public class PanelDoJogo extends JPanel{
 
 	public void inserirButoes(int nivel){
 		this.removeAll();
-				try {
-					this.tabulas = SistemaMemoria.getSistema().getTabuleiro(nivel);
-				} catch (FaseInvalidaException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SomInvalidoException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (PoucasMusicasException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		try {
+			this.tabulas = SistemaMemoria.getSistema().getTabuleiro(nivel);
+		} catch (FaseInvalidaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SomInvalidoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PoucasMusicasException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if(nivel <= 5){
 			int x = 80;
 			int y = 65;
 			JanelaPrincipal.restantes = 16;
 			for (int i = 1; i <= 16; i++) {
 
-					PecaDeMemoria novaPeca = new PecaDeMemoria(this,tabulas.get(i-1));
-			//	PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
+				PecaDeMemoria novaPeca = new PecaDeMemoria(this,tabulas.get(i-1));
+				//	PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 				this.listaMemoria.add(novaPeca);
 				this.add(novaPeca);
 				novaPeca.setBounds(new Rectangle(x, y, 70, 70));
@@ -248,8 +258,8 @@ public class PanelDoJogo extends JPanel{
 			JanelaPrincipal.restantes = 24;
 			for (int i = 1; i <= 24; i++) {
 				if(i <= 20){
-							PecaDeMemoria novaPeca = new PecaDeMemoria(this,tabulas.get(i-1));
-			//		PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
+					PecaDeMemoria novaPeca = new PecaDeMemoria(this,tabulas.get(i-1));
+					//		PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 					this.listaMemoria.add(novaPeca);
 					this.add(novaPeca);
 					novaPeca.setBounds(new Rectangle(x, y, 70, 70));
@@ -261,8 +271,8 @@ public class PanelDoJogo extends JPanel{
 				}
 				else{
 					x += 30;
-						PecaDeMemoria novaPeca = new PecaDeMemoria(this,tabulas.get(i-1));
-				//	PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
+					PecaDeMemoria novaPeca = new PecaDeMemoria(this,tabulas.get(i-1));
+					//	PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 					this.listaMemoria.add(novaPeca);
 					this.add(novaPeca);
 					novaPeca.setBounds(new Rectangle(x, y, 70, 70));
@@ -280,8 +290,8 @@ public class PanelDoJogo extends JPanel{
 			int y = 10;
 			JanelaPrincipal.restantes = 36;
 			for (int i = 1; i <= 36; i++) {
-							PecaDeMemoria novaPeca = new PecaDeMemoria(this,tabulas.get(i-1));
-			//	PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
+				PecaDeMemoria novaPeca = new PecaDeMemoria(this,tabulas.get(i-1));
+				//	PecaDeMemoria novaPeca = new PecaDeMemoria(this,null);
 				this.listaMemoria.add(novaPeca);
 				this.add(novaPeca);
 				novaPeca.setBounds(new Rectangle(x, y, 70, 70));
