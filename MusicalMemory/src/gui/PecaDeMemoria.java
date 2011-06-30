@@ -109,7 +109,7 @@ public class PecaDeMemoria extends JLabel{
 				public void run() {reproduzirSom();};
 			};
 		}
-		pool.execute(wiwico);
+		pool.submit(wiwico);
 	
 	}
 	
