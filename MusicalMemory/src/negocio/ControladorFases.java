@@ -74,7 +74,7 @@ public class ControladorFases {
 		}
 	}
 	
-	private ArrayList<Tabula> construirTabuleiro(ArrayList<Som> sons, int numPecas, int numFiltros, int numSeq) throws PoucasMusicasException, SomInvalidoException {
+	private ArrayList<Tabula> construirTabuleiro(ArrayList<Som> sons, int numPecas, int numFiltros, int numSeq) throws PoucasMusicasException {
 		ArrayList<Tabula> tabulas = new ArrayList<Tabula>();
 		
 		Iterator<Som> iterador = sons.iterator();
