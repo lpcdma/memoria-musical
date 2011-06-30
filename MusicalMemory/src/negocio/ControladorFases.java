@@ -80,6 +80,7 @@ public class ControladorFases {
 		Iterator<Som> iterador = sons.iterator();
 		while (numPecas > 0) {
 			Som som1 = iterador.next();
+			tabulas.add(new Tabula(som1, numPecas));
 			if (numFiltros > 0) {
 				int qntIteracoes = numSeq;
 				while(qntIteracoes > 0){
@@ -91,8 +92,6 @@ public class ControladorFases {
 				numFiltros--;
 			}
 			tabulas.add(new Tabula(som1, numPecas));
-			Som som2 = iterador.next();
-			tabulas.add(new Tabula(som2, numPecas));
 			numPecas--;
 		}
 		
