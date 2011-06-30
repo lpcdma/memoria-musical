@@ -178,7 +178,7 @@ public class PanelDoJogo extends JPanel{
 			JOptionPane.showMessageDialog(this,"Você não tem mais coringas.");
 		}
 		else{
-			JOptionPane.showMessageDialog(this,"Use o coringa "+ JanelaPrincipal.coringaAtual + " antes.");
+			JOptionPane.showMessageDialog(this,"Use o coringa \""+ JanelaPrincipal.coringaAtual + "\" antes.");
 		}
 	}
 	public JLabel getRelogio(){
