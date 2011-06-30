@@ -77,10 +77,6 @@ public class ControladorFases {
 	private ArrayList<Tabula> construirTabuleiro(ArrayList<Som> sons, int numPecas, int numFiltros, int numSeq) throws PoucasMusicasException, SomInvalidoException {
 		ArrayList<Tabula> tabulas = new ArrayList<Tabula>();
 		
-		if (tabulas.size() < (numPecas + 2)) {
-			throw new PoucasMusicasException(numPecas);
-		}
-		
 		Iterator<Som> iterador = sons.iterator();
 		while (numPecas > 0) {
 			Som som1 = iterador.next();
@@ -99,6 +95,11 @@ public class ControladorFases {
 			tabulas.add(new Tabula(som2, numPecas));
 			numPecas--;
 		}
+		
+		if (tabulas.size() < (numPecas + 2)) {
+			throw new PoucasMusicasException(numPecas);
+		}
+		
 		Collections.shuffle(tabulas);
 		return tabulas;
 	}
