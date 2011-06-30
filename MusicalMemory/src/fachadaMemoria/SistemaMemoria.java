@@ -20,7 +20,7 @@ public class SistemaMemoria {
 	private ControladorSom controleSom;
 	private ControladorFases controleFases;
 	
-	private SistemaMemoria() throws SomInvalidoException {
+	private SistemaMemoria() {
 		this.controleSom = ControladorSom.getControladorSom();
 		this.controleFases = ControladorFases.getControladorFases();
 	}
@@ -93,10 +93,8 @@ public class SistemaMemoria {
 	 * @return							<code>SistemaMemoria</code> representando
 	 * 									o sistema controlador do jogo de memoria.
 	 * 
-	 * @throws SomInvalidoException		Lancada caso algum arquivo de som seja invalido
-	 * 									no momento do carregamento das musicas.
 	 */
-	public static SistemaMemoria getSistema() throws SomInvalidoException {
+	public static SistemaMemoria getSistema() {
 		if (SistemaMemoria.instancia == null) {
 			SistemaMemoria.instancia = new SistemaMemoria();
 		}
