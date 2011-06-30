@@ -9,7 +9,7 @@ public class FiltroReverb extends Filtro {
 	@Override
 	public Som filtrar(Som somOriginal) {
 		Som retorno = somOriginal;
-		for(int i=0; i<=8; i++){
+		for(int i=0; i<=5; i++){
 			retorno = fpt.filtrar(retorno);
 		}
 		return retorno;

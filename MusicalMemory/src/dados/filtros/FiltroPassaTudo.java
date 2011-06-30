@@ -12,8 +12,7 @@ public class FiltroPassaTudo extends Filtro {
 
 	@Override
 	public void filter(byte[] samples, int offset, int length) {
-		for (int i = offset; i < offset + length; i += 2) {
-			
+		for (int i = offset; i < offset + length - 1; i += 2) {
 			short oldSample = getSample(samples, i);
 			short newSample;
 			
