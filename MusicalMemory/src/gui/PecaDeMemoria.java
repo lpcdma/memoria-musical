@@ -27,7 +27,7 @@ public class PecaDeMemoria extends JLabel{
 	 */
 	private static final long serialVersionUID = 3060323556573736760L;
 
-	ArrayList<ImageIcon> imagens = new ArrayList<ImageIcon>();
+	ArrayList<ImageIcon> imagens = new ArrayList<ImageIcon>();  //  @jve:decl-index=0:
 	Tabula tabula;
 	PanelDoJogo jogo;
 	boolean travou = false;

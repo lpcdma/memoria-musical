@@ -261,7 +261,7 @@ public class JanelaPrincipal extends JFrame{
 	private void inicializarTabuleiro() {
 		this.setarCenario();
 		this.getPanelJogo().getRelogio().setFont(fontPadrao);
-		this.getPanelJogo().setNeutro();
+		this.getPanelJogo().setJokerNeutro();
 		labelIntro.setVisible(false);
 		panelJogo.setVisible(true);
 		this.panelJogo.getRelogio().setVisible(true);
