@@ -131,6 +131,7 @@ public class PecaDeMemoria extends JLabel{
 
 				boolean igual = this.getTabula().equals(JanelaPrincipal.pecaAtual.getTabula());
 				this.jogo.desabilitarReplay();
+				reproduzirSom();
 				if(igual){
 					
 					this.setAcerto();
@@ -152,7 +153,7 @@ public class PecaDeMemoria extends JLabel{
 					JanelaPrincipal.pecaAtual.travou = false;
 					JanelaPrincipal.pecaAtual = null;
 				}
-				reproduzirSom();
+				
 			}
 		}
 	}
@@ -169,22 +170,22 @@ public class PecaDeMemoria extends JLabel{
 				tabula.getSom().tocarSom();
 			}
 			else if(JanelaPrincipal.coringaAtual == "Echo"){
-				SistemaMemoria.getSistema().usarCuringaEcho(tabula.getSom());
+				SistemaMemoria.getSistema().usarCuringaEcho(tabula.getSom()).tocarSom();
 			}
 			else if(JanelaPrincipal.coringaAtual == "Passa-Baixa"){
-				SistemaMemoria.getSistema().usarCuringaPassaBaixa(tabula.getSom());
+				SistemaMemoria.getSistema().usarCuringaPassaBaixa(tabula.getSom()).tocarSom();
 			}
 			else if(JanelaPrincipal.coringaAtual == "Passa-Tudo"){
-				SistemaMemoria.getSistema().usarCuringaPassaTudo(tabula.getSom());
+				SistemaMemoria.getSistema().usarCuringaPassaTudo(tabula.getSom()).tocarSom();
 			}
 			else if(JanelaPrincipal.coringaAtual == "Reverberation"){
-				SistemaMemoria.getSistema().usarCuringaReverb(tabula.getSom());
+				SistemaMemoria.getSistema().usarCuringaReverb(tabula.getSom()).tocarSom();
 			}
 			else if(JanelaPrincipal.coringaAtual == "Reverse"){
-				SistemaMemoria.getSistema().usarCuringaReverse(tabula.getSom());
+				SistemaMemoria.getSistema().usarCuringaReverse(tabula.getSom()).tocarSom();
 			}
 			else if(JanelaPrincipal.coringaAtual == "Pente"){
-				SistemaMemoria.getSistema().usarCuringaSawtooth(tabula.getSom());
+				SistemaMemoria.getSistema().usarCuringaSawtooth(tabula.getSom()).tocarSom();
 			}
 			JanelaPrincipal.coringaAtual = "";
 			

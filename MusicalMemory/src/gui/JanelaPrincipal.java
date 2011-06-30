@@ -39,6 +39,8 @@ public class JanelaPrincipal extends JFrame implements KeyListener{
 	public static PecaDeMemoria pecaAtual;
 
 	public static Font fontPadrao = new Font(Font.SANS_SERIF, Font.BOLD, 50);  //  @jve:decl-index=0:
+	public int fontX = 526;
+	public int fontY = 17;
 	public static int restantes;
 	private JMenuBar barraMenu;
 	private JPanel panelPrincipal;
@@ -50,14 +52,14 @@ public class JanelaPrincipal extends JFrame implements KeyListener{
 	private Contador contador;
 	private ArrayList<ImageIcon> backgrounds = new ArrayList<ImageIcon>();  //  @jve:decl-index=0:
 	public static String coringaAtual = "";  //  @jve:decl-index=0:
-
-	public static int coringasCont;
+	
+	public static int qtCoringaInit = 5;
+	
+	public static int coringasCont = 5;
 	ImageIcon backImage;
 	ReentrantLock lock = new ReentrantLock();
 
-
-	private String mensagemDeAjuda = "Te vira, malandro.";  //  @jve:decl-index=0:
-	private String mensagemDeSobre = "Biribou";
+	private String mensagemDeSobre = "Desenvolvido por Bruno Sabino, Leandro Aguiar, Walter Lima, Wellington Oliveira e Winícius Santos na disciplina de Computação musical ministrada pelo professor Geber Ramalho";
 
 
 	private JMenuItem itemSair = null;
@@ -280,10 +282,10 @@ public class JanelaPrincipal extends JFrame implements KeyListener{
 		botaoSair.setVisible(false);
 		pecaAtual = null;
 		coringaAtual = "";
-		coringasCont = 4;
+		coringasCont = qtCoringaInit;
 		this.setarCenario();
-		coringasCont = 4;
 		this.getPanelJogo().getRelogio().setFont(fontPadrao);
+		this.getPanelJogo().getRelogio().setLocation(fontX, fontY);
 		this.getPanelJogo().setJokerNeutro();
 		this.getPanelJogo().desabilitarReplay();
 		labelIntro.setVisible(false);
@@ -328,11 +330,11 @@ public class JanelaPrincipal extends JFrame implements KeyListener{
 
 
 			panelPrincipal.add(getLabelIntro());
-			panelPrincipal.add(backgroundInicial, null);
+		
 			panelPrincipal.add(getBotaoIniciar(), null);
 			panelPrincipal.add(getBotaoAjuda(), null);
 			panelPrincipal.add(getBotaoSair(), null);
-
+			panelPrincipal.add(backgroundInicial, null);
 
 		}
 		return panelPrincipal;
