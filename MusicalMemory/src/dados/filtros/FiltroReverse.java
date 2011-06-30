@@ -8,7 +8,7 @@ public class FiltroReverse extends Filtro {
 		Som retorno = somOriginal;
 		byte[] oldSamples = somOriginal.getSamples();
 		byte[] newSamples = new byte[oldSamples.length];
-		for(int i = 0, j = oldSamples.length-2; i< oldSamples.length; i+=2, j-=2){
+		for(int i = 0, j = oldSamples.length-2; i< oldSamples.length-1; i+=2, j-=2){
 			setSample(newSamples, j, getSample(oldSamples,i));
 		}
 		retorno.setSamples(newSamples);
