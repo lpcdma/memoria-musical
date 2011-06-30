@@ -6,7 +6,6 @@ import repositorio.RepositorioDeSons;
 import dados.Som;
 import dados.filtros.Filtro;
 import dados.filtros.FiltroEcho;
-import dados.filtros.FiltroPassaAlta;
 import dados.filtros.FiltroPassaBaixa;
 import dados.filtros.FiltroPassaTudo;
 import dados.filtros.FiltroReverb;
@@ -19,7 +18,6 @@ public class ControladorSom {
 	private static ControladorSom instancia;
 	
 	private final FiltroPassaBaixa filtroPassaBaixa;
-	private final FiltroPassaAlta filtroPassaAlta;
 	private final FiltroEcho filtroEcho;
 	private final FiltroReverb filtroReverb;
 	private final FiltroSawtooth filtroSawtooth;
@@ -30,7 +28,6 @@ public class ControladorSom {
 	
 	private ControladorSom() {
 		this.filtroPassaBaixa = new FiltroPassaBaixa();
-		this.filtroPassaAlta = new FiltroPassaAlta();
 		this.filtroEcho = new FiltroEcho();
 		this.filtroReverb = new FiltroReverb();
 		this.filtroSawtooth = new FiltroSawtooth();
@@ -39,7 +36,6 @@ public class ControladorSom {
 		
 		ControladorSom.filtros = new ArrayList<Filtro>();
 		ControladorSom.filtros.add(this.filtroPassaBaixa);
-		ControladorSom.filtros.add(this.filtroPassaAlta);
 		ControladorSom.filtros.add(this.filtroEcho);
 		ControladorSom.filtros.add(this.filtroReverb);
 		ControladorSom.filtros.add(this.filtroSawtooth);
@@ -53,10 +49,6 @@ public class ControladorSom {
 	
 	public Som aplicarPassaBaixa(Som somOriginal){
 		return this.aplicarFiltro(somOriginal, this.filtroPassaBaixa);
-	}
-
-	public Som aplicarPassaAlta(Som somOriginal){
-		return this.aplicarFiltro(somOriginal, this.filtroPassaAlta);
 	}
 
 	public Som aplicarReverb(Som somOriginal){
@@ -81,6 +73,13 @@ public class ControladorSom {
 	
 	public static ArrayList<Som> getSons() throws SomInvalidoException{
 		return RepositorioDeSons.getSons();
+	}
+	
+	public ArrayList<Filtro> getFiltros(){
+		if (ControladorSom.filtros == null) {
+			ControladorSom.getControladorSom();
+		}
+		return ControladorSom.filtros;
 	}
 	
 	public static ControladorSom getControladorSom() {
