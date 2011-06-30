@@ -6,6 +6,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -32,7 +35,9 @@ public class PecaDeMemoria extends JLabel{
 	PanelDoJogo jogo;
 	boolean travou = false;
 	boolean achou = false;
-
+	Thread wiwico;  //  @jve:decl-index=0:
+	ExecutorService pool = Executors.newFixedThreadPool(1);  //  @jve:decl-index=0:
+	
 	public PecaDeMemoria(PanelDoJogo jogo,Tabula tabula) {
 		super();
 		this.tabula = tabula;
@@ -43,7 +48,9 @@ public class PecaDeMemoria extends JLabel{
 		imagens.add(new ImageIcon("imagens\\botoes\\bMNeutro.png"));
 		imagens.add(new ImageIcon("imagens\\botoes\\bMPressed.png"));
 		imagens.add(new ImageIcon("imagens\\botoes\\bMAcerto.png"));
-
+		wiwico = new Thread(){
+			public void run() {reproduzirSom();};
+		};
 		this.setNeutro();		
 		this.setListeners();
 	}
@@ -94,38 +101,51 @@ public class PecaDeMemoria extends JLabel{
 		}
 	}
 
-	public void mousePressedFora(MouseEvent e) {
+	private void reproduzirSomThread(){
 
-		if(!achou){
+		pool.execute(wiwico);
+	
+	}
+	
+	public void mousePressedFora(MouseEvent e) {
+		
+		if(!achou && !travou){
+			
 			this.setPressed();
+			
 			if(JanelaPrincipal.pecaAtual == null){
 				JanelaPrincipal.pecaAtual = this;
-				this.reproduzirSom();
+				reproduzirSom();
 				this.jogo.habilitarReplay();
 				this.travou = true;
 			}
 			else{
+				
+
 				boolean igual = this.getTabula().equals(JanelaPrincipal.pecaAtual.getTabula());
-				this.reproduzirSom();
 				this.jogo.desabilitarReplay();
 				if(igual){
-					//this.setEnabled(false);
+					
+					this.setAcerto();
+					JanelaPrincipal.pecaAtual.setAcerto();
 					this.achou = true;
+					this.travou = true;
 					JanelaPrincipal.pecaAtual.achou = true;
-					//JanelaPrincipal.pecaAtual.setEnabled(false);
+					JanelaPrincipal.pecaAtual = null;
 					JanelaPrincipal.restantes -= 2;
+					
 					if(JanelaPrincipal.restantes == 0){
 						jogo.passarLevel();
 					}
-					this.setAcerto();
-					JanelaPrincipal.pecaAtual.setAcerto();
-					JanelaPrincipal.pecaAtual = null;
-				}
-				else{
+					
+				}else{
 					this.travou = false;
+					//this.setNeutro();
 					JanelaPrincipal.pecaAtual.setNeutro();
+					JanelaPrincipal.pecaAtual.travou = false;
 					JanelaPrincipal.pecaAtual = null;
 				}
+				reproduzirSom();
 			}
 		}
 	}
@@ -137,7 +157,6 @@ public class PecaDeMemoria extends JLabel{
 	}
 
 	public void reproduzirSom() {
-		System.out.println("AHHH! #grito");
 		try {
 			tabula.getSom().tocarSom();
 		} catch (SomInvalidoException e) {
