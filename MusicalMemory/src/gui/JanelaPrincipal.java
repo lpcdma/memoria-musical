@@ -67,6 +67,8 @@ public class JanelaPrincipal extends JFrame{
 	private JButton butaoTeste = null;
 	
 	private JButton botaoInit = null;
+	private JButton botaoAjuda = null;
+	private JButton botaoSair = null;
 
 	//Construtor da Janela Principal do Sistema
 	public JanelaPrincipal() {
@@ -227,6 +229,16 @@ public class JanelaPrincipal extends JFrame{
 				itemComecarActionPerformed(evt);
 			}
 		});
+		this.botaoAjuda.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt) {
+				itemAjudaActionPerformed(evt);
+			}
+		});
+		this.botaoSair.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt) {
+				itemSairActionPerformed(evt);
+			}
+		});
 		this.itemSair.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt) {
 				itemSairActionPerformed(evt);
@@ -251,7 +263,6 @@ public class JanelaPrincipal extends JFrame{
 
 	protected void itemComecarActionPerformed(ActionEvent evt) {
 
-		botaoInit.setVisible(false);
 		int resposta = JOptionPane.showConfirmDialog(this,"Deseja Coringas?","Iniciar o Jogo",JOptionPane.YES_NO_CANCEL_OPTION);
 
 
@@ -271,6 +282,9 @@ public class JanelaPrincipal extends JFrame{
 	}
 
 	private void inicializarTabuleiro() {
+		botaoInit.setVisible(false);
+		botaoAjuda.setVisible(false);
+		botaoSair.setVisible(false);
 		this.setarCenario();
 		coringasCont = 4;
 		this.getPanelJogo().getRelogio().setFont(fontPadrao);
@@ -290,7 +304,8 @@ public class JanelaPrincipal extends JFrame{
 	}
 
 	protected void itemAjudaActionPerformed(ActionEvent evt) {
-		JOptionPane.showMessageDialog(this, this.mensagemDeAjuda,"Ajuda",JOptionPane.INFORMATION_MESSAGE);	
+		new JanelaAjuda();
+		//JOptionPane.showMessageDialog(this, this.mensagemDeAjuda,"Ajuda",JOptionPane.INFORMATION_MESSAGE);	
 	}
 
 	private JMenuBar getBarraMenu() {
@@ -319,6 +334,8 @@ public class JanelaPrincipal extends JFrame{
 			panelPrincipal.add(backgroundInicial, null);
 			panelPrincipal.add(getButaoTeste(), null);
 			panelPrincipal.add(getBotaoIniciar(), null);
+			panelPrincipal.add(getBotaoAjuda(), null);
+			panelPrincipal.add(getBotaoSair(), null);
 
 
 		}
@@ -435,6 +452,22 @@ public class JanelaPrincipal extends JFrame{
 			botaoInit.setBounds(new Rectangle(280, 230, 100, 30));
 		}
 		return botaoInit;
+	}
+	
+	private JButton getBotaoAjuda() {
+		if (botaoAjuda == null) {
+			botaoAjuda = new JButton("Ajuda");
+			botaoAjuda.setBounds(new Rectangle(280, 280, 100, 30));
+		}
+		return botaoAjuda;
+	}
+	
+	private JButton getBotaoSair() {
+		if (botaoSair == null) {
+			botaoSair = new JButton("Sair");
+			botaoSair.setBounds(new Rectangle(280, 330, 100, 30));
+		}
+		return botaoSair;
 	}
 
 
