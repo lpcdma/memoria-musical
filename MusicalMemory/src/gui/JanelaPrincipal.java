@@ -15,6 +15,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.JMenu;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -24,7 +27,7 @@ import javax.swing.JButton;
 
 import fachadaMemoria.SistemaMemoria;
 
-public class JanelaPrincipal extends JFrame{
+public class JanelaPrincipal extends JFrame implements KeyListener{
 
 	/**
 	 * 
@@ -63,8 +66,6 @@ public class JanelaPrincipal extends JFrame{
 	private JLabel labelIntro = null;
 
 	private JLabel backgroundInicial = null;
-
-	private JButton butaoTeste = null;
 	
 	private JButton botaoInit = null;
 	private JButton botaoAjuda = null;
@@ -77,7 +78,7 @@ public class JanelaPrincipal extends JFrame{
 		initialize();
 		//this.setLocationByPlatform(true);
 		this.setVisible(true);
-
+		this.addKeyListener(this);
 
 	}
 	//Método responsável por inicializar as variáveis
@@ -131,7 +132,6 @@ public class JanelaPrincipal extends JFrame{
 	}
 
 	public void setarCenario(){
-		butaoTeste.setVisible(true);
 		this.panelJogo.setarBackground(backgrounds.get(nivel-1));
 		if(nivel > 10){
 			this.panelJogo.getRelogio().setForeground(Color.RED);
@@ -212,13 +212,6 @@ public class JanelaPrincipal extends JFrame{
 				itemAjudaActionPerformed(evt);
 			}
 		});
-
-		this.butaoTeste.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent evt) {
-				butaoTesteActionPerformed(evt);
-			}
-		});
-		;
 		this.itemComecar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt) {
 				itemComecarActionPerformed(evt);
@@ -332,7 +325,6 @@ public class JanelaPrincipal extends JFrame{
 
 			panelPrincipal.add(getLabelIntro());
 			panelPrincipal.add(backgroundInicial, null);
-			panelPrincipal.add(getButaoTeste(), null);
 			panelPrincipal.add(getBotaoIniciar(), null);
 			panelPrincipal.add(getBotaoAjuda(), null);
 			panelPrincipal.add(getBotaoSair(), null);
@@ -432,20 +424,6 @@ public class JanelaPrincipal extends JFrame{
 		return labelIntro;
 	}
 
-	/**
-	 * This method initializes butaoTeste	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */
-	private JButton getButaoTeste() {
-		if (butaoTeste == null) {
-			butaoTeste = new JButton();
-			butaoTeste.setVisible(false);
-			butaoTeste.setBounds(new Rectangle(603, 173, 19, 17));
-		}
-		return butaoTeste;
-	}
-	
 	private JButton getBotaoIniciar() {
 		if (botaoInit == null) {
 			botaoInit = new JButton("Iniciar");
@@ -482,5 +460,22 @@ public class JanelaPrincipal extends JFrame{
 
 	public static void main(String[] args) {
 		new JanelaPrincipal();
+	}
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		if(arg0.getKeyChar() == 'L'){
+			this.passarLevel();
+		}
+		
 	}
 }  //  @jve:decl-index=0:visual-constraint="226,20"
