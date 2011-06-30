@@ -24,7 +24,7 @@ public class FiltroEcho extends Filtro{
 	   * then stored in the delay buffer, so multiple echoes are heard.
 	   */
 	 public void filter(byte[] samples, int offset, int length) {
-		 for (int i = offset; i < offset + length; i += 2) {
+		 for (int i = offset; i < offset + length - 1; i += 2) {
 			 // update the sample
 			 short oldSample = getSample(samples, i);
 			 short newSample = (short) (oldSample + decay
