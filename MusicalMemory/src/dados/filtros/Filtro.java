@@ -1,10 +1,35 @@
 package dados.filtros;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import dados.Som;
 
 public abstract class Filtro {
 
-	public abstract Som filtrar(Som somOriginal);
+	public Som filtrar(Som somOriginal) throws IOException{
+		byte[] samples = somOriginal.getSamples();
+		InputStream is = new ByteArrayInputStream(samples);
+		is = new FiltroSomStream(is, this);
+		Som retorno = somOriginal;
+		
+		int bufferSize = somOriginal.getFormat().getFrameSize()
+							* Math.round(somOriginal.getFormat().getSampleRate() / 10);
+		byte[] buffer = new byte[bufferSize];
+		
+		int nBytesCopied = 0;
+		int posicao = 0;
+		while(nBytesCopied != -1){
+			nBytesCopied = is.read(buffer, 0, buffer.length);
+			for(int i = 0; i<nBytesCopied && posicao<samples.length; i++, posicao++)
+				samples[posicao] = buffer[i];
+		}
+		
+				
+		retorno.setSamples(samples);
+		return retorno;
+	}
 
 	/**
 	 * Gets the remaining size, in bytes, that this filter plays after the sound
