@@ -35,8 +35,8 @@ public class PecaDeMemoria extends JLabel{
 	PanelDoJogo jogo;
 	boolean travou = false;
 	boolean achou = false;
-	Thread wiwico;  //  @jve:decl-index=0:
-	ExecutorService pool = Executors.newFixedThreadPool(1);  //  @jve:decl-index=0:
+	static Thread wiwico;  //  @jve:decl-index=0:
+	static ExecutorService pool = Executors.newFixedThreadPool(1);  //  @jve:decl-index=0:
 	
 	public PecaDeMemoria(PanelDoJogo jogo,Tabula tabula) {
 		super();
@@ -103,6 +103,12 @@ public class PecaDeMemoria extends JLabel{
 
 	private void reproduzirSomThread(){
 
+		if(!wiwico.isInterrupted()){
+			wiwico.interrupt();
+			wiwico = new Thread(){
+				public void run() {reproduzirSom();};
+			};
+		}
 		pool.execute(wiwico);
 	
 	}
@@ -115,7 +121,7 @@ public class PecaDeMemoria extends JLabel{
 			
 			if(JanelaPrincipal.pecaAtual == null){
 				JanelaPrincipal.pecaAtual = this;
-				reproduzirSom();
+				reproduzirSomThread();
 				this.jogo.habilitarReplay();
 				this.travou = true;
 			}
@@ -145,7 +151,7 @@ public class PecaDeMemoria extends JLabel{
 					JanelaPrincipal.pecaAtual.travou = false;
 					JanelaPrincipal.pecaAtual = null;
 				}
-				reproduzirSom();
+				reproduzirSomThread();
 			}
 		}
 	}
