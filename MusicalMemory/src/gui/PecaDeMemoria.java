@@ -31,6 +31,7 @@ public class PecaDeMemoria extends JLabel{
 	Tabula tabula;
 	PanelDoJogo jogo;
 	boolean travou = false;
+	boolean achou = false;
 
 	public PecaDeMemoria(PanelDoJogo jogo,Tabula tabula) {
 		super();
@@ -42,12 +43,12 @@ public class PecaDeMemoria extends JLabel{
 		imagens.add(new ImageIcon("imagens\\botoes\\bMNeutro.png"));
 		imagens.add(new ImageIcon("imagens\\botoes\\bMPressed.png"));
 		imagens.add(new ImageIcon("imagens\\botoes\\bMAcerto.png"));
-		
+
 		this.setNeutro();		
 		this.setListeners();
 	}
 
-	
+
 
 	private void setListeners() {
 		this.addMouseListener(new MouseAdapter() {
@@ -59,8 +60,8 @@ public class PecaDeMemoria extends JLabel{
 			}
 		});
 	}
-	
-	
+
+
 	public Tabula getTabula() {
 		return tabula;
 	}
@@ -76,7 +77,7 @@ public class PecaDeMemoria extends JLabel{
 			this.setIcon(imagens.get(2));
 		}
 	}
-	
+
 	private void setNeutro() {
 		if(JanelaPrincipal.nivel == 15){
 			this.setIcon(imagens.get(3));
@@ -84,7 +85,7 @@ public class PecaDeMemoria extends JLabel{
 			this.setIcon(imagens.get(0));
 		}
 	}
-	
+
 	private void setPressed() {
 		if(JanelaPrincipal.nivel == 15){
 			this.setIcon(imagens.get(4));
@@ -92,34 +93,39 @@ public class PecaDeMemoria extends JLabel{
 			this.setIcon(imagens.get(1));
 		}
 	}
-	
+
 	public void mousePressedFora(MouseEvent e) {
-		
-		
-		this.setPressed();
-		if(JanelaPrincipal.pecaAtual == null){
-			JanelaPrincipal.pecaAtual = this;
-			this.reproduzirSom();
-			this.jogo.habilitarReplay();
-			this.travou = true;
-		}
-		else{
-			boolean igual = this.getTabula().equals(JanelaPrincipal.pecaAtual.getTabula());
-			this.reproduzirSom();
-			this.jogo.desabilitarReplay();
-			if(igual){
-				this.setEnabled(false);
-				JanelaPrincipal.pecaAtual.setEnabled(false);
-				JanelaPrincipal.restantes -= 2;
-				if(JanelaPrincipal.restantes == 0){
-					jogo.passarLevel();
-				}
-				this.setAcerto();
-				JanelaPrincipal.pecaAtual.setAcerto();
+
+		if(!achou){
+			this.setPressed();
+			if(JanelaPrincipal.pecaAtual == null){
+				JanelaPrincipal.pecaAtual = this;
+				this.reproduzirSom();
+				this.jogo.habilitarReplay();
+				this.travou = true;
 			}
 			else{
-				this.travou = false;
-				JanelaPrincipal.pecaAtual = null;
+				boolean igual = this.getTabula().equals(JanelaPrincipal.pecaAtual.getTabula());
+				this.reproduzirSom();
+				this.jogo.desabilitarReplay();
+				if(igual){
+					//this.setEnabled(false);
+					this.achou = true;
+					JanelaPrincipal.pecaAtual.achou = true;
+					//JanelaPrincipal.pecaAtual.setEnabled(false);
+					JanelaPrincipal.restantes -= 2;
+					if(JanelaPrincipal.restantes == 0){
+						jogo.passarLevel();
+					}
+					this.setAcerto();
+					JanelaPrincipal.pecaAtual.setAcerto();
+					JanelaPrincipal.pecaAtual = null;
+				}
+				else{
+					this.travou = false;
+					JanelaPrincipal.pecaAtual.setNeutro();
+					JanelaPrincipal.pecaAtual = null;
+				}
 			}
 		}
 	}
