@@ -166,13 +166,18 @@ public class PanelDoJogo extends JPanel{
 
 	protected void botaoAjudaPressed(MouseEvent evt) {
 		if(JanelaPrincipal.coringasCont != 0 && JanelaPrincipal.coringaAtual == ""){
-			Object[] possibleValues = { "Echo", "Reverse", "Reverberation" ,"Passa-Baixo", "Passa-Tudo", "Pente"};
+			Object[] possibleValues = { "Echo", "Reverse", "Reverberation" ,"Passa-Baixa", "Passa-Tudo", "Pente"};
 			this.setJokerPressed();
 			int resposta = JOptionPane.showOptionDialog(this,"Escolha um dos Coringas","Coringas",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null,possibleValues,1);
-			JOptionPane.showMessageDialog(this,"Você ainda tem " + (JanelaPrincipal.coringasCont-1) + " coringas restantes.");
-			this.setJokerNeutro();
-			JanelaPrincipal.coringaAtual = (String) possibleValues[resposta];		
-			JanelaPrincipal.coringasCont--;
+			if(resposta == -1){
+				setJokerNeutro();
+			}
+			else{
+				JOptionPane.showMessageDialog(this,"Você ainda tem " + (JanelaPrincipal.coringasCont-1) + " coringas restantes.");
+				this.setJokerNeutro();
+				JanelaPrincipal.coringaAtual = (String) possibleValues[resposta];		
+				JanelaPrincipal.coringasCont--;
+			}		
 		}
 		else if(JanelaPrincipal.coringasCont == 0){
 			JOptionPane.showMessageDialog(this,"Você não tem mais coringas.");

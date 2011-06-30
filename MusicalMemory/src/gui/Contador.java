@@ -14,8 +14,9 @@ public class Contador extends Thread{
 	int nivel;
 	boolean funcionando ;
 	private boolean acabou = false;
-	int maiorTempo = 100;
-	int menorTempo = 13;
+	int tempo = 200;
+	int penalidade = 20;
+	int fatorMult = 1;
 	public Font fontInicial;
 	int labelX;
 	JanelaPrincipal window;
@@ -35,20 +36,30 @@ public class Contador extends Thread{
 	}
 
 	private long setarContador(int nivel) {
+		if(nivel < 6){
+			fatorMult = 1;
+		}
+		else if(nivel < 11){
+			fatorMult = 2;
+		}
+		else if(nivel <= 15){
+			fatorMult = 3;
+		}
+		
 		if((nivel == 1) || (nivel == 6) || (nivel == 11)){
-			return maiorTempo*1000;
+			return (tempo)*1000*fatorMult;
 		}
 		else if((nivel == 2) || (nivel == 7) || (nivel == 12)){
-			return 90*1000;
+			return (tempo-penalidade)*1000*fatorMult;
 		}
 		else if((nivel == 3) || (nivel == 8) || (nivel == 13)){
-			return 80*1000;
+			return (tempo-(penalidade*2))*1000*fatorMult;
 		}
 		else if((nivel == 4) || (nivel == 9) || (nivel == 14)){
-			return 70*1000;
+			return (tempo-(penalidade*3))*1000*fatorMult;
 		}
 		else if((nivel == 5) || (nivel == 10) || (nivel == 15)){
-			return menorTempo*1000;
+			return (tempo-(penalidade*4))*1000*fatorMult;
 		}
 		else if(nivel == 999){
 			return 5*1000;
@@ -75,7 +86,7 @@ public class Contador extends Thread{
 				if(Integer.parseInt(this.label.getText()) == 99){
 					this.menorQue100();
 				}
-				else if(Integer.parseInt(this.label.getText()) == maiorTempo){
+				else if(Integer.parseInt(this.label.getText()) == tempo){
 					this.maiorQue100();
 				}
 				else if(Integer.parseInt(this.label.getText()) < 10){
