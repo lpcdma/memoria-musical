@@ -64,7 +64,8 @@ public class JanelaPrincipal extends JFrame implements KeyListener{
 
 	private JMenuItem itemSair = null;
 	private JMenuItem itemComecar = null;
-
+	private JMenuItem itemDesistir = null;
+	
 	private JLabel labelIntro = null;
 
 	private JLabel backgroundInicial = null;
@@ -157,6 +158,11 @@ public class JanelaPrincipal extends JFrame implements KeyListener{
 		this.getPanelJogo().getBotaoAjuda().setVisible(false);
 		this.getPanelJogo().getRelogio().setVisible(false);
 		this.getPanelJogo().getRelogio().setFont(fontPadrao);
+		this.botaoInit.setVisible(true);
+		this.botaoSair.setVisible(true);
+		this.botaoAjuda.setVisible(true);
+		this.labelIntro.setVisible(true);
+		this.itemDesistir.setVisible(false);
 	}
 
 	public void passarLevel(){
@@ -214,6 +220,11 @@ public class JanelaPrincipal extends JFrame implements KeyListener{
 				itemAjudaActionPerformed(evt);
 			}
 		});
+		this.itemDesistir.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt) {
+				itemDesistirActionPerformed(evt);
+			}
+		});
 		this.itemComecar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt) {
 				itemComecarActionPerformed(evt);
@@ -247,6 +258,12 @@ public class JanelaPrincipal extends JFrame implements KeyListener{
 
 	}
 
+	protected void itemDesistirActionPerformed(ActionEvent evt) {
+		int resposta = JOptionPane.showConfirmDialog(this, "Tem certeza?", "Pedir penico", JOptionPane.OK_OPTION);
+		if(resposta == 0){
+			this.perdeu();
+		}
+	}
 	protected void butaoTesteActionPerformed(ActionEvent evt) {
 		this.passarLevel();
 
@@ -283,6 +300,7 @@ public class JanelaPrincipal extends JFrame implements KeyListener{
 		pecaAtual = null;
 		coringaAtual = "";
 		coringasCont = qtCoringaInit;
+		this.itemDesistir.setVisible(true);
 		this.setarCenario();
 		this.getPanelJogo().getRelogio().setFont(fontPadrao);
 		this.getPanelJogo().getRelogio().setLocation(fontX, fontY);
@@ -354,6 +372,7 @@ public class JanelaPrincipal extends JFrame implements KeyListener{
 		if (botaoIniciar == null) {
 			botaoIniciar = new JMenu("Iniciar");
 			botaoIniciar.add(getItemComecar());
+			botaoIniciar.add(getItemDesistir());
 			botaoIniciar.add(getItemSair());
 		}
 		return botaoIniciar;
@@ -412,6 +431,14 @@ public class JanelaPrincipal extends JFrame implements KeyListener{
 			itemComecar = new JMenuItem("Iniciar Jogo");
 		}
 		return itemComecar;
+	}
+	
+	private JMenuItem getItemDesistir() {
+		if (itemDesistir == null) {
+			itemDesistir = new JMenuItem("Desistir");
+			itemDesistir.setVisible(false);
+		}
+		return itemDesistir;
 	}
 
 	/**
