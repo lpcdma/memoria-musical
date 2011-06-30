@@ -46,6 +46,9 @@ public class JanelaPrincipal extends JFrame{
 	private JMenuItem itemSobre;
 	private Contador contador;
 	private ArrayList<ImageIcon> backgrounds = new ArrayList<ImageIcon>();  //  @jve:decl-index=0:
+	public static String coringaAtual = "";  //  @jve:decl-index=0:
+
+	public static int coringasCont;
 	ImageIcon backImage;
 	ReentrantLock lock = new ReentrantLock();
 
@@ -269,6 +272,7 @@ public class JanelaPrincipal extends JFrame{
 
 	private void inicializarTabuleiro() {
 		this.setarCenario();
+		coringasCont = 4;
 		this.getPanelJogo().getRelogio().setFont(fontPadrao);
 		this.getPanelJogo().setJokerNeutro();
 		labelIntro.setVisible(false);
