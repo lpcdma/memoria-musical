@@ -62,10 +62,12 @@ public class JanelaPrincipal extends JFrame{
 	private JLabel backgroundInicial = null;
 
 	private JButton butaoTeste = null;
+	
+	private JButton botaoInit = null;
 
 	//Construtor da Janela Principal do Sistema
 	public JanelaPrincipal() {
-		super("Jogo da Memória");
+		super("Musical Memory");
 
 		initialize();
 		//this.setLocationByPlatform(true);
@@ -124,6 +126,7 @@ public class JanelaPrincipal extends JFrame{
 	}
 
 	public void setarCenario(){
+		butaoTeste.setVisible(true);
 		this.panelJogo.setarBackground(backgrounds.get(nivel-1));
 		if(nivel > 10){
 			this.panelJogo.getRelogio().setForeground(Color.RED);
@@ -216,6 +219,11 @@ public class JanelaPrincipal extends JFrame{
 				itemComecarActionPerformed(evt);
 			}
 		});
+		this.botaoInit.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt) {
+				itemComecarActionPerformed(evt);
+			}
+		});
 		this.itemSair.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent evt) {
 				itemSairActionPerformed(evt);
@@ -240,6 +248,7 @@ public class JanelaPrincipal extends JFrame{
 
 	protected void itemComecarActionPerformed(ActionEvent evt) {
 
+		botaoInit.setVisible(false);
 		int resposta = JOptionPane.showConfirmDialog(this,"Deseja Coringas?","Iniciar o Jogo",JOptionPane.YES_NO_CANCEL_OPTION);
 
 
@@ -305,6 +314,7 @@ public class JanelaPrincipal extends JFrame{
 			panelPrincipal.add(getLabelIntro());
 			panelPrincipal.add(backgroundInicial, null);
 			panelPrincipal.add(getButaoTeste(), null);
+			panelPrincipal.add(getBotaoIniciar(), null);
 
 
 		}
@@ -393,8 +403,10 @@ public class JanelaPrincipal extends JFrame{
 	private JLabel getLabelIntro() {
 		if (labelIntro == null) {
 			labelIntro = new JLabel();
-			labelIntro.setText("Devemos colocar alguma coisa aqui para inicializar o jogo - FALTA UM BACKGROUND");
-			labelIntro.setBounds(new Rectangle(88, 98, 497, 219));
+			labelIntro.setFont(new Font("Verdana",Font.BOLD,40));
+			labelIntro.setForeground(Color.WHITE);
+			labelIntro.setText("Musical Memory");
+			labelIntro.setBounds(new Rectangle(140, 50, 497, 219));
 		}
 		return labelIntro;
 	}
@@ -407,10 +419,20 @@ public class JanelaPrincipal extends JFrame{
 	private JButton getButaoTeste() {
 		if (butaoTeste == null) {
 			butaoTeste = new JButton();
+			butaoTeste.setVisible(false);
 			butaoTeste.setBounds(new Rectangle(603, 173, 19, 17));
 		}
 		return butaoTeste;
 	}
+	
+	private JButton getBotaoIniciar() {
+		if (botaoInit == null) {
+			botaoInit = new JButton("Iniciar");
+			botaoInit.setBounds(new Rectangle(280, 230, 100, 30));
+		}
+		return botaoInit;
+	}
+
 
 	public void centralizarJanela(){
 
