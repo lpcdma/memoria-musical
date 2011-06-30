@@ -26,17 +26,17 @@ public class Som {
 		this.audioFile = new File(path);
 		try {
 			//Captura arquivo, transforma-o para formato de audio manipulavel
-			stream = AudioSystem.getAudioInputStream(this.getAudioFile());
-			this.samples = this.generateSamples(stream);
-			af = stream.getFormat();
-			DataLine.Info info = new DataLine.Info(SourceDataLine.class, af);
-			line = (SourceDataLine) AudioSystem.getLine(info);
+			this.stream = AudioSystem.getAudioInputStream(this.getAudioFile());
+			this.samples = this.generateSamples(this.stream);
+			this.af = this.stream.getFormat();
+			DataLine.Info info = new DataLine.Info(SourceDataLine.class, this.af);
+			this.line = (SourceDataLine) AudioSystem.getLine(info);
 		} catch (UnsupportedAudioFileException e) {
-			throw new SomInvalidoException();
+			throw new SomInvalidoException(this.audioFile.getName());
 		} catch (IOException e) {
-			throw new SomInvalidoException();
+			throw new SomInvalidoException(this.audioFile.getName());
 		} catch (LineUnavailableException e) {
-			throw new SomInvalidoException();
+			throw new SomInvalidoException(this.audioFile.getName());
 		}
 	}
 
@@ -73,7 +73,7 @@ public class Som {
 	 }
 
 	public AudioFormat getFormat() {
-		return af;
+		return this.af;
 	}
 
 	/**
@@ -84,33 +84,33 @@ public class Som {
 	public void tocarSom() throws SomInvalidoException{
 		//Captura a linha de saida a ser utilizada para a reproducao
 		try {
-			line.open(af);
+			this.line.open(this.af);
 		} catch (LineUnavailableException e) {
-			throw new SomInvalidoException();
+			throw new SomInvalidoException(this.audioFile.getName());
 		}
 
 		//Checa se a linha esta ativa. So pode reproduzir um por vez.
-		if(!line.isActive()){
+		if(!this.line.isActive()){
 			//Abre o canal para reproducao
-			line.start();
+			this.line.start();
 
 			//Buffer de reproducao
 			int nBytesWritten = 1;
 			int posicao = 0;
-			int tamanhoBuffer = af.getFrameSize()* Math.round(af.getSampleRate() / 10);
-			int tamanhoSamples = samples.length;
+			int tamanhoBuffer = this.af.getFrameSize()* Math.round(this.af.getSampleRate() / 10);
+			int tamanhoSamples = this.samples.length;
 			//Le parte do buffer e escreve na linha de saida ate nao haver mais o que escrever
 			while(nBytesWritten > 0){
 					if(posicao > tamanhoSamples - tamanhoBuffer - 1){
 						tamanhoBuffer = tamanhoSamples - posicao;
 						tamanhoBuffer = tamanhoBuffer / 4 * 4;
 					}
-					nBytesWritten = line.write(samples, posicao, tamanhoBuffer);
+					nBytesWritten = this.line.write(this.samples, posicao, tamanhoBuffer);
 					posicao += nBytesWritten;
 			}
 			//Fecha a linha
-			line.drain();
-			line.close();
+			this.line.drain();
+			this.line.close();
 		}
 	}
 }

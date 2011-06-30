@@ -8,7 +8,7 @@ import dados.Som;
 
 public abstract class Filtro {
 
-	public Som filtrar(Som somOriginal) throws IOException{
+	public Som filtrar(Som somOriginal) {
 		byte[] samples = somOriginal.getSamples();
 		InputStream is = new ByteArrayInputStream(samples);
 		is = new FiltroSomStream(is, this);
@@ -21,7 +21,12 @@ public abstract class Filtro {
 		int nBytesCopied = 0;
 		int posicao = 0;
 		while(nBytesCopied != -1){
-			nBytesCopied = is.read(buffer, 0, buffer.length);
+			try {
+				nBytesCopied = is.read(buffer, 0, buffer.length);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			for(int i = 0; i<nBytesCopied && posicao<samples.length; i++, posicao++)
 				samples[posicao] = buffer[i];
 		}
