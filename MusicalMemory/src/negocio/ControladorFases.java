@@ -55,19 +55,19 @@ public class ControladorFases {
 			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 12, 8, 3);
 			break;
 		case 11:
-			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 16, 6, 1);
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 18, 6, 1);
 			break;
 		case 12:
-			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 16, 7, 1);
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 18, 7, 1);
 			break;
 		case 13:
-			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 16, 9, 2);
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 18, 9, 2);
 			break;
 		case 14:
-			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 16, 11, 3);
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 18, 11, 3);
 			break;
 		case 15:
-			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 16, 14, 4);
+			this.tabuleiro = this.construirTabuleiro(trilhaSonora, 18, 14, 4);
 			break;
 		default:
 			throw new FaseInvalidaException(fase);
