@@ -186,9 +186,7 @@ public class PecaDeMemoria extends JLabel{
 			else if(JanelaPrincipal.coringaAtual == "Pente"){
 				SistemaMemoria.getSistema().usarCuringaSawtooth(tabula.getSom());
 			}
-			else{
-				System.out.println("oi?");
-			}
+			JanelaPrincipal.coringaAtual = "";
 			
 		} catch (SomInvalidoException e) {
 			// TODO Auto-generated catch block

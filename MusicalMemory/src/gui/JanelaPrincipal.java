@@ -278,10 +278,14 @@ public class JanelaPrincipal extends JFrame implements KeyListener{
 		botaoInit.setVisible(false);
 		botaoAjuda.setVisible(false);
 		botaoSair.setVisible(false);
+		pecaAtual = null;
+		coringaAtual = "";
+		coringasCont = 4;
 		this.setarCenario();
 		coringasCont = 4;
 		this.getPanelJogo().getRelogio().setFont(fontPadrao);
 		this.getPanelJogo().setJokerNeutro();
+		this.getPanelJogo().desabilitarReplay();
 		labelIntro.setVisible(false);
 		panelJogo.setVisible(true);
 		this.panelJogo.getRelogio().setVisible(true);
