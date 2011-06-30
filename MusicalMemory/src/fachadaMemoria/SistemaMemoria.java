@@ -29,54 +29,60 @@ public class SistemaMemoria {
 	 * Usa o curinga referente ao filtro Passa-Baixa.
 	 * 
 	 * @param somOriginal	- Som da tabula a ser filtrado.
+	 * @return				Som filtrado.
 	 */
-	public void usarCuringaPassaBaixa(Som somOriginal){
-		this.controleSom.aplicarPassaBaixa(somOriginal);
+	public Som usarCuringaPassaBaixa(Som somOriginal){
+		return this.controleSom.aplicarPassaBaixa(somOriginal);
 	}
 
 	/**
 	 * Usa o curinga referente ao filtro Echo.
 	 * 
 	 * @param somOriginal	- Som da tabula a ser filtrado.
+	 * @return				Som filtrado.
 	 */
-	public void usarCuringaEcho(Som somOriginal){
-		this.controleSom.aplicarEcho(somOriginal);
+	public Som usarCuringaEcho(Som somOriginal){
+		return this.controleSom.aplicarEcho(somOriginal);
 	}
 
 	/**
 	 * Usa o curinga referente ao filtro Sawtooth.
 	 * 
 	 * @param somOriginal	- Som da tabula a ser filtrado.
+	 * @return				Som filtrado.
 	 */
-	public void usarCuringaSawtooth(Som somOriginal){
-		this.controleSom.aplicarSawtooth(somOriginal);
+	public Som usarCuringaSawtooth(Som somOriginal){
+		return this.controleSom.aplicarSawtooth(somOriginal);
 	}
 
 	/**
 	 * Usa o curinga referente ao filtro Reverb.
 	 * 
 	 * @param somOriginal	- Som da tabula a ser filtrado.
+	 * @return				Som filtrado.
 	 */
-	public void usarCuringaReverb(Som somOriginal){
-		this.controleSom.aplicarReverb(somOriginal);
+	public Som usarCuringaReverb(Som somOriginal){
+		return this.controleSom.aplicarReverb(somOriginal);
 	}
 	
 	/**
 	 * Usa o curinga referente ao filtro Reverse.
 	 * 
 	 * @param somOriginal	- Som da tabula a ser filtrado.
+	 * @return				Som filtrado.
 	 */
-	public void usarCuringaReverse(Som somOriginal){
-		this.controleSom.aplicarReverse(somOriginal);
+	public Som usarCuringaReverse(Som somOriginal){
+		return this.controleSom.aplicarReverse(somOriginal);
 	}
 	
 	/**
 	 * Usa o curinga referente ao filtro Passa-Tudo.
 	 * 
 	 * @param somOriginal	- Som da tabula a ser filtrado.
+	 * @return				Som filtrado.
 	 */
-	public void usarCuringaPassaTudo(Som somOriginal){
-		this.controleSom.aplicarPassaTudo(somOriginal);
+	public Som usarCuringaPassaTudo(Som somOriginal){
+		return this.controleSom.aplicarPassaTudo(somOriginal);
 	}
 	
 	/**
