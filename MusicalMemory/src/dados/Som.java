@@ -64,10 +64,6 @@ public class Som {
 		 return this.samples;
 	 }
 	 
-	 public AudioInputStream getStream(){
-		 return this.stream;
-	 }
-	 
 	 public void setSamples(byte[] samples){
 		 this.samples = samples;
 	 }
