@@ -84,11 +84,13 @@ public class ControladorFases {
 			if (numFiltros > 0) {
 				int qntIteracoes = numSeq;
 				while(qntIteracoes > 0){
-					Collections.shuffle(ControladorSom.filtros);
+					Collections.shuffle(ControladorSom.getControladorSom().getFiltros());
 					som1 = ControladorSom.getControladorSom().aplicarFiltro(som1, ControladorSom.filtros.get(0));
 					qntIteracoes--;
 				}
-				numSeq--;
+				if (numSeq > 1) {
+					numSeq--;
+				}
 				numFiltros--;
 			}
 			tabulas.add(new Tabula(som1, numPecas));

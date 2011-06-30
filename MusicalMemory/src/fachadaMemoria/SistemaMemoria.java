@@ -26,15 +26,6 @@ public class SistemaMemoria {
 	}
 	
 	/**
-	 * Usa o curinga referente ao filtro Passa-Alta.
-	 * 
-	 * @param somOriginal	- Som da tabula a ser filtrado.
-	 */
-	public void usarCuringaPassaAlta(Som somOriginal){
-		this.controleSom.aplicarPassaAlta(somOriginal);
-	}
-	
-	/**
 	 * Usa o curinga referente ao filtro Passa-Baixa.
 	 * 
 	 * @param somOriginal	- Som da tabula a ser filtrado.
@@ -68,6 +59,24 @@ public class SistemaMemoria {
 	 */
 	public void usarCuringaReverb(Som somOriginal){
 		this.controleSom.aplicarReverb(somOriginal);
+	}
+	
+	/**
+	 * Usa o curinga referente ao filtro Reverse.
+	 * 
+	 * @param somOriginal	- Som da tabula a ser filtrado.
+	 */
+	public void usarCuringaReverse(Som somOriginal){
+		this.controleSom.aplicarReverse(somOriginal);
+	}
+	
+	/**
+	 * Usa o curinga referente ao filtro Passa-Tudo.
+	 * 
+	 * @param somOriginal	- Som da tabula a ser filtrado.
+	 */
+	public void usarCuringaPassaTudo(Som somOriginal){
+		this.controleSom.aplicarPassaTudo(somOriginal);
 	}
 	
 	/**

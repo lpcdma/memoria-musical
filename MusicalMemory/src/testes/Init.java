@@ -91,11 +91,12 @@ public class Init {
 		ArrayList<Tabula> tab;
 		try {
 
-			tab = ControladorFases.getControladorFases().getTabuleiro(1);
-			System.out.println(tab.size());
-			for (Tabula tabula : tab) {
-				System.out.println(tabula.getId());
-			}
+			tab = ControladorFases.getControladorFases().getTabuleiro(15);
+//			System.out.println("Tamanho " + tab.size());
+//			for (Tabula tabula : tab) {
+//				System.out.println(tabula.getId());
+//				tabula.getSom().tocarSom();
+//			}
 		} catch (FaseInvalidaException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
