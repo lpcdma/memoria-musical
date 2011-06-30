@@ -15,7 +15,6 @@ import excecoes.SomInvalidoException;
 public class ControladorSom {
 
 	private static ControladorSom instancia;
-	private RepositorioDeSons repositorio;
 	
 	private final FiltroPassaBaixa filtroPassaBaixa;
 	private final FiltroPassaAlta filtroPassaAlta;
@@ -25,10 +24,7 @@ public class ControladorSom {
 	
 	public static ArrayList<Filtro> filtros;
 	
-	private ControladorSom() throws SomInvalidoException {
-		this.repositorio = RepositorioDeSons.getRepositorio();
-		this.repositorio.carregarSons();
-		
+	private ControladorSom() {
 		this.filtroPassaBaixa = new FiltroPassaBaixa();
 		this.filtroPassaAlta = new FiltroPassaAlta();
 		this.filtroEcho = new FiltroEcho();
@@ -67,7 +63,11 @@ public class ControladorSom {
 		return this.aplicarFiltro(somOriginal, this.filtroEcho);
 	}
 
-	public static ControladorSom getControladorSom() throws SomInvalidoException {
+	public static ArrayList<Som> getSons() throws SomInvalidoException{
+		return RepositorioDeSons.getSons();
+	}
+	
+	public static ControladorSom getControladorSom() {
 		if (ControladorSom.instancia == null) {
 			ControladorSom.instancia = new ControladorSom();
 		}

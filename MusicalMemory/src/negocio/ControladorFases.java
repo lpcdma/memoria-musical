@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-import repositorio.RepositorioDeSons;
-
 import dados.Som;
 import dados.Tabula;
 import excecoes.FaseInvalidaException;
@@ -22,7 +20,7 @@ public class ControladorFases {
 	}
 	
 	private void carregarTabuleiro(int fase) throws FaseInvalidaException, PoucasMusicasException, SomInvalidoException {
-		ArrayList<Som> trilhaSonora = new ArrayList<Som>(RepositorioDeSons.sons);
+		ArrayList<Som> trilhaSonora = new ArrayList<Som>(ControladorSom.getSons());
 		Collections.shuffle(trilhaSonora);
 		
 		switch (fase) {
@@ -116,4 +114,5 @@ public class ControladorFases {
 		}
 		return ControladorFases.instancia;
 	}
+	
 }

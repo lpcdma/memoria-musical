@@ -8,28 +8,26 @@ import excecoes.SomInvalidoException;
 
 public class RepositorioDeSons {
 
-	private static RepositorioDeSons instancia;
-	private final String diretorioMusicas = "musicas\\";
-	public static ArrayList<Som> sons;
+	private static final String diretorioMusicas = "musicas\\";
+	private static ArrayList<Som> sons;
 	
-	private RepositorioDeSons() {
-		RepositorioDeSons.sons = new ArrayList<Som>(40);
-	}
+	private RepositorioDeSons() { }
 	
-	public void carregarSons() throws SomInvalidoException {
-		File diretorio = new File(this.diretorioMusicas);
+	private static void carregarSons() throws SomInvalidoException {
+		File diretorio = new File(RepositorioDeSons.diretorioMusicas);
 		File[] lista = diretorio.listFiles();
 		for (File arquivo : lista) {
 			if (arquivo.isFile() && arquivo.getName().endsWith(".wav")) {
-				RepositorioDeSons.sons.add(new Som(this.diretorioMusicas + arquivo.getName()));
+				RepositorioDeSons.sons.add(new Som(RepositorioDeSons.diretorioMusicas + arquivo.getName()));
 			}
 		}
 	}
 	
-	public static RepositorioDeSons getRepositorio() {
-		if (RepositorioDeSons.instancia == null) {
-			RepositorioDeSons.instancia = new RepositorioDeSons();
+	public static ArrayList<Som> getSons() throws SomInvalidoException{
+		if (RepositorioDeSons.sons == null) {
+			RepositorioDeSons.sons = new ArrayList<Som>(40);
+			RepositorioDeSons.carregarSons();
 		}
-		return RepositorioDeSons.instancia;
+		return RepositorioDeSons.sons;
 	}
 }
