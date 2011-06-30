@@ -26,92 +26,91 @@ public class Som {
 		this.audioFile = new File(path);
 		try {
 			//Captura arquivo, transforma-o para formato de audio manipulavel
-			this.stream = AudioSystem.getAudioInputStream(this.audioFile);
-			this.samples = this.generateSamples(this.stream);
-			this.af = this.stream.getFormat();
-			DataLine.Info info = new DataLine.Info(SourceDataLine.class, this.af);
-			this.line = (SourceDataLine) AudioSystem.getLine(info);
+			stream = AudioSystem.getAudioInputStream(this.getAudioFile());
+			this.samples = this.generateSamples(stream);
+			af = stream.getFormat();
+			DataLine.Info info = new DataLine.Info(SourceDataLine.class, af);
+			line = (SourceDataLine) AudioSystem.getLine(info);
 		} catch (UnsupportedAudioFileException e) {
-			throw new SomInvalidoException(this.audioFile.getName());
+			throw new SomInvalidoException();
 		} catch (IOException e) {
-			throw new SomInvalidoException(this.audioFile.getName());
+			throw new SomInvalidoException();
 		} catch (LineUnavailableException e) {
-			throw new SomInvalidoException(this.audioFile.getName());
-		}
-	}
-
-	//Transforma stream em byte[]
-	private byte[] generateSamples(AudioInputStream stream) {
-		AudioFormat format = stream.getFormat();
-		//Numero de bytes a serem lidos
-		int length = (int) (stream.getFrameLength() * format.getFrameSize());
-
-		//Leitura dos bytes
-		byte[] samples = new byte[length];
-		DataInputStream is = new DataInputStream(stream);
-		try {
-			is.readFully(samples);
-		} catch (IOException ex) {}
-
-		return samples;
-	}
-
-	/**
-	 * Reprodutor simples que suporta .wav.
-	 * 
-	 * @throws SomInvalidoException  Lancada caso haja erro na reproducao.
-	 */
-	public void tocarSom() throws SomInvalidoException {
-		//Captura a linha de saida a ser utilizada para a reproducao
-		try {
-			this.line.open(this.af);
-		} catch (LineUnavailableException e) {
-			throw new SomInvalidoException(this.audioFile.getName());
-		}
-
-		//Checa se a linha esta ativa. So pode reproduzir um por vez.
-		if(!this.line.isActive()){
-			//Abre o canal para reproducao
-			this.line.start();
-
-			//Buffer de reproducao
-			int nBytesWritten = 1;
-			int posicao = 0;
-			int tamanhoBuffer = this.af.getFrameSize()* Math.round(this.af.getSampleRate() / 10);
-			int tamanhoSamples = this.samples.length;
-			//Le parte do buffer e escreve na linha de saida ate nao haver mais o que escrever
-			while(nBytesWritten > 0){
-				if(posicao > tamanhoSamples - tamanhoBuffer - 1){
-					tamanhoBuffer = tamanhoSamples - posicao;
-					tamanhoBuffer = tamanhoBuffer / 4 * 4;
-				}
-				nBytesWritten = this.line.write(this.samples, posicao, tamanhoBuffer);
-				posicao += nBytesWritten;
-			}
-			//Fecha a linha
-			this.line.drain();
-			this.line.close();
+			throw new SomInvalidoException();
 		}
 	}
 
 	public File getAudioFile() {
 		return this.audioFile;
 	}
+	
+	//Transforma stream em byte[]
+	 private byte[] generateSamples(AudioInputStream stream) {
+		 AudioFormat format = stream.getFormat();
+		 //Número de bytes a serem lidos
+		 int length = (int) (stream.getFrameLength() * format.getFrameSize());
+		 
+		 //Leitura dos bytes
+		 byte[] samples = new byte[length];
+		 DataInputStream is = new DataInputStream(stream);
+		 try {
+			 is.readFully(samples);
+		 } catch (IOException ex) {}
 
-	public byte[] getSamples(){
-		return this.samples;
-	}
-
-	public AudioInputStream getStream(){
-		return this.stream;
-	}
-
-	public void setSamples(byte[] samples){
-		this.samples = samples;
-	}
+		 return samples;
+	 }
+	 
+	 public byte[] getSamples(){
+		 return this.samples;
+	 }
+	 
+	 public AudioInputStream getStream(){
+		 return this.stream;
+	 }
+	 
+	 public void setSamples(byte[] samples){
+		 this.samples = samples;
+	 }
 
 	public AudioFormat getFormat() {
-		return this.af;
+		return af;
 	}
 
+	/**
+	 * Reprodutor simples que suporta .wav
+	 * 
+	 * @throws SomInvalidoException  Lancada caso haja erro na reproducao.
+	 */
+	public void tocarSom() throws SomInvalidoException{
+		//Captura a linha de saida a ser utilizada para a reproducao
+		try {
+			line.open(af);
+		} catch (LineUnavailableException e) {
+			throw new SomInvalidoException();
+		}
+
+		//Checa se a linha esta ativa. So pode reproduzir um por vez.
+		if(!line.isActive()){
+			//Abre o canal para reproducao
+			line.start();
+
+			//Buffer de reproducao
+			int nBytesWritten = 1;
+			int posicao = 0;
+			int tamanhoBuffer = af.getFrameSize()* Math.round(af.getSampleRate() / 10);
+			int tamanhoSamples = samples.length;
+			//Le parte do buffer e escreve na linha de saida ate nao haver mais o que escrever
+			while(nBytesWritten > 0){
+					if(posicao > tamanhoSamples - tamanhoBuffer - 1){
+						tamanhoBuffer = tamanhoSamples - posicao;
+						tamanhoBuffer = tamanhoBuffer / 4 * 4;
+					}
+					nBytesWritten = line.write(samples, posicao, tamanhoBuffer);
+					posicao += nBytesWritten;
+			}
+			//Fecha a linha
+			line.drain();
+			line.close();
+		}
+	}
 }
