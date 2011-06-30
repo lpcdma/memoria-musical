@@ -1,19 +1,23 @@
 package dados.filtros;
 
-import dados.Som;
 
 public class FiltroPassaBaixa extends Filtro {
-
-	@Override
-	public Som filtrar(Som somOriginal) {
-		
-		return null;
-	}
+	
+	private short lastSample = 0;
 
 	@Override
 	public void filter(byte[] samples, int offset, int length) {
-		// TODO Auto-generated method stub
-		
+		for (int i = offset; i < offset + length; i += 2) {
+			 // atualiza o sample atual
+			 short oldSample = getSample(samples, i);
+			 short newSample = (short) ((oldSample * 0.5) + (lastSample * 0.5));
+			 setSample(samples, i, newSample);
+
+
+			 // guarda o último sample
+			 lastSample = oldSample;
+		 }
+
 	}
 
 }
