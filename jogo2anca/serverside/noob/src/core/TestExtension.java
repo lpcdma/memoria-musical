@@ -1,8 +1,14 @@
 package core;
 
+import java.util.List;
+
+import sfs2x.extensions.games.battlefarm.utils.Commands;
 import sfs2x.extensions.games.tris.OnUserGoneHandler;
 
 import com.smartfoxserver.v2.core.SFSEventType;
+import com.smartfoxserver.v2.entities.User;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.extensions.SFSExtension;;
 
 public class TestExtension extends SFSExtension {
@@ -30,5 +36,17 @@ public class TestExtension extends SFSExtension {
 	@Override
 	public void destroy(){
 		super.destroy();
+	}
+	
+	public void startRodada(List<User> players){
+		ISFSObject resObj = new SFSObject();
+		++rodadaCount;
+		resObj.putInt("rodada", rodadaCount);
+		send("comecarRodada", resObj, players);		
+	}
+	
+	public void waitPlayers(List<User> players){
+		ISFSObject resObj = new SFSObject();
+		send("esperaPlayers", resObj, players);
 	}
 }
