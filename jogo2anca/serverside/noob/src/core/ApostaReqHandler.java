@@ -19,6 +19,8 @@ public class ApostaReqHandler extends BaseClientRequestHandler {
 //		else{
 //			manda aguardar todo mundo apostar
 //		}
+// no cliente o contador apos contar 30 segundos deve fazer uma submissao
+// com valor 0
 		
 	}
 

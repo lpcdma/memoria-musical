@@ -10,12 +10,19 @@ import com.smartfoxserver.v2.extensions.BaseServerEventHandler;
 public class UserJoinRoomEvntHandler extends BaseServerEventHandler {
 
 	private static final int MAX_USER = 4;
-	
-	
+	//lembrar de no cliente setar o maximo da sala = 4
 	@Override
 	public void handleServerEvent(ISFSEvent arg0) throws SFSException {
 		// TODO Auto-generated method stub
 		
+//		if(users logados igual a 4){
+//			manda comacar o jogo
+//			seta rodada = 1
+//		}
+//		else
+//		{
+//			manda aguardar
+//		}
 	}
 
 }

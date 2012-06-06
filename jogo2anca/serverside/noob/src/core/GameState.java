@@ -1,7 +1,8 @@
 package core;
 
 public enum GameState {
-	INIT, //perguntas iniciais sao mostradas
+	FORM_INIT, //perguntas iniciais sao mostradas
 	RUNNING, //6 rodadas de apostas
-	END //perguntas finais sao mostradas
+	FORM_END, //perguntas finais sao mostradas
+	END //jogo finalizado
 }
