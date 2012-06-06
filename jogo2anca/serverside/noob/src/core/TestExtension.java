@@ -2,7 +2,6 @@ package core;
 
 import java.util.List;
 
-import sfs2x.extensions.games.battlefarm.utils.Commands;
 import sfs2x.extensions.games.tris.OnUserGoneHandler;
 
 import com.smartfoxserver.v2.core.SFSEventType;
@@ -14,14 +13,18 @@ import com.smartfoxserver.v2.extensions.SFSExtension;;
 public class TestExtension extends SFSExtension {
 	
 	public int rodadaCount;
-	private int userCount;
+	public static final int LIMITE_RODADAS = 6;
+	public static final int FORM_INIT = 0;
+	public static final int FORM_END = 2;
+	public static final int APOSTAS = 1;
+	//private int userCount;
 	
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
 		
 		rodadaCount = 0;
-		userCount = getParentRoom().getUserList().size();
+		//userCount = getParentRoom().getUserList().size();
 		
 		getParentRoom().setMaxUsers(4); // nao sei se funfa
 				
@@ -40,9 +43,18 @@ public class TestExtension extends SFSExtension {
 	
 	public void startRodada(List<User> players){
 		ISFSObject resObj = new SFSObject();
-		++rodadaCount;
-		resObj.putInt("rodada", rodadaCount);
-		send("comecarRodada", resObj, players);		
+		
+		if(rodadaCount == 0){
+			resObj.putInt("rodada", FORM_INIT);
+		}
+		else if(rodadaCount > 0 && rodadaCount < LIMITE_RODADAS){
+			resObj.putInt("rodada", FORM_END);
+		}
+		else{
+			resObj.putInt("rodada", APOSTAS);
+		}		
+		send("comecarRodada", resObj, players);
+		rodadaCount++;
 	}
 	
 	public void waitPlayers(List<User> players){
