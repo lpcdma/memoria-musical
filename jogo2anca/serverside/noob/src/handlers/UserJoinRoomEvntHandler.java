@@ -12,8 +12,8 @@ import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.exceptions.SFSException;
 import com.smartfoxserver.v2.extensions.BaseServerEventHandler;
 
-import core.Constantes;
-import core.TestExtension;
+import negocio.core.Constantes;
+import negocio.core.TestExtension;
 
 
 @Instantiation(InstantiationMode.SINGLE_INSTANCE)
