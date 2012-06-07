@@ -17,9 +17,9 @@ import com.smartfoxserver.v2.core.SFSEventType;
 import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import com.smartfoxserver.v2.extensions.SFSExtension;;
+import com.smartfoxserver.v2.extensions.SFSExtension;
 
-import core.Constantes;
+import negocio.core.Constantes;
 
 public class TestExtension extends SFSExtension {
 	
