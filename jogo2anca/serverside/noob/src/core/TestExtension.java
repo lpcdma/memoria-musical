@@ -31,7 +31,7 @@ public class TestExtension extends SFSExtension {
 		addRequestHandler("formInit", FormInitReqHandler.class);
 		addRequestHandler("formEnd", FormEndReqHandler.class);
 		addRequestHandler("aposta", ApostaReqHandler.class);
-		
+//		addRequestHandle("iniciarNovaRodada", IniciarNovaRodadaReqHandler.class);
 		addEventHandler(SFSEventType.USER_JOIN_ROOM, OnUserGoneHandler.class);
 //	    addEventHandler(SFSEventType.USER_LEAVE_ROOM, OnUserGoneHandler.class);
 	}
@@ -49,6 +49,7 @@ public class TestExtension extends SFSExtension {
 				listaJogadores.add(new Player(user.getId(), user));
 			}
 			resObj.putInt("rodada", Constantes.FORM_INIT);
+			rodadaCount++;
 		}
 		else if(rodadaCount > 0 && rodadaCount < Constantes.LIMITE_RODADAS){
 			resObj.putInt("rodada", Constantes.FORM_END);
@@ -56,9 +57,9 @@ public class TestExtension extends SFSExtension {
 		}
 		else{
 			resObj.putInt("rodada", Constantes.APOSTAS);
+			rodadaCount++;
 		}		
-		send("comecarRodada", resObj, players);
-		rodadaCount++;
+		send("comecarRodada", resObj, players);		
 	}
 	
 	public void waitPlayers(List<User> players){
@@ -84,9 +85,6 @@ public class TestExtension extends SFSExtension {
 		resObj.putInt("lucro",lucro);
 		resObj.putInt("rodada",rodada);
 		send("lucroRodada", resObj, players);
-	}
-	
-	public void retornarLucrosJogadores(List<User> players){
-		
+		rodadaCount++;
 	}
 }
