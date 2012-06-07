@@ -14,7 +14,7 @@ import com.smartfoxserver.v2.extensions.BaseServerEventHandler;
 @Instantiation(InstantiationMode.SINGLE_INSTANCE)
 public class UserJoinRoomEvntHandler extends BaseServerEventHandler {
 
-	private static final int MAX_USER = 4;
+	
 	//lembrar de no cliente setar o maximo da sala = 4
 	@Override
 	public void handleServerEvent(ISFSEvent arg0) throws SFSException {
@@ -23,10 +23,10 @@ public class UserJoinRoomEvntHandler extends BaseServerEventHandler {
 		Room room = (Room) arg0.getParameter(SFSEventParam.ROOM);
 		User user = (User) arg0.getParameter(SFSEventParam.USER);
 		List<User> usuarios = room.getPlayersList();
-		if(usuarios.size()==MAX_USER){
+		if(usuarios.size()==Constantes.NUM_JOGADORES){
 			((TestExtension)room.getExtension()).startRodada(usuarios);
 		}
-		else if(usuarios.size()<MAX_USER){
+		else if(usuarios.size()<Constantes.NUM_JOGADORES){
 			((TestExtension)room.getExtension()).waitPlayers(usuarios);
 		}
 		else{
