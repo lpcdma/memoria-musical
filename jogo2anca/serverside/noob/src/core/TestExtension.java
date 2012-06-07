@@ -26,7 +26,7 @@ public class TestExtension extends SFSExtension {
 		rodadaCount = 0;
 		//userCount = getParentRoom().getUserList().size();
 		
-		getParentRoom().setMaxUsers(4); // nao sei se funfa
+		getParentRoom().setMaxUsers(Constantes.NUM_JOGADORES); // nao sei se funfa
 				
 		addRequestHandler("formInit", FormInitReqHandler.class);
 		addRequestHandler("formEnd", FormEndReqHandler.class);
