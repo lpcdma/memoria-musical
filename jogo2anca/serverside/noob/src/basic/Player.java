@@ -3,7 +3,7 @@ package basic;
 
 import com.smartfoxserver.v2.entities.User;
 
-import core.Constantes;
+import negocio.core.Constantes;
 
 
 public class Player {
