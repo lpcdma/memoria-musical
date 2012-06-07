@@ -1,6 +1,6 @@
 package basic;
 
-import negocio.core.Constantes;
+import core.Constantes;
 
 public class FundoAposta {
 	
