@@ -1,8 +1,9 @@
 package basic;
 
-import negocio.core.Constantes;
 
 import com.smartfoxserver.v2.entities.User;
+
+import core.Constantes;
 
 
 public class Player {
