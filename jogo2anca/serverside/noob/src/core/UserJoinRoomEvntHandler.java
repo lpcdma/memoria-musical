@@ -21,6 +21,7 @@ public class UserJoinRoomEvntHandler extends BaseServerEventHandler {
 		// TODO Auto-generated method stub
 		
 		Room room = (Room) arg0.getParameter(SFSEventParam.ROOM);
+		User user = (User) arg0.getParameter(SFSEventParam.USER);
 		List<User> usuarios = room.getPlayersList();
 		if(usuarios.size()==MAX_USER){
 			((TestExtension)room.getExtension()).startRodada(usuarios);

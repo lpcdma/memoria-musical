@@ -1,5 +1,6 @@
 package core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sfs2x.extensions.games.tris.OnUserGoneHandler;
@@ -17,6 +18,8 @@ public class TestExtension extends SFSExtension {
 	public static final int FORM_INIT = 0;
 	public static final int FORM_END = 2;
 	public static final int APOSTAS = 1;
+	public static final int NUM_JOGADORES = 4;
+	private List<Player> listaJogadores = new ArrayList<Player>(NUM_JOGADORES);
 	//private int userCount;
 	
 	@Override
@@ -45,6 +48,9 @@ public class TestExtension extends SFSExtension {
 		ISFSObject resObj = new SFSObject();
 		
 		if(rodadaCount == 0){
+			for (User user : players) {
+				listaJogadores.add(new Player(user.getId(), user));
+			}
 			resObj.putInt("rodada", FORM_INIT);
 		}
 		else if(rodadaCount > 0 && rodadaCount < LIMITE_RODADAS){
@@ -60,5 +66,13 @@ public class TestExtension extends SFSExtension {
 	public void waitPlayers(List<User> players){
 		ISFSObject resObj = new SFSObject();
 		send("esperaPlayers", resObj, players);
+	}
+	
+	public List<Player> getJogadores(){
+		return this.listaJogadores;
+	}
+	
+	public void atualizarJogador(int posicao, Player player){
+		this.listaJogadores.set(posicao, player);
 	}
 }
