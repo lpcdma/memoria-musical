@@ -33,14 +33,13 @@ public class ApostaReqHandler extends BaseClientRequestHandler {
 		}
 		
 		if(todosApostaram){
-			//calcula o fundo e retorna valor pra todos
+			((TestExtension)getParentExtension()).calcularRetornoEEnviar(rodada, listaSFSUsers); 
 		}
 		else{
+			((TestExtension)getParentExtension()).apostarFundo(rodada, valor);
 			((TestExtension)getParentExtension()).atualizarJogador(posicaoJogadorLista, listaJogadores.get(posicaoJogadorLista));
 			((TestExtension)getParentExtension()).waitPlayers(listaSFSUsers);
 		}
-		
-		
 		
 // no cliente o contador apos contar 30 segundos deve fazer uma submissao
 // com valor 0

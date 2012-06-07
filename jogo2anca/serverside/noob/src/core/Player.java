@@ -4,12 +4,10 @@ import com.smartfoxserver.v2.entities.User;
 
 public class Player {
 	
-	private static final int VALOR_INICIAL = 30;
-	
 	private User sfsUser;
 	private int id;
 	private int[] valoresFinaisPorRodada = {0,0,0,0,0,0};
-	private int[] valoresIniciaisPorRodada = {VALOR_INICIAL,0,0,0,0,0};
+	private int[] valoresIniciaisPorRodada = {Constantes.VALOR_INICIAL,0,0,0,0,0};
 	private int[] valoresApostadosPorRodada = {0,0,0,0,0,0};
 	private boolean jogouRodadaAtual = false;
 	
