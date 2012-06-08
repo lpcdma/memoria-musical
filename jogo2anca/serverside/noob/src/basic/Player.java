@@ -14,7 +14,13 @@ public class Player {
 	private int[] valoresIniciaisPorRodada = {Constantes.VALOR_INICIAL,0,0,0,0,0};
 	private int[] valoresApostadosPorRodada = {0,0,0,0,0,0};
 	private boolean jogouRodadaAtual = false;
-//	private boolean iniciarNovaRodada = false;
+	private boolean iniciarNovaRodada = false;
+	private char sexo;
+	private	int idade;
+	private String cursoUniversitario;
+	private char classeRenda;
+	
+	//private Dictionary<>
 	
 	public Player(int id, User sfsUser){
 		this.setId(id);
