@@ -27,4 +27,19 @@ public class FundoAposta {
 		return (int)retorno;
 	}
 	
+	public int[] getValorRealPorRodada(){
+		return this.valorRealPorRodada;
+	}
+	
+	public int[] getValorArredondadoPorRodada(){
+		return this.valorArredondadoPorRodada;
+	}
+	
+	public int calculaAcrescimo(int rodada){
+		if(rodada > 0 && rodada < valorRealPorRodada.length){
+			return valorArredondadoPorRodada[rodada] - valorRealPorRodada[rodada];
+		}
+		return 0;
+	}
+	
 }
