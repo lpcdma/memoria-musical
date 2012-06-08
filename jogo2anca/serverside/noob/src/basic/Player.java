@@ -1,6 +1,9 @@
 package basic;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.smartfoxserver.v2.entities.User;
 
 import negocio.core.Constantes;
@@ -20,7 +23,7 @@ public class Player {
 	private String cursoUniversitario;
 	private char classeRenda;
 	
-	//private Dictionary<>
+	private List<Resposta> respostas = new ArrayList<Resposta>();
 	
 	public Player(int id, User sfsUser){
 		this.setId(id);
@@ -135,5 +138,23 @@ public class Player {
 
 	public char getClasseRenda() {
 		return classeRenda;
+	}
+	
+	public void addResposta(Pergunta pergunta, String resposta){
+		respostas.add(new Resposta(pergunta, resposta));
+	}
+	
+	public List<Resposta> getRespostas(){
+		return this.respostas;
+	}
+	
+	public int[] getvaloresFinaisPorRodada(){
+		return this.valoresFinaisPorRodada;
+	}
+	public int[] getvaloresIniciaisPorRodada(){
+		return this.valoresIniciaisPorRodada;
+	}
+	public int[] getvaloresApostadosPorRodada(){
+		return this.valoresApostadosPorRodada;
 	}
  }
