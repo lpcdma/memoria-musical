@@ -27,6 +27,15 @@ public class Player {
 		this.sfsUser = sfsUser;
 	}
 	
+	public Player(int id, User sfsUser, char sexo, int idade, String cursoUniversitario, char classeRenda){
+		this.setId(id);
+		this.sfsUser = sfsUser;
+		this.setSexo(sexo);
+		this.setIdade(idade);
+		this.setCursoUniversitario(cursoUniversitario);
+		this.setClasseRenda(classeRenda);
+	}
+	
 	public void setValorFinalRodada(int valor, int rodada){		
 		if(rodada > 0 && rodada < valoresFinaisPorRodada.length){
 			valoresFinaisPorRodada[rodada] = valor;
@@ -94,5 +103,37 @@ public class Player {
 		else{
 			return 0;
 		}
+	}
+
+	public void setSexo(char sexo) {
+		this.sexo = sexo;
+	}
+
+	public char getSexo() {
+		return sexo;
+	}
+
+	public void setIdade(int idade) {
+		this.idade = idade;
+	}
+
+	public int getIdade() {
+		return idade;
+	}
+
+	public void setCursoUniversitario(String cursoUniversitario) {
+		this.cursoUniversitario = cursoUniversitario;
+	}
+
+	public String getCursoUniversitario() {
+		return cursoUniversitario;
+	}
+
+	public void setClasseRenda(char classeRenda) {
+		this.classeRenda = classeRenda;
+	}
+
+	public char getClasseRenda() {
+		return classeRenda;
 	}
  }
