@@ -49,8 +49,8 @@ public class RepositorioJogo {
 		this.inserirFundo(fundo);
 	}
 	
-	public void inserirJogador(Player player){
-		String url = "insert into jogador (id_jogador_sfs, sexo, idade, curso_universitario, classe_renda) values (?,?,?,?,?)";
+	private void inserirJogador(Player player){
+		String url = "insert into jogador (id_jogador_sfs, sexo, idade, cursoUniversitario, classeRenda) values (?,?,?,?,?)";
 		Connection con = Conexao.getConnection();
 		boolean inseriuJogador = false;
 		try {
@@ -84,7 +84,7 @@ public class RepositorioJogo {
 		Conexao.closeConnection();
 	}
 	
-	public void inserirRespostas(Player player, int id_jogador, PreparedStatement st, Connection con) throws SQLException{
+	private void inserirRespostas(Player player, int id_jogador, PreparedStatement st, Connection con) throws SQLException{
 		List<Resposta> respostas = player.getRespostas();
 		String urlInsertRespostas = "insert into resposta(id_jogador, id_pergunta, resposta) values(?,?,?)";					
 		for (Resposta resposta : respostas) {
@@ -96,7 +96,7 @@ public class RepositorioJogo {
 		}
 	}
 	
-	public void inserirRodadas(PreparedStatement st, Connection con) throws SQLException{
+	private void inserirRodadas(PreparedStatement st, Connection con) throws SQLException{
 		String urlInsertRodada = "insert into rodada(id_jogo, num_rodada) values(?,?)";
 		for(int i = 1; i<= Constantes.LIMITE_RODADAS; i++){
 			st = con.prepareStatement(urlInsertRodada);
@@ -106,8 +106,8 @@ public class RepositorioJogo {
 		}
 	}
 	
-	public void inserirApostas(Player player, int id_jogador, PreparedStatement st, Connection con) throws SQLException{
-		String urlInsertAposta = "insert into aposta(id_jogador, id_jogo, num_rodada, valor_inicial, valor_final, valor_apostado)";
+	private void inserirApostas(Player player, int id_jogador, PreparedStatement st, Connection con) throws SQLException{
+		String urlInsertAposta = "insert into aposta(id_jogador, id_jogo, num_rodada, valor_inicial, valor_final, valor_aposta)";
 		int[] valoresApostadosRodada = player.getvaloresApostadosPorRodada();
 		int[] valoresIniciaisRodada = player.getvaloresIniciaisPorRodada();
 		int[] valoresFinaisRodada = player.getvaloresFinaisPorRodada();
@@ -123,7 +123,7 @@ public class RepositorioJogo {
 		}
 	}
 	
-	public void inserirFundo(FundoAposta fundo){
+	private void inserirFundo(FundoAposta fundo){
 		Connection con = Conexao.getConnection();
 		String url = "insert into fundo (id_jogo) values (?)";
 		try {
@@ -132,7 +132,7 @@ public class RepositorioJogo {
 			boolean inseriu = st.execute();
 			
 			if(inseriu){
-				String urlInserirFundoRodada = "insert into fundo_rodada() values()";
+				String urlInserirFundoRodada = "insert into fundo_rodada(num_rodada, id_jogo_rodada, id_jogo_fundo, valor_real, valor_arredondado, valor_acrescido) values()";
 				int[] valorRealPorRodada = fundo.getValorRealPorRodada();
 				int[] valorArredondadoPorRodada = fundo.getValorArredondadoPorRodada();
 				for(int i = 1; i<=valorRealPorRodada.length; i++){
@@ -150,14 +150,14 @@ public class RepositorioJogo {
 		Conexao.closeConnection();
 	}
 	
-	public void inserirJogo(){
+	private void inserirJogo(){
 		Connection con = Conexao.getConnection();
-		//BOTAR AUTOINCREMENT AQUI
-		String url = "insert into jogo (data) values (?)";
+		String url = "insert into jogo (data_jogo, qtd_moedas_init) values (?,?)";
 		int retorno = -1;
 		try {
 			PreparedStatement st = con.prepareStatement(url);
 			st.setDate(0, new Date(System.currentTimeMillis()));
+			st.setInt(1, Constantes.VALOR_INICIAL);
 			boolean inseriu = st.execute();
 			
 			if(inseriu){
