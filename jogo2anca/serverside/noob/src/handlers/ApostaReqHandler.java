@@ -12,6 +12,7 @@ import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.extensions.BaseClientRequestHandler;
 
+import negocio.core.Constantes;
 import negocio.core.TestExtension;
 
 
@@ -24,7 +25,7 @@ public class ApostaReqHandler extends BaseClientRequestHandler {
 		
 		int rodada = arg1.getInt("rodada");
 		int valor = arg1.getInt("valor");
-		boolean todosApostaram = false;
+		boolean todosApostaram = true;
 		int posicaoJogadorLista = 0;
 		List<Player> listaJogadores = ((TestExtension)getParentExtension()).getJogadores();
 		List<User> listaSFSUsers = new ArrayList<User>();
@@ -38,13 +39,15 @@ public class ApostaReqHandler extends BaseClientRequestHandler {
 			todosApostaram &= listaJogadores.get(i).getJogouRodadaAtual();
 		}
 		
+		((TestExtension)getParentExtension()).apostarFundo(rodada, valor);
+		((TestExtension)getParentExtension()).atualizarJogador(posicaoJogadorLista, listaJogadores.get(posicaoJogadorLista));
+		
 		if(todosApostaram){
-			((TestExtension)getParentExtension()).calcularRetornoEEnviar(rodada, listaSFSUsers); 
+			((TestExtension)getParentExtension()).calcularRetornoEEnviar(rodada, listaSFSUsers);
+			((TestExtension)getParentExtension()).startRodada(listaSFSUsers, Constantes.APOSTA_HANDLER);
 		}
 		else{
-			((TestExtension)getParentExtension()).apostarFundo(rodada, valor);
-			((TestExtension)getParentExtension()).atualizarJogador(posicaoJogadorLista, listaJogadores.get(posicaoJogadorLista));
-			((TestExtension)getParentExtension()).waitPlayers(listaSFSUsers);
+			((TestExtension)getParentExtension()).waitPlayers(user);
 		}
 		
 // no cliente o contador apos contar 30 segundos deve fazer uma submissao
