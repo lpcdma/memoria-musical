@@ -144,6 +144,10 @@ public class Player {
 		respostas.add(new Resposta(pergunta, resposta));
 	}
 	
+	public void setRespostas(List<Resposta> respostas){
+		this.respostas = respostas;
+	}
+	
 	public List<Resposta> getRespostas(){
 		return this.respostas;
 	}
@@ -156,5 +160,13 @@ public class Player {
 	}
 	public int[] getvaloresApostadosPorRodada(){
 		return this.valoresApostadosPorRodada;
+	}
+
+	public void setIniciarNovaRodada(boolean iniciarNovaRodada) {
+		this.iniciarNovaRodada = iniciarNovaRodada;
+	}
+
+	public boolean getIniciarNovaRodada() {
+		return iniciarNovaRodada;
 	}
  }
