@@ -19,9 +19,28 @@ public class FundoAposta {
 			if(valorArredondadoPorRodada[rodada]>0){
 				retorno = valorArredondadoPorRodada[rodada] / Constantes.NUM_JOGADORES;
 			}else{
-				retorno = valorRealPorRodada[rodada]/Constantes.NUM_JOGADORES;
-				retorno = Math.ceil(retorno);
+				retorno = valorRealPorRodada[rodada] * 2;
+				if((retorno/Constantes.NUM_JOGADORES) % 5 == 0){
+					retorno = retorno / Constantes.NUM_JOGADORES;
+				}
+				else{
+					double valor = retorno / Constantes.NUM_JOGADORES;
+					valor = Math.ceil(valor);
+					if(valor % 5 == 0){
+						retorno = valor;
+					}
+					else{
+						for(int i = 1; i <= 4; i++){
+							valor = valor + 1.0;
+							if(valor % 5 == 0){
+								retorno = valor;
+								break;
+							}
+						}
+					}
+				}
 				valorArredondadoPorRodada[rodada] = (int)retorno * Constantes.NUM_JOGADORES;
+				valorRealPorRodada[rodada] = valorRealPorRodada[rodada] * 2;
 			}
 		}
 		return (int)retorno;
