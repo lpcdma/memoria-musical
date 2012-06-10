@@ -4,13 +4,14 @@ package negocio.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import negocio.handlers.ApostaReqHandler;
-import negocio.handlers.FormEndReqHandler;
-import negocio.handlers.FormInitReqHandler;
-
-import sfs2x.extensions.games.tris.OnUserGoneHandler;
+import handlers.ApostaReqHandler;
+import handlers.FormEndReqHandler;
+import handlers.FormInitReqHandler;
+import handlers.IniciarNovaRodadaHandler;
+import handlers.UserJoinRoomEvntHandler;
 
 import basic.FundoAposta;
+import basic.Pergunta;
 import basic.Player;
 
 import com.smartfoxserver.v2.core.SFSEventType;
@@ -18,6 +19,8 @@ import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.extensions.SFSExtension;
+
+import dados.RepositorioJogo;
 
 import negocio.core.Constantes;
 
@@ -27,6 +30,8 @@ public class TestExtension extends SFSExtension {
 	
 	private List<Player> listaJogadores = new ArrayList<Player>(Constantes.NUM_JOGADORES);
 	private FundoAposta fundoAposta = new FundoAposta();
+	private RepositorioJogo repositorio = new RepositorioJogo();
+	private List<Pergunta> perguntas = null;
 	//private int userCount;
 	
 	@Override
@@ -41,8 +46,8 @@ public class TestExtension extends SFSExtension {
 		addRequestHandler("formInit", FormInitReqHandler.class);
 		addRequestHandler("formEnd", FormEndReqHandler.class);
 		addRequestHandler("aposta", ApostaReqHandler.class);
-//		addRequestHandle("iniciarNovaRodada", IniciarNovaRodadaReqHandler.class);
-		addEventHandler(SFSEventType.USER_JOIN_ROOM, OnUserGoneHandler.class);
+		addRequestHandler("iniciarNovaRodada", IniciarNovaRodadaHandler.class);
+		addEventHandler(SFSEventType.USER_JOIN_ROOM, UserJoinRoomEvntHandler.class);
 //	    addEventHandler(SFSEventType.USER_LEAVE_ROOM, OnUserGoneHandler.class);
 	}
 	
@@ -51,30 +56,43 @@ public class TestExtension extends SFSExtension {
 		super.destroy();
 	}
 	
-	public void startRodada(List<User> players){
+	public void startRodada(List<User> players, String handler){
 		ISFSObject resObj = new SFSObject();
 		
-		if(rodadaCount == 0){
+		
+		if(handler.equals(Constantes.USER_JOIN_HANDLER)){
 			for (User user : players) {
 				listaJogadores.add(new Player(user.getId(), user));
 			}
 			resObj.putInt("rodada", Constantes.FORM_INIT);
-			rodadaCount++;
+			rodadaCount = 1;// preencher form_init
 		}
-		else if(rodadaCount > 0 && rodadaCount < Constantes.LIMITE_RODADAS){
-			resObj.putInt("rodada", Constantes.FORM_END);
+		else if(handler.equals(Constantes.FORM_INIT_HANDLER)){			
+			resObj.putInt("rodada", Constantes.INICIO_RODADA);			
+			resObj.putInt("numRodada", rodadaCount);
+			rodadaCount = 2;
+		}
+		else if(handler.equals(Constantes.APOSTA_HANDLER)){
+			//quando vier de aposta_handler add antes porque quer dizer que vai trocar de rodada
+			rodadaCount++;
+			resObj.putInt("rodada", Constantes.INICIO_RODADA);			
+			resObj.putInt("numRodada", rodadaCount);			
+		}
+		else if(handler.equals(Constantes.INICIO_RODADA) && rodadaCount <= Constantes.LIMITE_RODADAS){
+			//vindo de inicio não add porque continua na mesma rodada
+			resObj.putInt("rodada", Constantes.APOSTAS);
 			resObj.putInt("numRodada", rodadaCount);
 		}
-		else{
-			resObj.putInt("rodada", Constantes.APOSTAS);
-			rodadaCount++;
-		}		
+		else if(handler.equals(Constantes.INICIO_RODADA) && rodadaCount >= Constantes.LIMITE_RODADAS){
+			resObj.putInt("rodada", Constantes.FORM_END);
+			resObj.putClass("pergunta", (Object)this.getPerguntas());
+		}
 		send("comecarRodada", resObj, players);		
 	}
 	
-	public void waitPlayers(List<User> players){
+	public void waitPlayers(User player){
 		ISFSObject resObj = new SFSObject();
-		send("esperaPlayers", resObj, players);
+		send("esperaPlayers", resObj, player);
 	}
 	
 	public List<Player> getJogadores(){
@@ -89,12 +107,32 @@ public class TestExtension extends SFSExtension {
 		this.fundoAposta.apostarRodada(rodada, valor);
 	}
 	
+	private void setaNaoJogouRodada(){
+		for (Player p : listaJogadores) {
+			p.setJogouRodadaAtual(false);
+		}
+	}
+	
 	public void calcularRetornoEEnviar(int rodada, List<User> players){
 		int lucro = this.fundoAposta.calcularRetorno(rodada); 	
 		ISFSObject resObj = new SFSObject();
 		resObj.putInt("lucro",lucro);
 		resObj.putInt("rodada",rodada);
+		this.setaNaoJogouRodada();
 		send("lucroRodada", resObj, players);
-		rodadaCount++;
+	}
+	
+	public void gravarDados(boolean todosResponderam){
+		if(todosResponderam){
+			this.repositorio.inserirInformacoes(listaJogadores, fundoAposta);
+		}
+	}
+	
+	public List<Pergunta> getPerguntas(){
+		if(perguntas == null){
+			perguntas = repositorio.buscarPerguntas();			
+		}		
+		return perguntas;
+		
 	}
 }
