@@ -46,6 +46,12 @@ public class MainFrame extends JFrame {
 	//	this.setSize(gamepanel.)
 	}
 
+	public void addDinheiro(int valor){
+		if(this.getContentPane().getClass() == GamePanel.class){
+			((GamePanel) this.getContentPane()).addDinheiro(valor);
+		}
+	}
+	
 	public static int getLargura() {
 		return largura;
 	}
