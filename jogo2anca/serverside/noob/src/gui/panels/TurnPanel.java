@@ -1,6 +1,10 @@
 package gui.panels;
 
+import fachada.Fachada;
 import gui.frames.MainFrame;
+import gui.interfaces.PanelAbstract;
+import gui.util.Recursos;
+import gui.util.Resultados;
 
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
@@ -16,26 +20,36 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 
-public class TurnPanel extends JPanel {
-	
+public class TurnPanel extends PanelAbstract  {
+
 	JLabel lblN = new JLabel("N");
 	JLabel lblValueForEach = new JLabel("11,11");
 	JLabel lblStoragedValue = new JLabel("11,11");
+	static TurnPanel instance = null;
+
 	/**
 	 * Create the panel.
 	 */
-	public TurnPanel() {
-		
+
+	static public TurnPanel getInstance(){
+		if(instance == null){
+			instance = new TurnPanel();
+		}
+		return instance;
+	}
+
+	private TurnPanel() {
+
 		int larguraMain = MainFrame.getLargura();
 		this.setSize(new Dimension(larguraMain, MainFrame.getAltura()));
 		setLayout(null);
-		
+
 		int largura = 215;
-		
+
 		JPanel panelResultado = new JPanel();
 		panelResultado.setBounds(((larguraMain/2)-(largura/2)), 26, largura, 218);
 		this.add(panelResultado);
-		
+
 		panelResultado.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{28, 0, 0, 24, 38, 8, 0};
@@ -43,60 +57,24 @@ public class TurnPanel extends JPanel {
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelResultado.setLayout(gridBagLayout);
-		
+
 		createLblFimDaRodada(panelResultado);
-		
+
 		setLblN(panelResultado);
-		
+
 		createLblForamDepositados(panelResultado);
-		
+
 		createLblRS1(panelResultado);
-		
+
 		setLblStoragedValue(panelResultado);
-		
+
 		createLblNoCopo(panelResultado);
-		
+
 		createLblCadaUmGanha(panelResultado);
-		
+
 		createLblRS2(panelResultado);
-		
+
 		setLblValueForEach(panelResultado);
-		
-		JButton btnOk = new JButton("OK");
-		btnOk.setBounds(319, 331, 89, 23);
-		btnOk.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				nextScreen();
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		add(btnOk);
 
 	}
 
@@ -196,16 +174,49 @@ public class TurnPanel extends JPanel {
 		gbc_lblFimDaRodada.gridy = 1;
 		panelResultado.add(lblFimDaRodada, gbc_lblFimDaRodada);
 	}
-	
-	protected void nextScreen() {
-		MainFrame.getInstance().update(new ResultPanel());
+
+	public void nextScreen() {
+		MainFrame.getInstance().update(GamePanel.getInstance());
+
 	}
 
-	public void update(int nRodada,double valorTotal,double valorForEach){
-		this.lblN.setText(Integer.toString(nRodada));
-		this.lblStoragedValue.setText(Double.toString(valorTotal));
-		this.lblValueForEach.setText(Double.toString(valorForEach));
+	public void update(){
+		Resultados resultados = Fachada.getInstance().getResultados(MainFrame.getInstance().getRodada());
+		Thread thread = setRelogio();
+		thread.start();
 		
+		this.lblN.setText(MainFrame.getInstance().getRodada()+"");
+		this.lblStoragedValue.setText(Recursos.converterParaReal(resultados.getQtdApostada()));
+		this.lblValueForEach.setText(Recursos.converterParaReal(resultados.getQtdRecebida()));
+		
+		MainFrame.getInstance().setMoney(MainFrame.getInstance().getMoney() + resultados.getQtdRecebida());
+		MainFrame.getInstance().incRodada();			
+	}
+
+	private Thread setRelogio() {
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				long tempoInicial = System.currentTimeMillis();			
+				boolean funcionando = true;
+				int contador = Recursos.TEMPO_PARA_PASSAR_DE_TELA_SEGUNDOS*1000;
+				try {
+					long lol = 0;		
+					while(funcionando){
+						lol = (((tempoInicial+contador) - System.currentTimeMillis())/1000);
+						
+						if(lol <= 0 && funcionando){
+							funcionando = false;
+						}
+						Thread.sleep(950);
+					}
+					
+					nextScreen();
+				}
+				catch (InterruptedException e) {System.out.println("merda");}
+			}
+		});
+		return thread;
 	}
 	
 }

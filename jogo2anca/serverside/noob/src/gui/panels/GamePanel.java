@@ -1,61 +1,84 @@
 package gui.panels;
 
+import fachada.Fachada;
 import gui.frames.MainFrame;
+import gui.interfaces.PanelAbstract;
 import gui.util.BotaoMoeda;
+import gui.util.Recursos;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JViewport;
 
 import java.awt.Font;
 import javax.swing.border.BevelBorder;
 import javax.swing.SwingConstants;
-import javax.swing.border.SoftBevelBorder;
 
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.Rectangle;
 
-import javax.swing.border.LineBorder;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.border.EtchedBorder;
-import javax.swing.JScrollBar;
 import javax.swing.ScrollPaneConstants;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends PanelAbstract {
 
 	/**
 	 * Create the panel.
 	 */
+
+	JLabel lblRodada1 = new JLabel("1");
+	JLabel lblRodada2 = new JLabel("2");
+	JLabel lblRodada3 = new JLabel("3");
+	JLabel lblRodada4 = new JLabel("4");
+	JLabel lblRodada5 = new JLabel("5");
+	JLabel lblRodada6 = new JLabel("6");
+	ArrayList<BotaoMoeda> listaMoedas = new ArrayList<BotaoMoeda>();
+	boolean naoClicou = true;
+	boolean funcionando = true;
 	
+	JLabel[] labels = new JLabel[6];
+	Font fontPadrao = new Font("Tahoma", Font.PLAIN, 18);
 	JPanel panelMoedas = new JPanel();
 	JScrollPane scroll = new JScrollPane();
 	JLabel lblC = new JLabel("CE");
 	JLabel lblE = new JLabel("ER");
 	JLabel lblNada = new JLabel("<HTML> N A <BR> D <BR> A </HTML>");
+	JLabel lblTU = new JLabel("<html> T U <br> D O </html>");
 	int money = 0;
 	int dinheiroApostado = 0;
+	int rodada = 1;
 	JLabel lblDinheiroApostado = new JLabel("0,50");
 	JLabel lblDinheiroPossuido = new JLabel("0,75");
-	JLabel lblHoras = new JLabel("30s");
+	JLabel lblHoras = new JLabel("30\r\n");
 	ArrayList<BotaoMoeda> listMoedas5 = new ArrayList<BotaoMoeda>();
 	ArrayList<BotaoMoeda> listMoedas10 = new ArrayList<BotaoMoeda>();
-	
-	public GamePanel() {
-	//	JViewport view  = new JViewport();
-	//	view.setViewSize(new Dimension(300,200));
-	//	scroll.setViewportView(view);
+	static GamePanel instance = null;
+
+	static public GamePanel getInstance(){
+		if(instance == null){
+			instance = new GamePanel();
+		}
+		return instance;
+	}
+
+	private GamePanel() {
+
+		labels[0] = lblRodada1;
+		labels[1] = lblRodada2;
+		labels[2] = lblRodada3;
+		labels[3] = lblRodada4;
+		labels[4] = lblRodada5;
+		labels[5] = lblRodada6;
+
 		this.setLayout(null);
-		//this.setBounds(0,0,712,372);
+
 		this.setPreferredSize(new Dimension(712, 376));
 		createLblImage();
 		JPanel panelControl = createPanelControl();
@@ -85,7 +108,6 @@ public class GamePanel extends JPanel {
 		lblR.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panelCheckAposta.add(lblR);
 
-	
 		lblDinheiroApostado.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panelCheckAposta.add(lblDinheiroApostado);
 
@@ -118,7 +140,7 @@ public class GamePanel extends JPanel {
 		lblTempo.setBounds(16, 7, 50, 17);
 		panelRelogio.add(lblTempo);
 		lblTempo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblHoras.setBounds(23, 25, 40, 37);
+		lblHoras.setBounds(26, 25, 29, 37);
 
 
 		panelRelogio.add(lblHoras);
@@ -145,7 +167,8 @@ public class GamePanel extends JPanel {
 
 		createLblRodada6(panelRodada);
 
-		this.update();
+		this.addListeners();
+
 	}
 
 	private void addListeners(){
@@ -158,8 +181,9 @@ public class GamePanel extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
+				naoClicou = false;
+				funcionando = false;
 				nextScreen();
-
 			}
 
 			@Override
@@ -186,8 +210,11 @@ public class GamePanel extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				nextScreen();
-
+				for (BotaoMoeda moeda : listaMoedas) {
+					if(moeda.isClicked()){
+						moeda.setClicked(false);
+					}
+				}
 			}
 
 			@Override
@@ -209,13 +236,16 @@ public class GamePanel extends JPanel {
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				
+
 			}
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				nextScreen();
-
+				for (BotaoMoeda moeda : listaMoedas) {
+					if(moeda.isClicked()){
+						moeda.setClicked(false);
+					}
+				}
 			}
 
 			@Override
@@ -230,9 +260,42 @@ public class GamePanel extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+
 			}
 		});
+
+		lblTU.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				for (BotaoMoeda moeda : listaMoedas) {
+					if(!moeda.isClicked()){
+						moeda.setClicked(true);
+					}
+				}
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+			}
+		});
+
 
 	}
 
@@ -287,39 +350,39 @@ public class GamePanel extends JPanel {
 	}
 
 	private void createLblRodada6(JPanel panelRodada) {
-		JLabel label_2 = new JLabel("6");
+
 		GridBagConstraints gbc_label_2 = new GridBagConstraints();
 		gbc_label_2.anchor = GridBagConstraints.NORTHWEST;
 		gbc_label_2.gridx = 1;
 		gbc_label_2.gridy = 6;
-		panelRodada.add(label_2, gbc_label_2);
-		label_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		panelRodada.add(lblRodada6, gbc_label_2);
+		lblRodada6.setFont(new Font("Tahoma", Font.PLAIN, 18));
 	}
 
 	private void createLblRodada5(JPanel panelRodada) {
-		JLabel label_1 = new JLabel("5");
-		GridBagConstraints gbc_label_1 = new GridBagConstraints();
-		gbc_label_1.anchor = GridBagConstraints.NORTHWEST;
-		gbc_label_1.insets = new Insets(0, 0, 5, 0);
-		gbc_label_1.gridx = 1;
-		gbc_label_1.gridy = 5;
-		panelRodada.add(label_1, gbc_label_1);
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+
+		GridBagConstraints gbc_lblRodada5 = new GridBagConstraints();
+		gbc_lblRodada5.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblRodada5.insets = new Insets(0, 0, 5, 0);
+		gbc_lblRodada5.gridx = 1;
+		gbc_lblRodada5.gridy = 5;
+		panelRodada.add(lblRodada5, gbc_lblRodada5);
+		lblRodada5.setFont(new Font("Tahoma", Font.PLAIN, 18));
 	}
 
 	private void createLblRodada4(JPanel panelRodada) {
-		JLabel label = new JLabel("4");
-		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.anchor = GridBagConstraints.NORTHWEST;
-		gbc_label.insets = new Insets(0, 0, 5, 0);
-		gbc_label.gridx = 1;
-		gbc_label.gridy = 4;
-		panelRodada.add(label, gbc_label);
-		label.setFont(new Font("Tahoma", Font.PLAIN, 18));
+
+		GridBagConstraints gbc_lblRodada4 = new GridBagConstraints();
+		gbc_lblRodada4.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblRodada4.insets = new Insets(0, 0, 5, 0);
+		gbc_lblRodada4.gridx = 1;
+		gbc_lblRodada4.gridy = 4;
+		panelRodada.add(lblRodada4, gbc_lblRodada4);
+		lblRodada4.setFont(new Font("Tahoma", Font.PLAIN, 18));
 	}
 
 	private void createLblRodada3(JPanel panelRodada) {
-		JLabel lblRodada3 = new JLabel("3");
+
 		GridBagConstraints gbc_lblRodada3 = new GridBagConstraints();
 		gbc_lblRodada3.anchor = GridBagConstraints.NORTHWEST;
 		gbc_lblRodada3.insets = new Insets(0, 0, 5, 0);
@@ -330,7 +393,7 @@ public class GamePanel extends JPanel {
 	}
 
 	private void createLblRodada2(JPanel panelRodada) {
-		JLabel lblRodada2 = new JLabel("2");
+
 		GridBagConstraints gbc_lblRodada2 = new GridBagConstraints();
 		gbc_lblRodada2.anchor = GridBagConstraints.NORTHWEST;
 		gbc_lblRodada2.insets = new Insets(0, 0, 5, 0);
@@ -341,7 +404,7 @@ public class GamePanel extends JPanel {
 	}
 
 	private void createLblRodada1(JPanel panelRodada) {
-		JLabel lblRodada1 = new JLabel("1");
+
 		GridBagConstraints gbc_lblRodada1 = new GridBagConstraints();
 		gbc_lblRodada1.anchor = GridBagConstraints.NORTHWEST;
 		gbc_lblRodada1.insets = new Insets(0, 0, 5, 0);
@@ -407,8 +470,7 @@ public class GamePanel extends JPanel {
 		panelControl.setBounds(0, 268, 712, 108);
 		panelControl.setLayout(null);
 		add(panelControl);
-		
-		JLabel lblTU = new JLabel("<html> T U <br> D O </html>");
+
 		lblTU.setBounds(563, 50, 33, 41);
 		panelControl.add(lblTU);
 		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -423,66 +485,51 @@ public class GamePanel extends JPanel {
 		lblImagem.setBounds(264, -37, 156, 161);
 		add(lblImagem);
 	}
-	
+
 	public void addDinheiro(int valor){
 		dinheiroApostado = dinheiroApostado+valor;
-		if(dinheiroApostado % 10 == 0){
-			this.lblDinheiroApostado.setText(String.valueOf((double) dinheiroApostado/100)+"0");			
-		}
-		else{
-			this.lblDinheiroApostado.setText(String.valueOf((double) dinheiroApostado/100));					
-		}
+		this.lblDinheiroApostado.setText(Recursos.converterParaReal(dinheiroApostado));			
 	}
-	
+
 	public void update(){
+		naoClicou = true;
+		funcionando = true;
+		for (int i = 0; i < labels.length; i++) {
+			labels[i].setFont(fontPadrao);
+			labels[i].setForeground(Color.BLACK);
+		}
+
+		rodada = MainFrame.getInstance().getRodada();
+		JLabel labelAtt = labels[rodada-1];
+		labelAtt.setForeground(Color.RED);
+		Font font = labelAtt.getFont();
+		labelAtt.setFont(new Font(font.getName(), Font.BOLD, 20));
+		lblDinheiroApostado.setText("0.00");
+		Thread thread = setRelogio();
+		thread.start();
+		int altura = organizarPanelDinheiro();
+		panelMoedas.setPreferredSize(new Dimension(200,altura));
+	}
+
+	private int organizarPanelDinheiro() {
+
 		int contador = 0;
 		int altura = 49;
-		this.money = 400; // atualizar
-		lblDinheiroApostado.setText("0.00");
-		Thread thread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				long tempoInicial = System.currentTimeMillis();			
-				boolean funcionando = true;
-				int tamanhoFonte = 25;
-				int contador = 30*1000;
-				Font fontInicial = getFont();
-				lblHoras.setFont(new Font(fontInicial.getFontName(), fontInicial.getStyle(), tamanhoFonte));
-				lblHoras.setForeground(Color.BLUE);
-				try {
-					long lol = 0;		
-					while(funcionando){
+		money = MainFrame.getInstance().getMoney();
+		dinheiroApostado = 0;
+		this.lblDinheiroPossuido.setText(Recursos.converterParaReal(money));			
 
-						lol = (((tempoInicial+contador) - System.currentTimeMillis())/1000);
-						lblHoras.setText(Long.toString(lol,10));
-						
-						if(lol <= 0){
-						//	window.perdeu();
-						}
-						Thread.sleep(950);
-					}
-				}
-				catch (InterruptedException e) {System.out.println("merda");}
-
-			}
-		});
-		thread.start();
-		
-		if(money % 10 == 0){
-			this.lblDinheiroPossuido.setText(String.valueOf((double) money/100)+"0");			
-		}
-		else{
-			this.lblDinheiroPossuido.setText(String.valueOf((double) money/100));					
-		}
-		
 		int aux = money;
 		int ref = 0;
 		scroll.setViewportView(panelMoedas);
 
 		this.panelMoedas.removeAll();
-	
+		this.listaMoedas.clear();
+
 		if(money == 5){
-			panelMoedas.add(new BotaoMoeda(5));
+			BotaoMoeda botao = new BotaoMoeda(5);
+			listaMoedas.add(botao);
+			panelMoedas.add(botao);
 			aux = -1;
 			altura = 0;
 		}
@@ -494,7 +541,9 @@ public class GamePanel extends JPanel {
 				ref = (aux-5)/2;
 			}
 		while(aux > ref){
-			panelMoedas.add(new BotaoMoeda(10));
+			BotaoMoeda botao = new BotaoMoeda(10);
+			listaMoedas.add(botao);
+			panelMoedas.add(botao);
 			aux = aux-10;
 			contador++;
 			if(contador >= 9){
@@ -504,7 +553,9 @@ public class GamePanel extends JPanel {
 		}
 		contador = 0;
 		while(aux > 0){
-			panelMoedas.add(new BotaoMoeda(5));
+			BotaoMoeda botao = new BotaoMoeda(5);
+			listaMoedas.add(botao);
+			panelMoedas.add(botao);
 			aux = aux-5;
 			contador++;
 			if(contador >= 8){
@@ -512,11 +563,55 @@ public class GamePanel extends JPanel {
 				contador = 0;
 			}
 		}
-		panelMoedas.setPreferredSize(new Dimension(200,altura));
+		return altura;
 	}
 
-	protected void nextScreen() {
-		MainFrame.getInstance().update(new TurnPanel());
+	private Thread setRelogio() {
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				long tempoInicial = System.currentTimeMillis();			
+				int tamanhoFonte = 25;
+				int contador = Recursos.TEMPO_DE_JOGO_SEGUNDOS*1000;
+				Font fontInicial = getFont();
+				lblHoras.setFont(new Font(fontInicial.getFontName(), fontInicial.getStyle(), tamanhoFonte));
+				lblHoras.setForeground(Color.BLUE);
+				try {
+					long lol = 0;		
+					while(funcionando){
 
+						lol = (((tempoInicial+contador) - System.currentTimeMillis())/1000);
+						lblHoras.setText(Long.toString(lol,10));
+
+						if(lblHoras.getText() == "9"){
+							lblHoras.setLocation(45, lblHoras.getY());
+						}
+
+						if(lol <= 0 && funcionando){
+							funcionando = false;
+						}
+						Thread.sleep(950);
+					}
+
+					//Fachada.getInstance().apostar(Recursos.converterParaInt(lblDinheiroApostado.getText()));
+					if(naoClicou){
+						nextScreen();
+					}
+				}
+				catch (InterruptedException e) {System.out.println("merda");}
+
+			}
+		});
+		return thread;
+	}
+
+	public void nextScreen() {
+		if(MainFrame.getInstance().getRodada() < 6){
+			Fachada.getInstance().apostar(Recursos.converterParaInt("20.00"));
+			MainFrame.getInstance().update(TurnPanel.getInstance());
+		}
+		else{
+			MainFrame.getInstance().update(ResultPanel.getInstance());
+		}
 	}
 }

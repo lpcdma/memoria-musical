@@ -39,11 +39,9 @@ public class BotaoMoeda extends JLabel{
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				if(isClicked()){
-					MainFrame.getInstance().addDinheiro(-getValor());
 					setClicked(false);
 				}
 				else{				
-					MainFrame.getInstance().addDinheiro(getValor());
 					setClicked(true);
 				}
 			}
@@ -82,5 +80,11 @@ public class BotaoMoeda extends JLabel{
 
 	public void setClicked(boolean clicked) {
 		this.clicked = clicked;
+		if(clicked){
+			MainFrame.getInstance().addDinheiro(getValor());
+		}
+		else{
+			MainFrame.getInstance().addDinheiro(-getValor());
+		}
 	}
 }

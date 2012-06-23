@@ -1,5 +1,6 @@
 package gui.frames;
 
+import gui.interfaces.PanelAbstract;
 import gui.panels.GamePanel;
 import gui.panels.InitPanel;
 
@@ -20,17 +21,20 @@ public class MainFrame extends JFrame {
 	private JPanel contentPane;
 	private static final int largura = 720;
 	private static final int altura = 400;
-
+	private int rodada = 1;
+	private int money = 0;
+	private int jogador = 1;
+	
 	/**
 	 * Create the frame.
 	 */
 	private MainFrame() {
+		this.contentPane = new InitPanel();
+		this.setContentPane(contentPane);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		setBounds(200, 200, largura, altura);
 		this.setVisible(true);
-		this.contentPane = new InitPanel();
-		this.setContentPane(contentPane);
 	}
 	
 	static public MainFrame getInstance(){
@@ -40,10 +44,10 @@ public class MainFrame extends JFrame {
 		return instance;
 	}
 
-	public void update(JPanel gamePanel) {
-		getInstance().setContentPane(gamePanel);
-		getInstance().setVisible(true);
-	//	this.setSize(gamepanel.)
+	public void update(PanelAbstract gamePanel) {
+		this.setContentPane(gamePanel);
+		gamePanel.update();
+		this.setVisible(true);
 	}
 
 	public void addDinheiro(int valor){
@@ -59,5 +63,29 @@ public class MainFrame extends JFrame {
 	public static int getAltura() {
 		return altura;
 	}
+
+	public int getRodada() {
+		return this.rodada;
+	}
 	
+	public void incRodada(){
+		this.rodada++;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+	
+	public void setMoney(int x) {
+		this.money = x;
+	}
+
+	public int getJogador() {
+		return jogador;
+	}
+
+	public void setJogador(int jogador) {
+		this.jogador = jogador;
+	}
+
 }
