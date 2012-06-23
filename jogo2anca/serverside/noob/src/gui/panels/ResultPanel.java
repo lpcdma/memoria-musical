@@ -1,6 +1,9 @@
 package gui.panels;
 
+import fachada.Fachada;
 import gui.frames.MainFrame;
+import gui.interfaces.PanelAbstract;
+import gui.util.ResultadosFinais;
 
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
@@ -13,12 +16,15 @@ import java.awt.Insets;
 import java.awt.Font;
 import javax.swing.JButton;
 
-public class ResultPanel extends JPanel {
+public class ResultPanel extends PanelAbstract {
+	private static ResultPanel instance;
 	JLabel lblPlayer_1Voce = new JLabel("(você)");
 	JLabel lblPlayer_2Voce = new JLabel("(você)");
 	JLabel lblPlayer_3Voce = new JLabel("(você)");
 	JLabel lblPlayer_4Voce = new JLabel("(você)");
-
+	
+	JLabel[] labels = new JLabel[4];
+	
 	JLabel lblPlayer_1Valor = new JLabel("valor1");
 	JLabel lblPlayer_2Valor = new JLabel("valor2");
 	JLabel lblPlayer_3Valor = new JLabel("valor3");
@@ -27,9 +33,13 @@ public class ResultPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ResultPanel() {
+	private ResultPanel() {
 
-
+		labels[0] = lblPlayer_1Voce;
+		labels[1] = lblPlayer_1Voce;
+		labels[2] = lblPlayer_1Voce;
+		labels[3] = lblPlayer_1Voce;
+		
 		int larguraMain = MainFrame.getLargura();
 		this.setSize(new Dimension(MainFrame.getLargura(), larguraMain));
 		setLayout(null);
@@ -39,7 +49,6 @@ public class ResultPanel extends JPanel {
 		JPanel panelResultado = new JPanel();
 		panelResultado.setBounds(((larguraMain/2)-(largura/2)), 11, largura, 280);
 		this.add(panelResultado);
-
 
 		panelResultado.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -102,7 +111,6 @@ public class ResultPanel extends JPanel {
 		gbc_lblJogador_1.gridy = 3;
 		panelResultado.add(lblJogador_1, gbc_lblJogador_1);
 
-
 		lblPlayer_2Voce.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_lblJogador1 = new GridBagConstraints();
 		gbc_lblJogador1.insets = new Insets(0, 0, 5, 5);
@@ -134,7 +142,6 @@ public class ResultPanel extends JPanel {
 		gbc_lblJogador_2.gridx = 0;
 		gbc_lblJogador_2.gridy = 5;
 		panelResultado.add(lblJogador_2, gbc_lblJogador_2);
-
 
 		lblPlayer_3Voce.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_label_1 = new GridBagConstraints();
@@ -199,24 +206,30 @@ public class ResultPanel extends JPanel {
 
 	}
 
-	public void update(int nPlayer,Object dados){
-		if(nPlayer == 1){
-			lblPlayer_1Voce.setVisible(true);
-		}
-		else if(nPlayer == 2){
-			lblPlayer_2Voce.setVisible(true);
-		}
-		else if(nPlayer == 3){
-			lblPlayer_3Voce.setVisible(true);
-		}
-		else if(nPlayer == 4){
-			lblPlayer_4Voce.setVisible(true);
-		}
-
-		this.lblPlayer_1Valor.setText("");
-		this.lblPlayer_2Valor.setText("");
-		this.lblPlayer_3Valor.setText("");
-		this.lblPlayer_4Valor.setText("");
+	public void update(){
+		
+		labels[MainFrame.getInstance().getJogador()-1].setVisible(true);
+		
+		ResultadosFinais resultFinais = Fachada.getInstance().getResultadosFinais();
+		
+		this.lblPlayer_1Valor.setText(resultFinais.getDinheiroPlayer_1());
+		this.lblPlayer_2Valor.setText(resultFinais.getDinheiroPlayer_2());
+		this.lblPlayer_3Valor.setText(resultFinais.getDinheiroPlayer_3());
+		this.lblPlayer_4Valor.setText(resultFinais.getDinheiroPlayer_4());
 
 	}
+
+	public static ResultPanel getInstance() {
+		if(instance == null){
+			instance = new ResultPanel();
+		}
+		return instance;
+	}
+
+	@Override
+	public void nextScreen() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
