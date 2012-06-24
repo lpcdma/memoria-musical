@@ -1,7 +1,8 @@
-package fachada;
+package stubs;
 
-import gui.util.Resultados;
-import gui.util.ResultadosFinais;
+import entidades.InfoPlayer;
+import entidades.Resultados;
+import entidades.ResultadosFinais;
 
 public class Negocio {
 
@@ -20,6 +21,15 @@ public class Negocio {
 	public ResultadosFinais getResultadoFinais() {
 		return banco.getResultadoFinais();
 		
+	}
+
+	public void addInfoPlayer(InfoPlayer info) {
+		banco.addInfoPlayer(info);
+		
+	}
+
+	public InfoPlayer getInfoPlayer() {
+		return banco.getInfoPlayer();
 	}
 	
 }

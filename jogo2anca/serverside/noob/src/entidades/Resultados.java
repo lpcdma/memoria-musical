@@ -1,4 +1,4 @@
-package gui.util;
+package entidades;
 
 public class Resultados {
 

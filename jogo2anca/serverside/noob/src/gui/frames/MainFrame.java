@@ -3,6 +3,7 @@ package gui.frames;
 import gui.interfaces.PanelAbstract;
 import gui.panels.GamePanel;
 import gui.panels.InitPanel;
+import gui.util.Recursos;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -19,8 +20,6 @@ public class MainFrame extends JFrame {
 	
 	private static MainFrame instance;
 	private JPanel contentPane;
-	private static final int largura = 720;
-	private static final int altura = 400;
 	private int rodada = 1;
 	private int money = 0;
 	private int jogador = 1;
@@ -33,7 +32,7 @@ public class MainFrame extends JFrame {
 		this.setContentPane(contentPane);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-		setBounds(200, 200, largura, altura);
+		setBounds(200, 200, Recursos.LARGURA_JANELA, Recursos.ALTURA_JANELA);
 		this.setVisible(true);
 	}
 	
@@ -54,14 +53,6 @@ public class MainFrame extends JFrame {
 		if(this.getContentPane().getClass() == GamePanel.class){
 			((GamePanel) this.getContentPane()).addDinheiro(valor);
 		}
-	}
-	
-	public static int getLargura() {
-		return largura;
-	}
-
-	public static int getAltura() {
-		return altura;
 	}
 
 	public int getRodada() {

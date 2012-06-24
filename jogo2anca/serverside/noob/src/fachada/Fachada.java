@@ -1,7 +1,10 @@
 package fachada;
 
-import gui.util.Resultados;
-import gui.util.ResultadosFinais;
+import entidades.FormularioFinal;
+import entidades.InfoPlayer;
+import entidades.Resultados;
+import entidades.ResultadosFinais;
+import stubs.Negocio;
 
 public class Fachada {
 
@@ -29,6 +32,23 @@ public class Fachada {
 
 	public ResultadosFinais getResultadosFinais() {
 		return negocio.getResultadoFinais();
+		
+	}
+
+	public boolean passarTurno() {
+		return true;
+	}
+
+	public InfoPlayer getInfoPlayer() {
+		return negocio.getInfoPlayer();
+	}
+	
+	public void addInfoPlayer(InfoPlayer info){
+		negocio.addInfoPlayer(info);
+	}
+
+	public void enviarFormularioFinal(FormularioFinal formularioFinal) {
+		// TODO Auto-generated method stub
 		
 	}
 	

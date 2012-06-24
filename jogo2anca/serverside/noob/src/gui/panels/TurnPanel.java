@@ -1,10 +1,10 @@
 package gui.panels;
 
+import entidades.Resultados;
 import fachada.Fachada;
 import gui.frames.MainFrame;
 import gui.interfaces.PanelAbstract;
 import gui.util.Recursos;
-import gui.util.Resultados;
 
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
@@ -19,6 +19,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TurnPanel extends PanelAbstract  {
 
@@ -40,14 +42,14 @@ public class TurnPanel extends PanelAbstract  {
 
 	private TurnPanel() {
 
-		int larguraMain = MainFrame.getLargura();
-		this.setSize(new Dimension(larguraMain, MainFrame.getAltura()));
+		int larguraMain = Recursos.LARGURA_JANELA;
+		this.setSize(new Dimension(larguraMain,Recursos.ALTURA_JANELA));
 		setLayout(null);
 
 		int largura = 215;
 
 		JPanel panelResultado = new JPanel();
-		panelResultado.setBounds(((larguraMain/2)-(largura/2)), 26, largura, 218);
+		panelResultado.setBounds(252, 26, largura, 218);
 		this.add(panelResultado);
 
 		panelResultado.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
@@ -75,6 +77,15 @@ public class TurnPanel extends PanelAbstract  {
 		createLblRS2(panelResultado);
 
 		setLblValueForEach(panelResultado);
+
+		JButton btnContinuar = new JButton("Continuar");
+		btnContinuar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				passarTurno();
+			}
+		});
+		btnContinuar.setBounds(299, 316, 122, 49);
+		add(btnContinuar);
 
 	}
 
@@ -181,16 +192,40 @@ public class TurnPanel extends PanelAbstract  {
 	}
 
 	public void update(){
-		Resultados resultados = Fachada.getInstance().getResultados(MainFrame.getInstance().getRodada());
-		Thread thread = setRelogio();
-		thread.start();
-		
-		this.lblN.setText(MainFrame.getInstance().getRodada()+"");
-		this.lblStoragedValue.setText(Recursos.converterParaReal(resultados.getQtdApostada()));
-		this.lblValueForEach.setText(Recursos.converterParaReal(resultados.getQtdRecebida()));
-		
-		MainFrame.getInstance().setMoney(MainFrame.getInstance().getMoney() + resultados.getQtdRecebida());
+		Resultados resultados = Fachada.getInstance()
+				.getResultados(MainFrame.getInstance().getRodada());
+		//	Thread thread = setRelogio();
+		//	thread.start();
+
+		this.lblN.setText(
+				MainFrame.getInstance().getRodada()+"");
+		this.lblStoragedValue.setText(
+				Recursos.converterParaReal(
+						resultados.getQtdApostada()));
+		this.lblValueForEach.setText(
+				Recursos.converterParaReal(
+						resultados.getQtdRecebida()));
+
+		MainFrame.getInstance().setMoney(
+				MainFrame.getInstance().getMoney() 
+				+ resultados.getQtdRecebida());
+
 		MainFrame.getInstance().incRodada();			
+	}
+
+	private void passarTurno(){
+		while(!Fachada.getInstance().passarTurno()){
+
+			try {
+				Thread.sleep(1000);
+				
+				//FIXME
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
+		nextScreen();
 	}
 
 	private Thread setRelogio() {
@@ -204,13 +239,13 @@ public class TurnPanel extends PanelAbstract  {
 					long lol = 0;		
 					while(funcionando){
 						lol = (((tempoInicial+contador) - System.currentTimeMillis())/1000);
-						
+
 						if(lol <= 0 && funcionando){
 							funcionando = false;
 						}
 						Thread.sleep(950);
 					}
-					
+
 					nextScreen();
 				}
 				catch (InterruptedException e) {System.out.println("merda");}
@@ -218,5 +253,4 @@ public class TurnPanel extends PanelAbstract  {
 		});
 		return thread;
 	}
-	
 }
