@@ -1,5 +1,6 @@
 package gui.panels;
 
+import javax.swing.ComboBoxEditor;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -8,116 +9,107 @@ import javax.swing.JComboBox;
 import java.awt.Font;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JButton;
+
+import entidades.InfoPlayer;
+
+
+
 import java.awt.Color;
 
 public class RegistrationPanel extends JPanel {
-	private JTextField textField_1;
-	private JTextField textField;
+
+	private JTextField textIdade = new JTextField();
+	private JTextField textCurso = new JTextField();
+	JComboBox comboBoxSexo = new JComboBox();
+	JLabel lblIdade = new JLabel("Idade: ");
+	JComboBox comboBoxClasseEcon = new JComboBox();
+	JLabel lblPorFavorPreencha = new JLabel("Por favor, preencha o seguinte formulário :");
 
 	/**
 	 * Create the panel.
 	 */
+
 	public RegistrationPanel() {
+
+		this.setPreferredSize(new Dimension(305, 160));
 		setForeground(Color.BLACK);
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{10, 81, 62, 0, 67, 28, 14, 0};
-		gridBagLayout.rowHeights = new int[]{38, 29, 34, 29, 25, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
-		
-		JLabel lblPorFavorPreencha = new JLabel("Por favor, preencha o seguinte formulário :");
+		setLayout(null);
+		lblPorFavorPreencha.setBounds(10, 11, 269, 16);
+
 		lblPorFavorPreencha.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
-		GridBagConstraints gbc_lblPorFavorPreencha = new GridBagConstraints();
-		gbc_lblPorFavorPreencha.anchor = GridBagConstraints.SOUTHWEST;
-		gbc_lblPorFavorPreencha.insets = new Insets(0, 0, 5, 0);
-		gbc_lblPorFavorPreencha.gridwidth = 6;
-		gbc_lblPorFavorPreencha.gridx = 1;
-		gbc_lblPorFavorPreencha.gridy = 0;
-		add(lblPorFavorPreencha, gbc_lblPorFavorPreencha);
-		
-		JLabel lblNome = new JLabel("Sexo:           ");
-		GridBagConstraints gbc_lblNome = new GridBagConstraints();
-		gbc_lblNome.anchor = GridBagConstraints.WEST;
-		gbc_lblNome.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNome.gridx = 1;
-		gbc_lblNome.gridy = 1;
-		add(lblNome, gbc_lblNome);
-		
-		JComboBox comboBoxSexo = new JComboBox();
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.gridx = 2;
-		gbc_comboBox.gridy = 1;
-		add(comboBoxSexo, gbc_comboBox);
+		add(lblPorFavorPreencha);
+
+		JLabel lblNome = new JLabel("Sexo:");
+		lblNome.setBounds(10, 42, 61, 14);
+		add(lblNome);
+		comboBoxSexo.setBounds(94, 39, 98, 20);
+		add(comboBoxSexo);
 		comboBoxSexo.addItem("Masculino");
 		comboBoxSexo.addItem("Feminino");
-		
-		JLabel lblIdade = new JLabel("Idade: ");
-		GridBagConstraints gbc_lblIdade = new GridBagConstraints();
-		gbc_lblIdade.insets = new Insets(0, 0, 5, 5);
-		gbc_lblIdade.gridx = 4;
-		gbc_lblIdade.gridy = 1;
-		add(lblIdade, gbc_lblIdade);
-		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 5;
-		gbc_textField_1.gridy = 1;
-		add(textField_1, gbc_textField_1);
-		textField_1.setColumns(4);
-		
-		
+		lblIdade.setBounds(202, 42, 40, 14);
+		add(lblIdade);
+		textIdade.setBounds(244, 39, 51, 20);
+		add(textIdade);
+		textIdade.setColumns(4);
+
 		JLabel lblCursoUniver = new JLabel("<html>Curso <br> Universit\u00E1rio: </html>");
-//		lblCursoUniver.setEditable(false);
-//		lblCursoUniver.setLineWrap(true);
-		GridBagConstraints gbc_lblCursoUniversitrio = new GridBagConstraints();
-		gbc_lblCursoUniversitrio.anchor = GridBagConstraints.SOUTHWEST;
-		gbc_lblCursoUniversitrio.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCursoUniversitrio.gridx = 1;
-		gbc_lblCursoUniversitrio.gridy = 2;
-		add(lblCursoUniver, gbc_lblCursoUniversitrio);
-		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.anchor = GridBagConstraints.SOUTH;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridwidth = 4;
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 2;
-		gbc_textField.gridy = 2;
-		add(textField, gbc_textField);
-		textField.setColumns(10);
-		
+		lblCursoUniver.setBounds(10, 67, 85, 28);
+		add(lblCursoUniver);
+		textCurso.setBounds(94, 76, 201, 20);
+		add(textCurso);
+		textCurso.setColumns(10);
+
 		JLabel lblClasseEconmica = new JLabel("<html> Classe <br> Econ\u00F4mica: </html>");
-		GridBagConstraints gbc_lblClasseEconmica = new GridBagConstraints();
-		gbc_lblClasseEconmica.anchor = GridBagConstraints.SOUTHWEST;
-		gbc_lblClasseEconmica.insets = new Insets(0, 0, 5, 5);
-		gbc_lblClasseEconmica.gridx = 1;
-		gbc_lblClasseEconmica.gridy = 3;
-		add(lblClasseEconmica, gbc_lblClasseEconmica);
-		
-		JComboBox comboBoxClasseEcon = new JComboBox();
+		lblClasseEconmica.setBounds(10, 108, 71, 28);
+		add(lblClasseEconmica);
+		comboBoxClasseEcon.setBounds(94, 116, 201, 20);
+
 		comboBoxClasseEcon.addItem("Classe A");
 		comboBoxClasseEcon.addItem("Classe B");
 		comboBoxClasseEcon.addItem("Classe C");
 		comboBoxClasseEcon.addItem("Classe D");
 		comboBoxClasseEcon.addItem("Não desejo informar");
-		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
-		gbc_comboBox_1.gridwidth = 3;
-		gbc_comboBox_1.anchor = GridBagConstraints.SOUTH;
-		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox_1.gridx = 2;
-		gbc_comboBox_1.gridy = 3;
-		add(comboBoxClasseEcon, gbc_comboBox_1);
+		add(comboBoxClasseEcon);
 
+	}
+
+	public void desabilitar() {
+		textCurso.setEnabled(false);
+		textIdade.setEnabled(false);
+		comboBoxClasseEcon.setEnabled(false);
+		comboBoxSexo.setEnabled(false);
+		lblPorFavorPreencha.setVisible(false);
+	}
+
+	public void setCampos(InfoPlayer infoPlayer) {
+		textCurso.setText(infoPlayer.getCurso());
+		textIdade.setText(infoPlayer.getIdade());
+		comboBoxClasseEcon.removeAllItems();
+		comboBoxClasseEcon.addItem(infoPlayer.getClasse());
+		comboBoxSexo.removeAllItems();
+		comboBoxSexo.addItem(infoPlayer.getSexo());
+
+	}
+
+	public InfoPlayer getPlayerInfo() {
+		return new InfoPlayer(
+				textCurso.getText()
+				,textIdade.getText()
+				,(String) comboBoxClasseEcon.getSelectedItem()
+				,(String) comboBoxSexo.getSelectedItem());
+	}
+
+	public boolean isOk() {
+		boolean notEmpty = 
+				!textCurso.getText().equals("") &&
+				!textIdade.getText().equals("");
+		return notEmpty;
 	}
 
 }

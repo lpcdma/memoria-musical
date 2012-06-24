@@ -1,4 +1,6 @@
-package gui.util;
+package entidades;
+
+import gui.util.Recursos;
 
 public class ResultadosFinais {
 

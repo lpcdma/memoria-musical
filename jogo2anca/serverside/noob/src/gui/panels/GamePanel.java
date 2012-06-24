@@ -6,6 +6,7 @@ import gui.interfaces.PanelAbstract;
 import gui.util.BotaoMoeda;
 import gui.util.Recursos;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -32,7 +33,9 @@ public class GamePanel extends PanelAbstract {
 	/**
 	 * Create the panel.
 	 */
-
+	
+	ImageIcon image = new ImageIcon(Recursos.CAMINHO_IMAGENS+"copo.png");
+	
 	JLabel lblRodada1 = new JLabel("1");
 	JLabel lblRodada2 = new JLabel("2");
 	JLabel lblRodada3 = new JLabel("3");
@@ -69,7 +72,10 @@ public class GamePanel extends PanelAbstract {
 	}
 
 	private GamePanel() {
-
+		
+		money = Recursos.DINHEIRO_INICIAL_CENTAVOS;
+		MainFrame.getInstance().setMoney(money);
+		
 		labels[0] = lblRodada1;
 		labels[1] = lblRodada2;
 		labels[2] = lblRodada3;
@@ -79,7 +85,7 @@ public class GamePanel extends PanelAbstract {
 
 		this.setLayout(null);
 
-		this.setPreferredSize(new Dimension(712, 376));
+		this.setPreferredSize(new Dimension(Recursos.LARGURA_JANELA, Recursos.ALTURA_JANELA));
 		createLblImage();
 		JPanel panelControl = createPanelControl();
 
@@ -481,8 +487,10 @@ public class GamePanel extends PanelAbstract {
 
 	private void createLblImage() {
 		JLabel lblImagem = new JLabel("Imagem");
+		lblImagem.setText("");
+		lblImagem.setIcon(image);
 		lblImagem.setHorizontalAlignment(SwingConstants.CENTER);
-		lblImagem.setBounds(264, -37, 156, 161);
+		lblImagem.setBounds(269, 11, 172, 220);
 		add(lblImagem);
 	}
 
@@ -607,7 +615,9 @@ public class GamePanel extends PanelAbstract {
 
 	public void nextScreen() {
 		if(MainFrame.getInstance().getRodada() < 6){
-			Fachada.getInstance().apostar(Recursos.converterParaInt("20.00"));
+			int moneyApostado = Recursos.converterParaInt(lblDinheiroApostado.getText());
+			Fachada.getInstance().apostar(moneyApostado);
+			MainFrame.getInstance().setMoney(MainFrame.getInstance().getMoney()-moneyApostado);
 			MainFrame.getInstance().update(TurnPanel.getInstance());
 		}
 		else{

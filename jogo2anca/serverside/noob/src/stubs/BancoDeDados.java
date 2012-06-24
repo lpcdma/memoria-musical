@@ -1,23 +1,24 @@
-package fachada;
+package stubs;
 
 import java.util.ArrayList;
 
-import gui.util.Resultados;
-import gui.util.ResultadosFinais;
+import entidades.InfoPlayer;
+import entidades.Resultados;
+import entidades.ResultadosFinais;
+
 
 public class BancoDeDados {
 
 	ArrayList<Resultados> resultados;
 	ResultadosFinais rstFinais;
-	int aposta = 0;
+	InfoPlayer info;
 	
 	public BancoDeDados() {
 		resultados = new ArrayList<Resultados>();
 	}
 	
 	public void apostar(int valor) {
-		aposta = valor + aposta;
-		resultados.add(new Resultados(aposta,aposta*4/2));
+		resultados.add(new Resultados(valor,valor*2/4));
 	}
 
 	public Resultados getResultados(int rodada) {
@@ -34,6 +35,14 @@ public class BancoDeDados {
 		rstFinais = new ResultadosFinais(valorApostado,0,0,0);
 		
 		return rstFinais;
+	}
+
+	public void addInfoPlayer(InfoPlayer info) {
+		this.info = info;
+	}
+
+	public InfoPlayer getInfoPlayer() {
+		return info;
 	}
 
 }

@@ -10,9 +10,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class BotaoMoeda extends JLabel{
-
-	final String urlMoeda5 = "C:/Users/Uoji/Desktop/Monografia Bianca/Jogo2anca/Imagens/moeda52.png";
-	final String urlMoeda10 = "C:/Users/Uoji/Desktop/Monografia Bianca/Jogo2anca/Imagens/moeda102.png";
+	
+	
+	final String urlMoeda5 = Recursos.CAMINHO_IMAGENS+"moeda52.png";
+	final String urlMoeda10 = Recursos.CAMINHO_IMAGENS+"moeda102.png";
 	Icon image = null;
 	int valor = 0;
 	boolean clicked = false;

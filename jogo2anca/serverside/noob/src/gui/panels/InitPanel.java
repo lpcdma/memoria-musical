@@ -1,7 +1,9 @@
 package gui.panels;
 
+import fachada.Fachada;
 import gui.frames.MainFrame;
 import gui.interfaces.PanelAbstract;
+import gui.util.Recursos;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -28,10 +30,10 @@ public class InitPanel extends PanelAbstract {
 	 * Create the panel.
 	 */
 	public InitPanel() {
-		
-		this.setSize(MainFrame.getLargura(),MainFrame.getAltura());
+
+		this.setSize(Recursos.LARGURA_JANELA,Recursos.ALTURA_JANELA);
 		this.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
+
 		JButton btnInit = new JButton("Iniciar");
 		btnInit.setBounds(291, 309, 137, 45);
 		btnInit.addActionListener(new ActionListener() {
@@ -41,14 +43,14 @@ public class InitPanel extends PanelAbstract {
 		});
 		setLayout(null);
 		this.add(btnInit);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(72, 61, 139));
 		panel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		panel.setBounds(128, 43, 464, 232);
 		add(panel);
 		panel.setLayout(null);
-		
+
 		JTextPane txtpnEraUmaVez = new JTextPane();
 		txtpnEraUmaVez.setForeground(Color.WHITE);
 		txtpnEraUmaVez.setEditable(false);
@@ -60,22 +62,38 @@ public class InitPanel extends PanelAbstract {
 	}
 
 	protected void initGame() {
-		int resposta = JOptionPane.showConfirmDialog(this, new RegistrationPanel(), "Registro", JOptionPane.OK_CANCEL_OPTION);
-		
-		if(resposta == 0){
-			MainFrame.getInstance().update(GamePanel.getInstance());
+
+		RegistrationPanel regis = new RegistrationPanel();
+		boolean podeIr = false;
+		while(!podeIr){
+			int resposta = JOptionPane.showConfirmDialog(this, regis, "Registro", JOptionPane.OK_CANCEL_OPTION);
+
+			if(resposta == 0){
+				if(regis.isOk()){
+					Fachada.getInstance().addInfoPlayer(regis.getPlayerInfo());
+					MainFrame.getInstance().update(new FormInitPanel());
+					podeIr = true;
+				}
+				else{
+					JOptionPane.showMessageDialog(this,"Para continuar é necessário que os campos sejam preenchidos corretamente");
+				}
+			}
+
+			else{
+				podeIr = true;
+			}
 		}
 	}
 
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void nextScreen() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -1,9 +1,10 @@
 package gui.panels;
 
+import entidades.ResultadosFinais;
 import fachada.Fachada;
 import gui.frames.MainFrame;
 import gui.interfaces.PanelAbstract;
-import gui.util.ResultadosFinais;
+import gui.util.Recursos;
 
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
@@ -40,8 +41,8 @@ public class ResultPanel extends PanelAbstract {
 		labels[2] = lblPlayer_1Voce;
 		labels[3] = lblPlayer_1Voce;
 		
-		int larguraMain = MainFrame.getLargura();
-		this.setSize(new Dimension(MainFrame.getLargura(), larguraMain));
+		int larguraMain = Recursos.LARGURA_JANELA;
+		this.setSize(new Dimension(larguraMain, Recursos.ALTURA_JANELA));
 		setLayout(null);
 
 		int largura = 200;
