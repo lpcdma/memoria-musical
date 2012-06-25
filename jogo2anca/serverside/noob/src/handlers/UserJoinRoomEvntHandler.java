@@ -29,13 +29,10 @@ public class UserJoinRoomEvntHandler extends BaseServerEventHandler {
 		User user = (User) arg0.getParameter(SFSEventParam.USER);
 		List<User> usuarios = room.getPlayersList();
 		if(usuarios.size()==Constantes.NUM_JOGADORES){
-			((TestExtension)room.getExtension()).startRodada(usuarios, Constantes.USER_JOIN_HANDLER);
+			((TestExtension)room.getExtension()).criaPlayer(usuarios);
 		}
-		else if(usuarios.size()<Constantes.NUM_JOGADORES){
-			((TestExtension)room.getExtension()).waitPlayers(user);
-		}
-		else{
-			//LANCAR ERRO DOS INFERNOS
+		else if(usuarios.size() > Constantes.NUM_JOGADORES){
+			room.removeUser(user);
 		}
 	}
 

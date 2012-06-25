@@ -43,7 +43,7 @@ public class ApostaReqHandler extends BaseClientRequestHandler {
 		((TestExtension)getParentExtension()).atualizarJogador(posicaoJogadorLista, listaJogadores.get(posicaoJogadorLista));
 		
 		if(todosApostaram){
-			((TestExtension)getParentExtension()).calcularRetornoEEnviar(rodada, listaSFSUsers);
+			//((TestExtension)getParentExtension()).calcularRetornoEEnviar(rodada, listaSFSUsers);
 			((TestExtension)getParentExtension()).startRodada(listaSFSUsers, Constantes.APOSTA_HANDLER);
 		}
 		else{

@@ -6,6 +6,7 @@ import java.util.List;
 
 import negocio.core.TestExtension;
 
+import basic.Pergunta;
 import basic.Player;
 import basic.Resposta;
 
@@ -22,7 +23,20 @@ public class FormEndReqHandler extends BaseClientRequestHandler {
 	public void handleClientRequest(User user, ISFSObject params) {
 		// TODO Auto-generated method stub
 		
-		List<Resposta> respostas = (List<Resposta>)params.getClass("respostas");
+		List<Resposta> respostas = new ArrayList<Resposta>();
+		
+		int numResp = params.getInt("numResp");
+		int idPerg;
+		String perg;
+		String resp;
+		
+		for(int i = 0; i < numResp; i++){
+			idPerg = params.getInt("idPerg"+i);
+			perg = params.getUtfString("perg"+i);
+			resp = params.getUtfString("resp"+i);
+			respostas.add(new Resposta(new Pergunta(idPerg, perg), resp));
+		}		
+		
 		List<Player> jogadores = ((TestExtension)getParentExtension()).getJogadores();
 		List<User> listaSFSUsers = new ArrayList<User>();
 		Player jogador = null;
