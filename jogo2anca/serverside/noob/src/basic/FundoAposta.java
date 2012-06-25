@@ -9,17 +9,17 @@ public class FundoAposta {
 	
 	public void apostarRodada(int rodada, int valor){
 		if(rodada > 0 && rodada < valorRealPorRodada.length){
-			valorRealPorRodada[rodada] += valor;
+			valorRealPorRodada[rodada-1] += valor;
 		}
 	}
 	
 	public int calcularRetorno(int rodada){
 		double retorno = 0;
 		if(rodada > 0 && rodada < valorRealPorRodada.length){
-			if(valorArredondadoPorRodada[rodada]>0){
-				retorno = valorArredondadoPorRodada[rodada] / Constantes.NUM_JOGADORES;
+			if(valorArredondadoPorRodada[rodada-1]>0){
+				retorno = valorArredondadoPorRodada[rodada-1] / Constantes.NUM_JOGADORES;
 			}else{
-				retorno = valorRealPorRodada[rodada] * 2;
+				retorno = valorRealPorRodada[rodada-1] * 2;
 				if((retorno/Constantes.NUM_JOGADORES) % 5 == 0){
 					retorno = retorno / Constantes.NUM_JOGADORES;
 				}
@@ -39,8 +39,8 @@ public class FundoAposta {
 						}
 					}
 				}
-				valorArredondadoPorRodada[rodada] = (int)retorno * Constantes.NUM_JOGADORES;
-				valorRealPorRodada[rodada] = valorRealPorRodada[rodada] * 2;
+				valorArredondadoPorRodada[rodada-1] = (int)retorno * Constantes.NUM_JOGADORES;
+				valorRealPorRodada[rodada-1] = valorRealPorRodada[rodada-1] * 2;
 			}
 		}
 		return (int)retorno;
@@ -56,7 +56,7 @@ public class FundoAposta {
 	
 	public int calculaAcrescimo(int rodada){
 		if(rodada > 0 && rodada < valorRealPorRodada.length){
-			return valorArredondadoPorRodada[rodada] - valorRealPorRodada[rodada];
+			return valorArredondadoPorRodada[rodada-1] - valorRealPorRodada[rodada-1];
 		}
 		return 0;
 	}

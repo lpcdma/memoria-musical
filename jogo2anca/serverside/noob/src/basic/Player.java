@@ -41,13 +41,13 @@ public class Player {
 	
 	public void setValorFinalRodada(int valor, int rodada){		
 		if(rodada > 0 && rodada < valoresFinaisPorRodada.length){
-			valoresFinaisPorRodada[rodada] = valor;
+			valoresFinaisPorRodada[rodada-1] = valor;
 		}
 	}
 	
 	public int getValorFinalRodada(int rodada){
 		if(rodada > 0 && rodada < valoresFinaisPorRodada.length){
-			return valoresFinaisPorRodada[rodada];
+			return valoresFinaisPorRodada[rodada-1];
 		}
 		else{
 			return 0;
@@ -56,13 +56,13 @@ public class Player {
 	
 	public void setValorInicialRodada(int valor, int rodada){
 		if(rodada > 0 && rodada < valoresIniciaisPorRodada.length){
-			valoresIniciaisPorRodada[rodada] = valor;
+			valoresIniciaisPorRodada[rodada-1] = valor;
 		}
 	}
 	
 	public int getValorInicialRodada(int rodada){
 		if(rodada > 0 && rodada < valoresIniciaisPorRodada.length){
-			return valoresIniciaisPorRodada[rodada];
+			return valoresIniciaisPorRodada[rodada-1];
 		}
 		else{
 			return 0;
@@ -95,13 +95,13 @@ public class Player {
 
 	public void setValorApostadoRodada(int valor, int rodada) {
 		if(rodada > 0 && rodada < valoresApostadosPorRodada.length){
-			valoresApostadosPorRodada[rodada] = valor;
+			valoresApostadosPorRodada[rodada-1] = valor;
 		}
 	}
 
 	public int getValorApostadoRodada(int rodada) {
 		if(rodada > 0 && rodada < valoresApostadosPorRodada.length){
-			return valoresApostadosPorRodada[rodada];
+			return valoresApostadosPorRodada[rodada-1];
 		}
 		else{
 			return 0;

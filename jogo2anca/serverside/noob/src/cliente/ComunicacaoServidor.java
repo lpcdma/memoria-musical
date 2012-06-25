@@ -1,7 +1,9 @@
 package cliente;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import negocio.core.Constantes;
 
@@ -17,6 +19,7 @@ import sfs2x.client.core.BaseEvent;
 import sfs2x.client.core.IEventListener;
 import sfs2x.client.core.SFSEvent;
 import sfs2x.client.entities.Room;
+import sfs2x.client.entities.User;
 import sfs2x.client.requests.CreateRoomRequest;
 import sfs2x.client.requests.ExtensionRequest;
 import sfs2x.client.requests.JoinRoomRequest;
@@ -97,21 +100,42 @@ public class ComunicacaoServidor implements IEventListener {
 			String comando = event.getArguments().get("cmd").toString();
 			
 			if(comando.equals("comecarRodada")){
-				List<Pergunta> perguntas = null;
+				List<Pergunta> perguntas = null; //NESSA PORRA TERÁ PERGUNTAS FINAIS
 				int tipoRodada = resObj.getInt("rodada");
 				int numRodada = resObj.getInt("numRodada");;
-				int lucro = 0;
-				int apostado = 0;				
+				int lucro = 0; //NESSA PORRA TEM O LUCRO DA RODADA
+				int apostado = 0; //NESSA PORRA TEM O TOTAL APOSTADO NA RODADA
 				
+				Map<String, Integer> resultadoFinal = null; //NESSA PORRA TERÁ ID E VALOR
+				
+				User user = (User)event.getArguments().get("user");//NESSA PORRA TEM O ID
+				
+					
 				switch(tipoRodada){
 				case Constantes.INICIO_RODADA:
+					//PODE COMEÇAR NOVA RODADA
+					//cliente deve começar uma nova rodada, com contador de tempo etc...
 					numRodada = resObj.getInt("numRodada");
 					break;
 				case Constantes.APOSTAS:
+					//CHEGARAM OS RESULTADOS
+					//deve mostrar na tela esses resultados e deve ter um botao para "iniciar nova rodada"
+					//a nova rodada só começa quando todo mundo apertar em "iniciar nova rodada"
+					//o cliente é avisado que todo mundo apertou no case Constates.INICIO_RODADA
 					lucro = resObj.getInt("lucro");
-					apostado = resObj.getInt("apostado");					
+					apostado = resObj.getInt("apostado");
+					if(numRodada >= Constantes.LIMITE_RODADAS){
+						resultadoFinal = new HashMap<String, Integer>();
+						int numJogadores = resObj.getInt("numJogadores");
+						for(int i=0; i<numJogadores; i++){
+							resultadoFinal.put(resObj.getInt("idJogador"+i).toString(), resObj.getInt("valorFinal"+i));							
+						}
+					}
 					break;
-				case Constantes.FORM_END:		
+				case Constantes.FORM_END:
+					//PODE MOSTRAR FORMULARIO FINAL
+					//quando o numRodada >= Constantes.LIMITE_RODADAS os resultados finais são mostrados
+					//entao vai ter um botao "preencher formulario final", a resposta a essa ação será este case
 					perguntas = new ArrayList<Pergunta>();
 					int numPerguntas = resObj.getInt("numPerg");
 					int idPergunta = 0;
@@ -126,6 +150,7 @@ public class ComunicacaoServidor implements IEventListener {
 				}
 			}else if(comando.equals("esperaPlayers")){
 				//MANDA ESPERAR A PORRA DA MERDA
+				//quando recebe esse evento, deve mandar o povo esperar
 			}
 				    	
 		}
@@ -155,6 +180,7 @@ public class ComunicacaoServidor implements IEventListener {
         }
 		else if(event.getType().equalsIgnoreCase(SFSEvent.ROOM_JOIN)){
 			//MOSTRA A PORRA DO FORMULARIO
+			//quando recebe este evento deve mostrar a tela para preencher formulario inicial
 		}
         
 	}

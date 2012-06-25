@@ -68,6 +68,13 @@ public class TestExtension extends SFSExtension {
 			//quando vier de aposta_handler add antes porque quer dizer que vai trocar de rodada
 			this.calcularRetornoEEnviar(rodadaCount, players, resObj);
 			rodadaCount++;
+			if(rodadaCount > Constantes.LIMITE_RODADAS){
+				resObj.putInt("numJogadores", listaJogadores.size());
+				for(int i=0; i<listaJogadores.size(); i++){
+					resObj.putInt("idJogador"+i, listaJogadores.get(i).getId());
+					resObj.putInt("valorFinal"+i, listaJogadores.get(i).getValorFinalRodada(Constantes.LIMITE_RODADAS));
+				}
+			}
 			resObj.putInt("rodada", Constantes.INICIO_RODADA);			
 			resObj.putInt("numRodada", rodadaCount);			
 		}
@@ -83,7 +90,7 @@ public class TestExtension extends SFSExtension {
 			for(int i=0; i < perguntas.size(); i++){
 				resObj.putInt("idPerg"+i, perguntas.get(i).getId());
 				resObj.putUtfString("perg"+i, perguntas.get(i).getPergunta());
-			}			
+			}
 		}
 		send("comecarRodada", resObj, players);		
 	}
