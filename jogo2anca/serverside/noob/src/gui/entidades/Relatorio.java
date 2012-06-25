@@ -1,12 +1,11 @@
-package entidades;
+package gui.entidades;
 
-public class Resultados {
+public class Relatorio {
 
 	int qtdApostada;
-
 	int qtdRecebida;
 	
-	public Resultados(int qtdApostada, int qtdRecebida) {
+	public Relatorio(int qtdApostada, int qtdRecebida) {
 		this.qtdApostada = qtdApostada;
 		this.qtdRecebida = qtdRecebida;
 	}

@@ -5,11 +5,6 @@ import java.util.List;
 
 import negocio.core.Constantes;
 
-import handlers.ApostaReqHandler;
-import handlers.FormEndReqHandler;
-import handlers.FormInitReqHandler;
-import handlers.IniciarNovaRodadaHandler;
-
 import basic.Pergunta;
 import basic.Resposta;
 
@@ -25,9 +20,10 @@ import sfs2x.client.entities.Room;
 import sfs2x.client.requests.CreateRoomRequest;
 import sfs2x.client.requests.ExtensionRequest;
 import sfs2x.client.requests.JoinRoomRequest;
-import sfs2x.client.requests.LoginRequest;
 import sfs2x.client.requests.RoomExtension;
 import sfs2x.client.requests.RoomSettings;
+
+
 
 public class ComunicacaoServidor implements IEventListener {
 	
@@ -40,14 +36,17 @@ public class ComunicacaoServidor implements IEventListener {
 		sfsClient.addEventListener(SFSEvent.ROOM_JOIN, this);
 	}
 	
-	public void enviarFormularioInicial(){
+	//FIXME
+	//adicionei os parâmetros.
+	public void enviarFormularioInicial(String sexo, String classeRenda, String curso, int idade){
 		ISFSObject obj = new SFSObject();
-		obj.putUtfString("sexo", null);
-		obj.putUtfString("classeRenda", null);
-		obj.putUtfString("cursoUniversitario", null);
-		obj.putInt("idade", 0);
+		obj.putUtfString("sexo", sexo);
+		obj.putUtfString("classeRenda", classeRenda);
+		obj.putUtfString("cursoUniversitario", curso);
+		obj.putInt("idade", idade);
 		sfsClient.send(new ExtensionRequest("formInit", obj, sfsClient.getLastJoinedRoom()));
 	}
+	
 	
 	public void enviarFormularioFinal(List<Resposta> respostas){
 		ISFSObject obj = new SFSObject();
@@ -63,10 +62,12 @@ public class ComunicacaoServidor implements IEventListener {
 		sfsClient.send(new ExtensionRequest("formEnd", obj, sfsClient.getLastJoinedRoom()));		
 	}
 	
-	public void enviarAposta(){
+	//FIXME
+	//adicionei os parâmetros
+	public void enviarAposta(int rodada, int valor){
 		ISFSObject obj = new SFSObject();
-		obj.putInt("rodada", 0);
-		obj.putInt("valor", 0);
+		obj.putInt("rodada", rodada);
+		obj.putInt("valor", valor);
 		sfsClient.send(new ExtensionRequest("aposta", obj, sfsClient.getLastJoinedRoom()));
 	}
 	
