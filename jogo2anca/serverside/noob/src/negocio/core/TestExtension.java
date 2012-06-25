@@ -58,22 +58,15 @@ public class TestExtension extends SFSExtension {
 	
 	public void startRodada(List<User> players, String handler){
 		ISFSObject resObj = new SFSObject();
-		
-		
-		if(handler.equals(Constantes.USER_JOIN_HANDLER)){
-			for (User user : players) {
-				listaJogadores.add(new Player(user.getId(), user));
-			}
-			resObj.putInt("rodada", Constantes.FORM_INIT);
-			rodadaCount = 1;// preencher form_init
-		}
-		else if(handler.equals(Constantes.FORM_INIT_HANDLER)){			
+				
+		if(handler.equals(Constantes.FORM_INIT_HANDLER)){
+			rodadaCount = 1;
 			resObj.putInt("rodada", Constantes.INICIO_RODADA);			
-			resObj.putInt("numRodada", rodadaCount);
-			rodadaCount = 2;
+			resObj.putInt("numRodada", rodadaCount);			
 		}
 		else if(handler.equals(Constantes.APOSTA_HANDLER)){
 			//quando vier de aposta_handler add antes porque quer dizer que vai trocar de rodada
+			this.calcularRetornoEEnviar(rodadaCount, players, resObj);
 			rodadaCount++;
 			resObj.putInt("rodada", Constantes.INICIO_RODADA);			
 			resObj.putInt("numRodada", rodadaCount);			
@@ -85,9 +78,20 @@ public class TestExtension extends SFSExtension {
 		}
 		else if(handler.equals(Constantes.INICIO_RODADA) && rodadaCount >= Constantes.LIMITE_RODADAS){
 			resObj.putInt("rodada", Constantes.FORM_END);
-			resObj.putClass("pergunta", (Object)this.getPerguntas());
+			List<Pergunta> perguntas = this.getPerguntas();
+			resObj.putInt("numPerg", perguntas.size());
+			for(int i=0; i < perguntas.size(); i++){
+				resObj.putInt("idPerg"+i, perguntas.get(i).getId());
+				resObj.putUtfString("perg"+i, perguntas.get(i).getPergunta());
+			}			
 		}
 		send("comecarRodada", resObj, players);		
+	}
+	
+	public void criaPlayer(List<User> players){
+		for (User user : players) {
+			listaJogadores.add(new Player(user.getId(), user));
+		}
 	}
 	
 	public void waitPlayers(User player){
@@ -113,13 +117,12 @@ public class TestExtension extends SFSExtension {
 		}
 	}
 	
-	public void calcularRetornoEEnviar(int rodada, List<User> players){
-		int lucro = this.fundoAposta.calcularRetorno(rodada); 	
-		ISFSObject resObj = new SFSObject();
+	public void calcularRetornoEEnviar(int rodada, List<User> players, ISFSObject resObj){
+		int lucro = this.fundoAposta.calcularRetorno(rodada);
+		int apostado = this.fundoAposta.getValorRealPorRodada()[rodada-1];
 		resObj.putInt("lucro",lucro);
-		resObj.putInt("rodada",rodada);
-		this.setaNaoJogouRodada();
-		send("lucroRodada", resObj, players);
+		resObj.putInt("apostado", apostado);
+		this.setaNaoJogouRodada();		
 	}
 	
 	public void gravarDados(boolean todosResponderam){
