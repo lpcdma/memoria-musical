@@ -1,4 +1,4 @@
-package entidades;
+package gui.entidades;
 
 public class InfoPlayer {
 
