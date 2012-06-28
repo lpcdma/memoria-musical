@@ -124,6 +124,7 @@ public class ComunicacaoServidor implements IEventListener {
 					//o cliente é avisado que todo mundo apertou no case Constates.INICIO_RODADA
 					lucro = resObj.getInt("lucro");
 					apostado = resObj.getInt("apostado");
+					//O resultado completo só virá quando for a última rodada
 					if(numRodada >= Constantes.LIMITE_RODADAS){
 						resultadoFinal = new HashMap<String, Integer>();
 						int numJogadores = resObj.getInt("numJogadores");
